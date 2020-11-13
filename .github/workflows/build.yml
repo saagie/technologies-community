@@ -1,0 +1,43 @@
+name: Build
+
+on: 
+    pull_request:
+        types: [assigned, opened, reopened]
+    push:
+        branches:
+          - 'main'
+          - '*'
+
+jobs:
+    build:
+        runs-on: [self-hosted, technologies-community, ubuntu-latest]
+
+        steps:
+          - uses: actions/checkout@v1
+          - name: Build
+            uses: montudor/action-zip@v0.1.0
+            with: 
+              args: zip -qq -r technologies.zip technologies/ . -i \*.yaml
+          - name: Extract version
+            id: extract_version
+            run: echo "::set-ouput name=c::$(echo versio_test)"
+          - name: Create Release
+            id: create_release
+            uses: actions/create-release@v1
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET }}
+            with:
+                tag_name: ${{ steps.extract_version.outputs.v }}
+                release_name: Release ${{ steps.extract_version.outputs.v }}
+                draft: false
+                prerelease: true
+          - name: Upload Release technologies Asset ZIP
+            id: upload-release-asset-technologies-zip
+            uses: actions/upload-release-asset@v1.0.1
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET}}
+            with:
+              upload_url: ${{ steps.create_release.outputs.upload_url }}
+              asset_path: ./technologies.zip
+              asset_name: technologies.zip
+              asset_content_type: application/zip
