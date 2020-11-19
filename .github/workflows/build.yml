@@ -17,7 +17,7 @@ jobs:
               args: zip -qq -r technologies.zip technologies/ . -i \*.yaml
           - name: Extract version
             id: extract_version
-            run: echo "::set-ouput name=v::$(echo 'versionTest')"
+            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
           - name: List all releases
             uses: actions/github-script@0.3.0
             with:
