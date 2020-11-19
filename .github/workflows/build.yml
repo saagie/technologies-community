@@ -17,14 +17,26 @@ jobs:
               args: zip -qq -r technologies.zip technologies/ . -i \*.yaml
           - name: Extract version
             id: extract_version
-            run: echo "::set-ouput name=c::$(echo versio_test)"
+            run: echo "::set-ouput name=c::$(echo version_test)"
+          - name: List all releases
+            uses: actions/github-script@0.3.0
+            with:
+              github-token: ${{secrets.TOKEN_GITHUB}}
+              script: |
+                const result = await github.repos.listReleases(context.repo);
+                result.data
+                  .filter(release => release.tag_name == "${{ steps.extract_version.outputs.v }}")
+                  .forEach(function(release){
+                    const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
+                    github.repos.deleteRelease(releaseObj)
+                  });
           - name: Create Release
             id: create_release
             uses: actions/create-release@v1
             env:
               GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
             with:
-                tag_name: test #${{ steps.extract_version.outputs.v }}
+                tag_name: ${{ steps.extract_version.outputs.v }}
                 release_name: Release ${{ steps.extract_version.outputs.v }}
                 draft: false
                 prerelease: true
