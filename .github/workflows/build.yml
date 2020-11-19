@@ -11,6 +11,21 @@ jobs:
 
         steps:
           - uses: actions/checkout@v1
+          - name: Check docker images
+            uses: jannekem/run-python-script-action@v1
+            with:
+              script: |
+                import os
+                import yaml
+                for path, subdirs, files in os.walk("."):
+                    for name in files:
+                        if (name=="metadata.yaml" or name=="metadata.yml"):
+                            with open(os.path.join(path, name), 'r') as stream:
+                                try:
+                                    meta = yaml.safe_load(stream)
+                                    print(meta['contexts'][0]['dockerInfo']['image']+":"+meta['contexts'][0]['dockerInfo']['version'])
+                                except yaml.YAMLError as exc:
+                                    print(exc)
           - name: Build
             uses: montudor/action-zip@v0.1.0
             with: 
