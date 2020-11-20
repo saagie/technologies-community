@@ -17,13 +17,19 @@ jobs:
               script: |
                 import os
                 import yaml
+                import requests
+                import sys
                 for path, subdirs, files in os.walk("."):
                     for name in files:
                         if (name=="metadata.yaml" or name=="metadata.yml"):
                             with open(os.path.join(path, name), 'r') as stream:
                                 try:
                                     meta = yaml.safe_load(stream)
-                                    print(meta['contexts'][0]['dockerInfo']['image']+":"+meta['contexts'][0]['dockerInfo']['version'])
+                                    image = meta['contexts'][0]['dockerInfo']['image']
+                                    version = meta['contexts'][0]['dockerInfo']['version']
+                                    print("Check : "+image+":"+version)
+                                    if not(requests.get("https://hub.docker.com/v2/repositories/"+image+"/tags/"+version+"/").json()["name"] == "version"):
+                                      sys.exit("Failed to find "+image+":"+version)
                                 except yaml.YAMLError as exc:
                                     print(exc)
           - name: Build
