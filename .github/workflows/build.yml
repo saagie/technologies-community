@@ -17,7 +17,7 @@ jobs:
               script: |
                 import os
                 import yaml
-                import requests
+                #import requests
                 import sys
                 for path, subdirs, files in os.walk("."):
                     for name in files:
@@ -28,8 +28,8 @@ jobs:
                                     image = meta['contexts'][0]['dockerInfo']['image']
                                     version = meta['contexts'][0]['dockerInfo']['version']
                                     print("Check : "+image+":"+version)
-                                    if not(requests.get("https://hub.docker.com/v2/repositories/"+image+"/tags/"+version+"/").json()["name"] == "version"):
-                                      sys.exit("Failed to find "+image+":"+version)
+                                    #if not(requests.get("https://hub.docker.com/v2/repositories/"+image+"/tags/"+version+"/").json()["name"] == "version"):
+                                    sys.exit("Failed to find "+image+":"+version)
                                 except yaml.YAMLError as exc:
                                     print(exc)
           - name: Build
