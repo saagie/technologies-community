@@ -8,13 +8,8 @@ assignees: ''
 ---
 
 ---
-name: "Technology xxx"
+name: "Technology x"
 description: "My technology"
-version: 'V1.0'
----
+version: 'V1.2.3'
 
-- [ ] Source docker image identified
-- [ ] Docker image built and pushed
-- [ ] Documentation up to date
-- [ ] yaml technology files up to date
-- [ ] Technology tested on a Saagie test environment
+---
