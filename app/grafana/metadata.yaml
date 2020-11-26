@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: grafana
+label: Grafana
+baseline: "The open-source platform for monitoring and observability. First login credentials : admin/admin"
+description: "Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored. Create, explore, and share dashboards with your team and foster a data driven culture."
+available: true
+icon: grafana
+backgroundColor: "#1857B8"
+customFlags: []
+contexts:
+  - id: grafana-7.3.4
+    label: Grafana v7.3.4
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: Grafana
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/opt/grafana", /opt/plugins]
+    dockerInfo:
+      image: saagie/grafana
+      version: 7.3.4
