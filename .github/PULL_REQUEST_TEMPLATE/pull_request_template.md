@@ -1,0 +1,5 @@
+- [ ] Issue linked to the PR
+- [ ] Docker image built and pushed
+- [ ] Documentation up to date
+- [ ] yaml technology files up to date
+- [ ] Technology tested on a Saagie test environment
