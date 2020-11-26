@@ -1,7 +1,8 @@
-# Apache Nifi
+# Grafana
 
 ## Goal
 This directory contains version of Grafana contenairized and customized for Saagie Platform.
+See Grafana official documentation for more information https://grafana.com/docs/grafana/latest/
 
 ## Usage
 
