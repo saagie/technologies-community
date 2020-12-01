@@ -12,8 +12,8 @@ jobs:
         steps:
           - uses: actions/checkout@v1
           - name: Check if docker images exist
-          run: |
-            ./gradlew checkDockerImages
+            run: |
+              ./gradlew checkDockerImages
           - name: Build
             uses: montudor/action-zip@v0.1.0
             with: 
