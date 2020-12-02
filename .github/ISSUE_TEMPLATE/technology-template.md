@@ -1,14 +1,12 @@
 ---
-name: 🚀 Technology request
-about: If you have a technology request 💡
+Technology: My technology
+description: My description
+version: v1.4.5
 ---
 
 **Context**
 
-- Technology name : **my technology**
-- Version : **v1.2.3**
-
-Describe the technology you want to integrate and why
+What are you trying to do and how would you want to do it differently? Is it something you currently you cannot do? Is this related to an issue/problem?
 
 **If the feature request is approved, would you be willing to submit a PR?**
 
