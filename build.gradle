@@ -7,13 +7,19 @@ buildscript {
     }
 }
 
+plugins {
+    id 'base'
+}
+
 import groovy.json.JsonSlurper
 
-task build(type: Zip) {
+task createZip(type: Zip) {
     archiveFileName = "technologies.zip"
-    destinationDirectory = file("./")
-    from "./technologies"
-    //include "**/metadata.yml" "**/metadata.yaml"
+    destinationDirectory = file("./dist")
+    from("./technologies"){
+        include "**/metadata.yml" 
+        include "**/metadata.yaml"
+    }
 }
 
 task checkDockerImages() {

@@ -15,9 +15,8 @@ jobs:
             run: |
               ./gradlew checkDockerImages
           - name: Build
-            uses: montudor/action-zip@v0.1.0
-            with: 
-              args: zip -qq -r technologies.zip technologies/ . -i \*.yaml
+            run: |
+              ./gradlew createZip
           - name: Extract version
             id: extract_version
             run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
@@ -50,6 +49,6 @@ jobs:
               GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
             with:
               upload_url: ${{ steps.create_release.outputs.upload_url }}
-              asset_path: ./technologies.zip
+              asset_path: ./dist/technologies.zip
               asset_name: technologies.zip
               asset_content_type: application/zip

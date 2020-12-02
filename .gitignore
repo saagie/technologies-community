@@ -4,5 +4,5 @@
 .DS_Store
 .DS_Store/
 # Ignore Gradle build output directory
-build
+dist
 tmp-zip
