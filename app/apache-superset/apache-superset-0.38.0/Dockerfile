@@ -11,7 +11,13 @@ RUN apt-get update \
 COPY server.conf /etc/nginx/sites-enabled/superset.conf
 
 RUN superset db upgrade \
-    && superset fab create-user --role Admin --username admin --firstname admin --lastname admin --email user@example.com --password admin \
+    && superset fab create-user \
+      --role Admin \
+      --username admin \
+      --firstname admin \
+      --lastname admin \
+      --email user@example.com \
+      --password admin \
     && superset init
 
 EXPOSE 80
