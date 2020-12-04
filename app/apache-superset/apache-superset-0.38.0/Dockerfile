@@ -8,19 +8,13 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/ \
   && rm /etc/nginx/sites-enabled/default
 
-COPY server.conf /etc/nginx/sites-enabled/superset.conf
+ADD superset_config.py /etc/superset/superset_config.py
+ADD server.conf /etc/nginx/sites-enabled/superset.conf
+ADD entrypoint.sh /entrypoint.sh
+ADD init_superset.sh /init_superset.sh
 
-RUN superset db upgrade \
-    && superset fab create-user \
-      --role Admin \
-      --username admin \
-      --firstname admin \
-      --lastname admin \
-      --email user@example.com \
-      --password admin \
-    && superset init
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 80
-ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
