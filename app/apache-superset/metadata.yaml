@@ -6,7 +6,7 @@ baseline: "Apache Superset is a modern data exploration and visualization platfo
 description: "Superset is fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts"
 available: true
 icon: datascience
-backgroundColor: "#20293d"
+backgroundColor: "#00d1c1"
 customFlags: []
 contexts:
   - id: apache-superset
@@ -19,7 +19,7 @@ contexts:
         name: Apache Superset
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
-    volumes: ["/etc/superset","/var/lib/superset"]
+    volumes: ["/var/lib/superset"]
     dockerInfo:
       image: saagie/superset
       version: 0.1
