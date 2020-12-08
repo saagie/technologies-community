@@ -3,9 +3,8 @@ sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/sup
 
 nginx&
 
-# Init superset db and admin user at first startup
-/init_superset.sh&
+# Init superset DB and creates Admin user at first startup
+/init_superset.sh
 
-#Start gunicorn
-export SUPERSET_UPDATE_PERMS=0 #FIXME SUPERSET_UPDATE_PERMS does not work
+# Start gunicorn
 gunicorn "superset.app:create_app()"
