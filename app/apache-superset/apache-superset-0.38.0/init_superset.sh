@@ -1,5 +1,5 @@
 #!/bin/bash
-#sleep 10
+
 if [ -e $SUPERSET_HOME/superset.db ]
 then
     echo "Superset Database already exists"

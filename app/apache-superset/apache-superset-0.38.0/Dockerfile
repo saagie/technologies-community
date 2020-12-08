@@ -13,8 +13,6 @@ ADD server.conf /etc/nginx/sites-enabled/superset.conf
 ADD entrypoint.sh /entrypoint.sh
 ADD init_superset.sh /init_superset.sh
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
-
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 
