@@ -6,6 +6,8 @@ sed -i 's#/superset/#'"$SAAGIE_BASE_PATH/superset/"'#g' /usr/local/lib/python3.8
 sed -i 's#/csstemplateasyncmodelview/#'"$SAAGIE_BASE_PATH/csstemplateasyncmodelview/"'#g' /usr/local/lib/python3.8/site-packages/superset/static/assets/*.js
 
 # TODO fixme : redirections when saving a chart or a dashbaord
+# https://github.com/apache/incubator-superset/pull/1866/files
+# https://github.com/komoot/superset-reverse-nginx-example/blob/master/nginx/nginx.conf
 
 nginx&
 
