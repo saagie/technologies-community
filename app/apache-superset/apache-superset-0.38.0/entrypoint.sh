@@ -1,13 +1,6 @@
 #!/bin/bash
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/superset.conf
-
-sed -i 's#/static/#'"$SAAGIE_BASE_PATH/static/"'#g' /usr/local/lib/python3.8/site-packages/superset/static/assets/*.js
-sed -i 's#/superset/#'"$SAAGIE_BASE_PATH/superset/"'#g' /usr/local/lib/python3.8/site-packages/superset/static/assets/*.js
-sed -i 's#/csstemplateasyncmodelview/#'"$SAAGIE_BASE_PATH/csstemplateasyncmodelview/"'#g' /usr/local/lib/python3.8/site-packages/superset/static/assets/*.js
-
-# TODO fixme : redirections when saving a chart or a dashbaord
-# https://github.com/apache/incubator-superset/pull/1866/files
-# https://github.com/komoot/superset-reverse-nginx-example/blob/master/nginx/nginx.conf
+/rewrite_base_path.sh
 
 nginx&
 

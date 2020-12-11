@@ -10,8 +10,7 @@ RUN apt-get update \
 
 ADD superset_config.py /etc/superset/superset_config.py
 ADD server.conf /etc/nginx/sites-enabled/superset.conf
-ADD entrypoint.sh /entrypoint.sh
-ADD init_superset.sh /init_superset.sh
+ADD *.sh /
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
