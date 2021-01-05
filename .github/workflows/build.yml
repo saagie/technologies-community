@@ -1,4 +1,4 @@
-name: Build Prerelease
+name: Build release
 
 on:
   pull_request:
