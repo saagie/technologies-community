@@ -1,13 +1,13 @@
 name: Build Prerelease
 
 on: 
-    pull_request:
-        types: [assigned, opened, reopened]
-    push:
-      branches:
-        - '*'
-        - 'hotfix/*'
-        - '!master'
+  pull_request:
+      types: [assigned, opened, reopened]
+  push:
+    branches:
+      - '*'
+      - 'hotfix/*'
+      - '!master'
 
 jobs:
     build:
