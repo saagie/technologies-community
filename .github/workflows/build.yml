@@ -1,9 +1,8 @@
-name: Build
+name: Build Prerelease
 
-on: 
-    pull_request:
-        types: [assigned, opened, reopened]
-    push:
+on:
+  pull_request:
+    types: [closed]
 
 jobs:
     build:
@@ -20,18 +19,25 @@ jobs:
           - name: Extract version
             id: extract_version
             run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
-          - name: List all releases
-            uses: actions/github-script@0.3.0
+          - name: Delete PreRelease
+            id: delete_prerelease
+            uses: actions/github-script@v3
             with:
               github-token: ${{secrets.TOKEN_GITHUB}}
               script: |
                 const result = await github.repos.listReleases(context.repo);
                 result.data
-                  .filter(release => release.tag_name == "${{ steps.extract_version.outputs.v }}")
+                  .filter(release => release.tag_name == "${{ steps.extract_pr_version.outputs.v }}")
                   .forEach(function(release){
-                    const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
-                    github.repos.deleteRelease(releaseObj)
-                  });
+                      const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
+                      github.repos.deleteRelease(releaseObj)
+                    });
+          - name: Delete PreRelease Tag
+            run: |
+              git config --local user.email "github-action@saagie.com"
+              git config --local user.name "GitHub Action Bot"
+              remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}.git"
+              git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
           - name: Create Release
             id: create_release
             uses: actions/create-release@v1
@@ -41,7 +47,7 @@ jobs:
                 tag_name: ${{ steps.extract_version.outputs.v }}
                 release_name: Release ${{ steps.extract_version.outputs.v }}
                 draft: false
-                prerelease: true
+                prerelease: false
           - name: Upload Release technologies Asset ZIP
             id: upload-release-asset-technologies-zip
             uses: actions/upload-release-asset@v1.0.1
