@@ -9,6 +9,7 @@ buildscript {
 
 plugins {
     id 'base'
+    id "net.thauvin.erik.gradle.semver" version "1.0.4"
 }
 
 import groovy.json.JsonSlurper
