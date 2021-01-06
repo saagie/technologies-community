@@ -5,7 +5,7 @@ on:
 #      types: [assigned, opened, reopened]
   push:
     branches:
-#      - '*'
+      - '*'
 #      - '!master'
     tags-ignore:
       - '*'
