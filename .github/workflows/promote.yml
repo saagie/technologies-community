@@ -9,16 +9,16 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+          - name: extract variable
+            id: extract_variable
+            run: echo "::set-output name=pr_number::${{ github.event.pull_request.number }}";echo "::set-output name=repo::${{ github.event.pull_request.number }}"
           - uses: actions/checkout@v1
+          - name: extract current version
+            id: extract_pr_version
+            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
           - name: Check if docker images exist
             run: |
               ./gradlew checkDockerImages
-          - name: Build
-            run: |
-              ./gradlew createZip
-          - name: Extract version
-            id: extract_version
-            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
           - name: Delete PreRelease
             id: delete_prerelease
             uses: actions/github-script@v3
@@ -34,20 +34,30 @@ jobs:
                     });
           - name: Delete PreRelease Tag
             run: |
-              git config --local user.email "github-action@saagie.com"
-              git config --local user.name "GitHub Action Bot"
+              git config --local user.email "baptiste.courbe@saagie.com"
+              git config --local user.name "Baptiste Courbe"
               remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}.git"
               git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
+          - name: Upgrade version
+            run: |
+              ./gradlew incrementBuildMeta -Dversion.buildmeta= -Dversion.prerelease=
+              ./gradlew incrementMinor
+          - name: Build
+            run: |
+              ./gradlew createZip
+          - name: extract real version
+            id: extract_version
+            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
           - name: Create Release
             id: create_release
             uses: actions/create-release@v1
             env:
               GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
             with:
-                tag_name: ${{ steps.extract_version.outputs.v }}
-                release_name: Release ${{ steps.extract_version.outputs.v }}
-                draft: false
-                prerelease: false
+              tag_name: ${{ steps.extract_version.outputs.v }}
+              release_name: Release ${{ steps.extract_version.outputs.v }}
+              draft: false
+              prerelease: false
           - name: Upload Release technologies Asset ZIP
             id: upload-release-asset-technologies-zip
             uses: actions/upload-release-asset@v1.0.1
@@ -55,6 +65,15 @@ jobs:
               GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
             with:
               upload_url: ${{ steps.create_release.outputs.upload_url }}
-              asset_path: ./dist/technologies.zip
+              asset_path: ./tmp-zip/technologies.zip
               asset_name: technologies.zip
               asset_content_type: application/zip
+          - name: Commit files
+            run: |
+              git config --local user.email "baptiste.courbe@saagie.com"
+              git config --local user.name "Baptiste Courbe"
+              git commit -am "[BOT] Set new version"
+          - name: Push changes
+            uses: ad-m/github-push-action@master
+            with:
+              github_token: ${{ secrets.TOKEN_GITHUB }}

@@ -26,7 +26,7 @@ jobs:
               ./gradlew createZip
           - name: Change version to BETA
             run: |
-              ./gradlew -Dversion.prerelease=BETA -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
+              ./gradlew incrementMinor -Dversion.prerelease=BETA -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
           - name: extract branch
             id: git_info
             run: echo "::set-output name=changes::$(git status -s | wc -l)"
