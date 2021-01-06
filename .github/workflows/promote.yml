@@ -1,4 +1,4 @@
-name: Build release
+name: Promote
 
 on:
   pull_request:
