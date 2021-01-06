@@ -4,9 +4,9 @@ on:
 #  pull_request:
 #      types: [assigned, opened, reopened]
   push:
-    branches:
-      - '*'
-      - '!master'
+#    branches:
+#      - '*'
+#      - '!master'
 
 jobs:
     build:
