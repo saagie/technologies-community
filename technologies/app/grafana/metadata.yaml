@@ -9,9 +9,9 @@ icon: grafana
 backgroundColor: "#1857B8"
 customFlags: []
 contexts:
-  - id: grafana
-    label: Grafana
-    releaseNotes: "First iteration post migration"
+  - id: grafana-7.3.4
+    label: Grafana 7.3.4
+    releaseNotes: ""
     available: true
     trustLevel: experimental
     ports:
@@ -22,4 +22,4 @@ contexts:
     volumes: ["/opt/grafana", /opt/plugins]
     dockerInfo:
       image: saagie/grafana
-      version: 7.1.5
+      version: 7.3.4

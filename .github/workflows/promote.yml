@@ -3,7 +3,7 @@ name: Promote
 on:
   pull_request:
     types: [closed]
-  push:
+#  push:
 
 jobs:
     build:
