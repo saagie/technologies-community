@@ -1,14 +1,14 @@
 name: Build Prerelease
 
-on:
-  pull_request:
-      types: [assigned, opened, reopened]
-  push:
-    branches:    
-    - 'feature/**'
-    - '!master'
-    tags-ignore:
-    - '**'
+#on:
+#  pull_request:
+#      types: [assigned, opened, reopened]
+#  push:
+#    branches:    
+#    - 'feature/**'
+#    - '!master'
+#    tags-ignore:
+#    - '**'
 
 jobs:
     build:
