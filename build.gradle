@@ -33,7 +33,7 @@ task checkDockerImages() {
                 try {
                     def r = new URL("https://hub.docker.com/v2/repositories/${c.dockerInfo.image}/tags/${c.dockerInfo.version}").text
                     def json = new JsonSlurper().parseText(r).name
-                    assert c.dockerInfo.version == new JsonSlurper().parseText(r).name
+                    assert c.dockerInfo.version.toString() == new JsonSlurper().parseText(r).name
                 } catch (Exception e) {
                     throw new GradleException("Image or tag do not exist in Hub docker" )
                 }
