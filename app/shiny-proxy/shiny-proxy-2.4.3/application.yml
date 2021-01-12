@@ -1,0 +1,33 @@
+server:
+  useForwardHeaders: true
+  servlet:
+    context-path: SAAGIE_BASE_PATH
+proxy:
+  title: Shiny Proxy for Saagie
+  logo-url: https://www.saagie.com/wp-content/uploads/2020/06/Logo-Web-Retina@2x.png
+  template-path: ./templates/3colcards
+  authentication: simple
+  admin-groups: scientists
+  users:
+    - name: jack
+      password: password
+      groups: scientists
+    - name: jeff
+      password: password
+      groups: mathematicians
+   
+  specs:
+  - id: saagie
+    display-name: Saagie website
+    container-proxy-managed: false
+    container-app-url: http://www.saagie.com
+    access-groups: ["scientists","mathematicians"]
+
+logging:
+  file:
+    shinyproxy.log
+  level:
+    root: info
+
+
+
