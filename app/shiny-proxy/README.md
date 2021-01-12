@@ -17,9 +17,7 @@ In order to run it, you must specifiy through an environment variable `SHINYPROX
 * `export SHINYPROXY_CONF_URL=http://<your hdfs namenode url>:50070/webhdfs/v1/path/to/application.yml?op=OPEN&user.name=my.username`
 * `export SHINYPROXY_CONF_URL=s3://path/to/application.yml`
 
-A template for this `application.yml` file is provided in this repository. In order to be compatible within Saagie, you must be careful about :
-- keeping the `context-path: SAAGIE_BASE_PATH` entry, mandatory for Saagie
-- specifying `container-proxy-managed: false` for every app you configure
+A template for this `application.yml` file is provided in this repository. In order to be compatible within Saagie, you must be careful about keeping the `context-path: SAAGIE_BASE_PATH` entry, mandatory for Saagie
 
 ## Customize ShinyProxy
 
