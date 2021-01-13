@@ -29,7 +29,7 @@ jobs:
           - name: Change version to BETA
             run: |
               ./gradlew -Dversion.prerelease=BETA -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
-              sed -i -e 1,3d version.properties
+              sed -i -e 1,2d version.properties
           - name: extract branch
             id: git_info
             run: echo "::set-output name=changes::$(git status -s | wc -l)"
