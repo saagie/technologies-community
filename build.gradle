@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.yaml', name: 'snakeyaml', version: '1.19'
+    }
+}
+
+plugins {
+    id 'base'
+    id "net.thauvin.erik.gradle.semver" version "1.0.4"
+}
+
+import groovy.json.JsonSlurper
+
+task createZip(type: Zip) {
+    archiveFileName = "technologies.zip"
+    destinationDirectory = file("./dist")
+    from("./technologies"){
+        include "**/metadata.yml" 
+        include "**/metadata.yaml"
+    }
+}
+
+task checkDockerImages() {
+    doLast {
+        ConfigurableFileTree tree = fileTree(dir: './', includes: ['**/metadata.yml', '**/metadata.yaml'])
+        tree.each {File file ->
+            def meta = new org.yaml.snakeyaml.Yaml().load( file.newInputStream() )
+            for (c in meta.contexts) {
+                println "Check if ${c.dockerInfo.image}:${c.dockerInfo.version} is available"
+                try {
+                    def r = new URL("https://hub.docker.com/v2/repositories/${c.dockerInfo.image}/tags/${c.dockerInfo.version}").text
+                    def json = new JsonSlurper().parseText(r).name
+                    assert c.dockerInfo.version.toString() == new JsonSlurper().parseText(r).name
+                } catch (Exception e) {
+                    throw new GradleException("Image or tag do not exist in Hub docker" )
+                }
+            }
+        }
+    }
+}
