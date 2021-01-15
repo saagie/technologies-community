@@ -27,6 +27,3 @@ logging:
     shinyproxy.log
   level:
     root: info
-
-
-
