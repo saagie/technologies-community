@@ -20,5 +20,5 @@ contexts:
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: saagie/shinyproxy
+      image: saagie/shiny-proxy
       version: 2.4.3
