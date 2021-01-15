@@ -17,7 +17,7 @@ proxy:
       groups: mathematicians
    
   specs:
-  - id: saagie
+  - id: saagie-demo
     display-name: Saagie
     container-proxy-managed: false
     container-app-url: http://www.saagie.com
