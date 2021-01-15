@@ -19,7 +19,6 @@ proxy:
   specs:
   - id: saagie
     display-name: Saagie
-    container-proxy-managed: false
     container-app-url: http://www.saagie.com
     access-groups: ["scientists","mathematicians"]
 
