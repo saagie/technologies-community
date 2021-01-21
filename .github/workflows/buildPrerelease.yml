@@ -6,6 +6,7 @@ on:
   push:
     branches:    
     - 'feature/**'
+    - 'bug/**'
     - '!master'
     tags-ignore:
     - '**'
