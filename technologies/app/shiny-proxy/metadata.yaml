@@ -9,8 +9,8 @@ icon: generic-app
 backgroundColor: "#32a6d3"
 customFlags: []
 contexts:
-  - id: shiny-proxy-2.4
-    label: ShinyProxy 2.4
+  - id: shiny-proxy-2.4.3
+    label: ShinyProxy 2.4.3
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -21,4 +21,4 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/shiny-proxy
-      version: 2.4
+      version: 2.4.3
