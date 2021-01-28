@@ -48,6 +48,20 @@ An application technology can be launch as an application in Saagie. It has :
 ## CONTRIBUTING
 
 All contributions are made with the pull-request system.
+Please follow the following steps:
+
+- Create an issue with the correct label (i.e. Documentation/Bug/Feature)
+- Create a new branch starting with the issue type : `feature/...`, `bug/...` or `documentation/...`. GitHub Action (CI) will be triggered on each push on your branch. Warning, after the first push on your branch, an automatic commit/push will be made by the CI in order to increment the version. Thus, remember to update your repository after your first commit.
+- Implement your new technology into the correct folder : `technologies/[app|job]/technology_name`. This folder should contain :
+  - a `metadata.yaml` file which describes your technology, according to the following [documentation](https://docs.saagie.io/developer/latest/sdk/technos/index.html),
+  - a `README.md` that contains a quick description, how to build your image and any specific information,
+  - a folder with all the mandatory files in order to (re) build the Docker image.
+- Open a Pull Request that uses our template (don't forget to link the PR to the issue)
+- PR will be reviewed by the Professional Service Team and merged if all the checks are successful
+- Tada! Your technology is now part of the community technologies
+
+If you want to check if your image is available, use the following command : `./gradlew checkDockerImages`
+To package the technologies in order to test them on Saagie : `./gradlew createZip` (archive will be available in *dist* folder)
 
 ### How to create a new technology
 
