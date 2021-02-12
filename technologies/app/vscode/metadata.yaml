@@ -1,0 +1,24 @@
+version: v1
+type: APP
+id: ttyd
+label: TTYD - Interactive Bash
+baseline: "Interactive Bash with hadoop commands"
+description: "TTYD is a simple command-line tool for sharing terminal over the web. It is repackaged for Saagie including hadoop/hdfs, beeline, sqoop and spark (only in local) command lines."
+available: true
+icon: bash
+backgroundColor: "#979ba1"
+customFlags: []
+contexts:
+  - id: ttyd
+    label: TTYD - Interactive Bash
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 7681
+        name: ttyd
+        rewriteUrl: true
+        basePath: 
+    dockerInfo:
+      image: saagie/ttyd-saagie
+      version: 1.0
