@@ -16,7 +16,7 @@ contexts:
     trustLevel: experimental
     ports:
       - port: 8443
-        name: ttyd
+        name: vscode
         rewriteUrl: true
         basePath: 
     dockerInfo:
