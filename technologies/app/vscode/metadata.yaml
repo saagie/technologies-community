@@ -20,5 +20,5 @@ contexts:
         rewriteUrl: true
         basePath: 
     dockerInfo:
-      image: gus75/vscode_saagie:1.0
+      image: gus75/vscode_saagie:
       version: 1.0
