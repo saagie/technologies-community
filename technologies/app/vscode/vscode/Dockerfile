@@ -2,6 +2,10 @@ FROM ghcr.io/linuxserver/code-server:version-v3.9.0
 
 USER root
 
+ENV PUID=1000
+ENV PGID=1000
+RUN TZ=Europe/London
+
 RUN apt-get update \
     && apt-get install -y nginx \
     && apt-get clean \

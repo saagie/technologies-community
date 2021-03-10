@@ -1,6 +1,11 @@
 #!/bin/bash
+echo "Set Proxy"
+export PROXY_DOMAIN=$SAAGIE_BASE_PATH
+
 echo "SAAGIE_BASE_PATH"
 echo $SAAGIE_BASE_PATH
+echo "PROXY_DOMAIN"
+echo $PROXY_DOMAIN
 
 # /init
 
