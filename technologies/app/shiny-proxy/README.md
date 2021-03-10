@@ -1,5 +1,7 @@
 # ShinyProxy
 
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/shiny-proxy/2.4.3?label=v2.4.3%20image%20size&style=for-the-badge)
+
 ## Description
 This directory contains version of ShinyProxy containerized and customized for Saagie Platform.
 See ShinyProxy official documentation for more information https://shinyproxy.io/documentation/
