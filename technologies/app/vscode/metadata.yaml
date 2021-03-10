@@ -9,16 +9,17 @@ icon: vscode
 backgroundColor: "#979ba1"
 customFlags: []
 contexts:
-  - id: vscode
+  - id: 1.0
     label: VsCode IDE
     releaseNotes: ""
     available: true
     trustLevel: experimental
     ports:
-      - port: 8443
+      - port: 80
         name: vscode
-        rewriteUrl: true
-        basePath: 
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/config/workspace"]
     dockerInfo:
-      image: gus75/vscode_saagie:
-      version: 1.0
+      image: gus75/vscode_saagie
+      version: 1.3
