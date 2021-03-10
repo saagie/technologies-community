@@ -1,4 +1,5 @@
 # Grafana
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/7.3.4?label=v7.3.4%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Grafana contenairized and customized for Saagie Platform.
