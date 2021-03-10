@@ -14,10 +14,12 @@ COPY server.conf /etc/nginx/conf.d/metabase.conf
 RUN mkdir /app/plugins && chmod 777 /app/plugins
 COPY assets/impala.metabase-driver.jar /app/plugins/impala.metabase-driver.jar
 COPY assets/ImpalaJDBC41.jar /app/plugins/ImpalaJDBC41.jar
+COPY assets/log4j2.xml /metabase.db/log4j2.xml
 
 ENV MB_DB_TYPE h2
 ENV MB_DB_FILE /metabase-data
 ENV MB_PLUGINS_DIR /app/plugins
+ENV JAVA_OPTS "-Dlog4j.configurationFile=file:///metabase.db/log4j2.xml"
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh
