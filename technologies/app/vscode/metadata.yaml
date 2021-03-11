@@ -5,8 +5,8 @@ label: VsCode
 baseline: "VsCode IDE"
 description: "VsCode is an IDE that supports several languages"
 available: true
-icon: vscode
-backgroundColor: "#979ba1"
+icon: generic-app
+backgroundColor: "#3EAAF2"
 customFlags: []
 contexts:
   - id: 1.0
