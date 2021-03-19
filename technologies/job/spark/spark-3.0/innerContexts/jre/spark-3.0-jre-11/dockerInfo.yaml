@@ -1,0 +1,4 @@
+image: saagie/spark
+baseTag: 3.0-aws-jre-11
+dynamicVersion: 0.10.0
+version: 3.0-aws-jre-11-0.10.0
