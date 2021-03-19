@@ -13,7 +13,7 @@
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-py-3.7-0.10.0?label=v3.0-aws-py3.7%20image%20size&style=for-the-badge)
 
 ## Description
-This directory contains version of Spark customized for Saagie Platform to use when working with AWS only (or with Hadoop 3-aws). 
+This directory contains version of Spark customized for Saagie Platform to use when working with AWS only (or with Hadoop 3.2). 
 This version is based on :
 - Spark 3.0.2
 - Hadoop 3.2
