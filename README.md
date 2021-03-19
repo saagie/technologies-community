@@ -20,7 +20,7 @@ This repository contains all community technologies you can use in Saagie. You c
 
 All these technologies shared on this Github repository are supported by its creator or the community on a best effort basis without any obligations. Any bugs found in these technologies will have te be raised through an issue in this repository and won't be covered through Saagie platform SLAs.
 
-Before contributing to this repository, make sure your technology does not already exist in the [Saagie Official Technlogy Repository](https://github.com/saagie/technologies) nor is planned in [the oficial repository kanban](https://github.com/saagie/technologies/projects).
+Before contributing to this repository, make sure your technology does not already exist in the [Saagie Official Technology Repository](https://github.com/saagie/technologies) nor is planned in [the oficial repository kanban](https://github.com/saagie/technologies/projects).
 
 
 ## Technologies
@@ -34,6 +34,7 @@ This repository contains community job and application technologies.
 |<img src="https://www.openanalytics.eu/shinyproxy/logo.png" width="30" height="30"> |**ShinyProxy**| App| Open source platform to deploy Shiny apps
 |<img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Terminalicon2.png" width="30" height="30"> |**TTYD**| App| Interactive Bash with hadoop commands
 |<img src="https://www.metabase.com/images/logo.svg" width="30" height="30"> |**Metabase**| App| Open source Business Intelligence server
+|<img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Apache_Spark_logo.svg" width="30" height="30"> | **Spark for AWS (Hadoop 3.2)**| Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
  
 ### Job technologies
 
