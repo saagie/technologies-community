@@ -1,16 +1,16 @@
 version: v1
 type: APP
-id: vscode
-label: VsCode v3.9.0
-baseline: "VsCode v3.9.0"
-description: "VsCode is an IDE that supports several languages (VsCode v3.9.0). \nCreate an environment variable named 'PASSWORD' to set a password."
+id: vscode-python3
+label: VsCode v3.9.0 / Python 3.6.6
+baseline: "VsCode v3.9.0 / Python 3.6.6"
+description: "VsCode is an IDE that supports several languages (VsCode v3.9.0). \nCreate an environment variable named 'PASSWORD' to set a password. \nThis instance is built with python 3.6.6"
 available: true
 icon: generic-app
 backgroundColor: "#3EAAF2"
 customFlags: []
 contexts:
-  - id: 1.0
-    label: VsCode v3.9.0
+  - id: 2.0
+    label: VsCode v3.9.0 / Python 3.6.6
     releaseNotes: ""
     available: true
     trustLevel: experimental
