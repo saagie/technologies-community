@@ -29,12 +29,12 @@ This repository contains community job and application technologies.
 
 |  | Technology |Type |Description|
 | --- | --- | --- |--- |
-|<img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Apache_Spark_logo.svg" width="30" height="30"> | **Spark History Server**| App | Monitoring tool that displays information about completed Spark applications 
-|<img src="https://upload.wikimedia.org/wikipedia/en/a/a1/Grafana_logo.svg" width="30" height="30"> |**Grafana**| App| Open-source platform for monitoring and observability
-|<img src="https://www.openanalytics.eu/shinyproxy/logo.png" width="30" height="30"> |**ShinyProxy**| App| Open source platform to deploy Shiny apps
+|<img src="./logos/spark.svg" width="30"> | **Spark History Server**| App | Monitoring tool that displays information about completed Spark applications 
+|<img src="./logos/grafana.svg" width="30" > |**Grafana**| App| Open-source platform for monitoring and observability
+|<img src="https://www.openanalytics.eu/shinyproxy/logo.png" width="30"> |**ShinyProxy**| App| Open source platform to deploy Shiny apps
 |<img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Terminalicon2.png" width="30" height="30"> |**TTYD**| App| Interactive Bash with hadoop commands
-|<img src="https://www.metabase.com/images/logo.svg" width="30" height="30"> |**Metabase**| App| Open source Business Intelligence server
-|<img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Apache_Spark_logo.svg" width="30" height="30"> | **Spark for AWS (Hadoop 3.2)**| Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
+|<img src="https://www.metabase.com/images/logo.svg" width="30" > |**Metabase**| App| Open source Business Intelligence server
+|<img src="./logos/spark.svg" width="30" height="30"> | **Spark for AWS (Hadoop 3.2)**| Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
  
 ### Job technologies
 
