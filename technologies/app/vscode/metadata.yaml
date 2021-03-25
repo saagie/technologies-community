@@ -1,16 +1,16 @@
 version: v1
 type: APP
 id: vscode
-label: VsCode v3.9.0
-baseline: "VsCode v3.9.0"
-description: "VsCode is an IDE that supports several languages (VsCode v3.9.0). \nCreate an environment variable named 'PASSWORD' to set a password."
+label: VsCode
+baseline: "VsCode server"
+description: "VsCode server is an IDE that supports several languages. \nCreate an environment variable named 'PASSWORD' to set a password."
 available: true
-icon: generic-app
+icon: vscode
 backgroundColor: "#3EAAF2"
 customFlags: []
 contexts:
-  - id: 1.0
-    label: VsCode v3.9.0
+  - id: vscode-3.9.0
+    label: VsCode 3.9.0
     releaseNotes: ""
     available: true
     trustLevel: experimental
