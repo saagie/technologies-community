@@ -1,5 +1,7 @@
 # TTYD - Interactive Bash
 
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/ttyd-saagie/1.0?label=v1.0%20image%20size&style=for-the-badge)
+
 ## Description
 This directory contains TTYD, an interactive Bash for Saagie Platform.
 Contains :

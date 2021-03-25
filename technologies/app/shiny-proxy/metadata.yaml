@@ -1,0 +1,24 @@
+version: v1
+type: APP
+id: shiny-proxy
+label: ShinyProxy
+baseline: "ShinyProxy is a novel, open source platform to deploy Shiny apps for the enterprise or larger organizations"
+description: "ShinyProxy is a novel, open source platform to deploy Shiny apps for the enterprise or larger organizations"
+available: true
+icon: generic-app
+backgroundColor: "#32a6d3"
+customFlags: []
+contexts:
+  - id: shiny-proxy-2.4.3
+    label: ShinyProxy 2.4.3
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 8080
+        name: ShinyProxy
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/shiny-proxy
+      version: 2.4.3
