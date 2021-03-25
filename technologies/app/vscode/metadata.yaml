@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: vscode
+label: VsCode
+baseline: "VsCode server"
+description: "VsCode server is an IDE that supports several languages. \nCreate an environment variable named 'PASSWORD' to set a password."
+available: true
+icon: vscode
+backgroundColor: "#3EAAF2"
+customFlags: []
+contexts:
+  - id: vscode-3.9.0
+    label: VsCode 3.9.0
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: vscode
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/config/workspace"]
+    dockerInfo:
+      image: saagie/vscode-server
+      version: 3.9
