@@ -34,6 +34,7 @@ This repository contains community job and application technologies.
 |<img src="./logos/shinyproxy.svg" width="30"> |**ShinyProxy**| App| Open source platform to deploy Shiny apps
 |<img src="./logos/ttyd.svg" width="30"> |**TTYD**| App| Interactive Bash with hadoop commands
 |<img src="./logos/metabase.svg" width="30" > |**Metabase**| App| Open source Business Intelligence server
+|<img src="./logos/vscode.svg" width="30" > |**Visual Studio Code**| App| IDE that supports several languages
 |<img src="./logos/spark.svg" width="30"> | **Spark for AWS (Hadoop 3.2)**| Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
  
 ### Job technologies
