@@ -11,7 +11,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/ \
     && rm /etc/nginx/sites-enabled/default
-
+ 
 COPY ressources/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 COPY ressources/entrypoint.sh /entrypoint.sh
 
