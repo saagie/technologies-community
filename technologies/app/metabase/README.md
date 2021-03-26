@@ -23,5 +23,6 @@ This version comes with a local H2 table to store Metabase internal data. You ca
 ## Known issues
 When you first log in, after having createad your user, you will be redirected to your Saagie Projects instead of the Metabase homepage. Simply return to your Saagie App and try to open the Metabase url (this issue only happens during first login).
 
-
-
+## Configure Athena
+When configuring Athena in Metabase, you'll need to add the following connection string:
+UseResultsetStreaming=0
