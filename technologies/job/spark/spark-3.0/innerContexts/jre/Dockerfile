@@ -1,7 +1,7 @@
 ARG jre_major=8
 FROM openjdk:${jre_major}-slim-buster
 
-ARG SPARK_VERSION=3.0.2
+ARG SPARK_VERSION=3.0.1
 ARG HADOOP_VERSION=3.2
 ARG TINI_VERSION="v0.18.0"
 
