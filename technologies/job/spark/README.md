@@ -15,7 +15,7 @@
 ## Description
 This directory contains version of Spark customized for Saagie Platform to use when working with AWS only (or with Hadoop 3.2). 
 This version is based on :
-- Spark 3.0.2
+- Spark 3.0.1
 - Hadoop 3.2
 - Hadoop AWS 3.2.0
 - Spark Structured Streaming Kinesis Connector (by Qubole) 1.2.0
@@ -25,7 +25,7 @@ This version is based on :
 
 At the root of this repository, run the following command depending of the Spark version you want to build:
 ```
-./gradlew :spark-3.0-python-3.7:buildImage
+./gradlew buildSparkJobs
 ```
 
 
