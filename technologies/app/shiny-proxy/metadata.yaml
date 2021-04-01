@@ -5,7 +5,7 @@ label: ShinyProxy
 baseline: "ShinyProxy is a novel, open source platform to deploy Shiny apps for the enterprise or larger organizations"
 description: "ShinyProxy is a novel, open source platform to deploy Shiny apps for the enterprise or larger organizations"
 available: true
-icon: generic-app
+icon: shinyproxy
 backgroundColor: "#32a6d3"
 customFlags: []
 contexts:
