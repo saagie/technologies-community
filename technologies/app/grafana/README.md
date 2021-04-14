@@ -1,5 +1,5 @@
 # Grafana
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/7.3.4?label=v7.3.4%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/7.5.4?label=v7.5.4%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Grafana contenairized and customized for Saagie Platform.
@@ -15,4 +15,4 @@ docker push saagie/grafana-<version>
 
 
 ## Job/App specific information
-Default admin credentials are `admin/admin`. Change them during your first connection.
+Default admin login is `admin`. Default admin password must be set with the GRAFANA_ADMIN_PASSWORD environment variable. 
