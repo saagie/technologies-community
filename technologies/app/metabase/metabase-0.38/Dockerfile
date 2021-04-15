@@ -1,4 +1,4 @@
-FROM metabase/metabase:v0.38.1
+FROM metabase/metabase:v0.38.4
 
 USER root
 
