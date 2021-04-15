@@ -2,7 +2,7 @@ version: "v1"
 type: JOB
 id: spark
 label: Spark for AWS (Hadoop 3.2)
-description: Spark 3.0.2 for AWS (S3 and Kinesis connectors) and for Hadoop 3.2
+description: Spark 3.0.1 for AWS (S3 and Kinesis connectors) and for Hadoop 3.2
 available: true
 icon: spark
 customFlags: [Spark]
