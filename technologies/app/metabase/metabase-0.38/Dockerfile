@@ -12,10 +12,7 @@ COPY server.conf /etc/nginx/conf.d/metabase.conf
 
 # Installing Drivers
 RUN mkdir /app/plugins && chmod 777 /app/plugins
-COPY assets/impala.metabase-driver.jar /app/plugins/impala.metabase-driver.jar
-COPY assets/ImpalaJDBC41.jar /app/plugins/ImpalaJDBC41.jar
-COPY assets/athena.metabase-driver.jar /app/plugins/athena.metabase-driver.jar
-COPY assets/AthenaJDBC42_2.0.13.jar /app/plugins/AthenaJDBC42_2.0.13.jar
+COPY assets/*.jar /app/plugins/
 COPY assets/log4j2.xml /metabase.db/log4j2.xml
 
 ENV MB_DB_TYPE h2
