@@ -1,14 +1,19 @@
-FROM saagie/spark:2.4-jre-8-1.44.0
+FROM saagie/spark:3.0-1.69.0 as builder
 
+FROM alpine:3.10
+
+WORKDIR /opt/
+COPY --from=builder /opt/spark /opt/spark
 USER root
 
-RUN apt-get update \
-  && apt-get install -y nginx \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/
+RUN apk update && \
+    apk add nginx && \
+    apk add --no-cache bash  && \
+    apk --no-cache add openjdk11
 
-COPY server.conf /etc/nginx/sites-enabled/spark-history.conf
-RUN rm /etc/nginx/sites-enabled/default
+ADD server.conf /etc/nginx/conf.d/server.conf
+RUN rm /etc/nginx/conf.d/default.conf && \
+    mkdir /run/nginx
 
 ENV SPARK_NO_DAEMONIZE TRUE
 EXPOSE 80
