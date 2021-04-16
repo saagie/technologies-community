@@ -1,6 +1,6 @@
 # Metabase
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/metabase/0.38?label=v0.38%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/metabase/0.38.4?label=v0.38.4%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Metabase contenairized and customized for Saagie Platform.

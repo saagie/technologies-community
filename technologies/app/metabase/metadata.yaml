@@ -22,4 +22,4 @@ contexts:
     volumes: ["/metabase-data"]
     dockerInfo:
       image: saagie/metabase
-      version: 0.38
+      version: 0.38.4
