@@ -9,8 +9,8 @@ icon: vscode
 backgroundColor: "#3EAAF2"
 customFlags: []
 contexts:
-  - id: vscode-3.9.0
-    label: VsCode 3.9.0
+  - id: vscode-3.9.3
+    label: VsCode 3.9.3
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -22,4 +22,4 @@ contexts:
     volumes: ["/config/workspace"]
     dockerInfo:
       image: saagie/vscode-server
-      version: 3.9
+      version: 3.9.3

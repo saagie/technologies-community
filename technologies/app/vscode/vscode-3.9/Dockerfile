@@ -1,4 +1,4 @@
-FROM ghcr.io/linuxserver/code-server:version-v3.9.0
+FROM ghcr.io/linuxserver/code-server:version-v3.9.3
 
 USER root
 
