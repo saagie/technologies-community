@@ -1,6 +1,6 @@
 # Spark History Server
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark-history-server/1.1?label=v1.1%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark-history-server/1.2?label=v1.2%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Spark History Server contenairized and customized for Saagie Platform.
