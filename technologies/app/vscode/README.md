@@ -1,5 +1,7 @@
 # VS Code
 
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/vscode-server/3.9.3?label=v3.9.3%20image%20size&style=for-the-badge)
+
 ## Description
 This directory contains a VsCode server contenairized and customized for Saagie Platform.
 See Vscode server official documentation for more information https://code.visualstudio.com/docs/
