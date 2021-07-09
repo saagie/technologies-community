@@ -96,3 +96,11 @@ contexts:
               image: saagie/spark
               baseTag: 3.0-aws-py-3.7
               version: 3.0-aws-py-3.7-0.11.2
+          - id: 3.7-oracle
+            label: 3.7-oracle
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.0-aws-py-3.7
+              version: 3.0-aws-py-3.7-0.11.2-oracle
