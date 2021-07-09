@@ -1,0 +1,30 @@
+version: "v1"
+type: JOB
+id: python_oracle
+label: Python-Cx_Oracle
+available: true
+icon: python
+contexts:
+  - id: 3.7-oracle
+    label: 3.7-oracle
+    available: true
+    recommended: false
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch the job.
+          defaultValue: python {file} arg1 arg2
+        - type: ARTIFACT
+          label: Package
+          mandatory: true
+          comment: "Compatible upload file : .py or .zip (with optional requirements.txt for pip install)"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/python
+      baseTag: 3.7-oracle
+      version: 3.7-oracle
