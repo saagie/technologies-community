@@ -51,3 +51,11 @@ RUN install2.r --error --skipinstalled \
     aws.s3 \
     arrow \
     openxlsx
+
+# Move scripts and frequently changing directive to the end of the build
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
+
+WORKDIR /sandbox
+
+CMD ["/bin/bash", "-c", "/entrypoint.sh"]

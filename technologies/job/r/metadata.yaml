@@ -14,7 +14,7 @@ contexts:
     trustLevel: stable
     dockerInfo:
       image: tonysaagie/docker-r-lite
-      version: 4.1.0-1
+      version: 4.1.0-2
     job:
       features:
         - type: COMMAND_LINE
