@@ -51,5 +51,3 @@ RUN install2.r --error --skipinstalled \
     aws.s3 \
     arrow \
     openxlsx
-
-CMD R
