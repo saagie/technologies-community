@@ -1,4 +1,5 @@
 # Grafana
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/7.5.4?label=v7.5.4%20image%20size&style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/8.0.6?label=v8.0.6%20image%20size&style=for-the-badge)
 
 ## Description
