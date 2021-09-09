@@ -20,6 +20,6 @@ contexts:
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: tonysaagie/docker-rstudio-lite
+      image: saagie/rstudio
       version: 4.1.0
     volumes: ["/home"]
