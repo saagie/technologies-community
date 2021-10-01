@@ -15,7 +15,11 @@ COPY server.conf /etc/nginx/sites-enabled/grafana.conf
 COPY grafana.ini /etc/grafana/grafana.ini
 
 # Install PostgreSQL
-RUN apk add postgresql --no-cache
+RUN apk add postgresql --no-cache \
+    mkdir /run/postgresql \ 
+    chown postgres:postgres /run/postgresql/ \
+    mkdir /var/lib/postgresql/data \
+    chmod 0700 /var/lib/postgresql/data
 
 ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
