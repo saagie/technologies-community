@@ -1,7 +1,7 @@
 ARG jre_major=8
 FROM openjdk:${jre_major}-slim-buster
 
-ARG SPARK_VERSION=3.0.1
+ARG SPARK_VERSION=3.1.2
 ARG HADOOP_VERSION=3.2
 ARG TINI_VERSION="v0.18.0"
 
@@ -61,10 +61,10 @@ RUN mkdir -p /tmp/spark && cd /tmp/spark/ && \
     rm -Rf /tmp/spark
 # SPARK UI FIX SDKTECHNO#83 END
 
-RUN wget https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/1.2.0_spark-3.0/spark-sql-kinesis_2.12-1.2.0_spark-3.0.jar && \
+RUN wget https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/1.2.0_spark-3.0/spark-sql-kinesis_2.12-1.2.0_spark-${SPARK_VERSION} && \
     wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar && \
     wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar && \
-    wget https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1-assembly.jar && \
+    wget https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/${SPARK_VERSION}/mongo-spark-connector_2.12-${SPARK_VERSION}-assembly.jar && \
     mv *.jar /opt/spark/jars/
 
 COPY entrypoint.sh /opt/

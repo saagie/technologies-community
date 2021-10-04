@@ -2,13 +2,7 @@
 
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-0.11.2?label=v3.0-aws%20base%20image%20size&style=for-the-badge)
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-jre-8-0.11.2?label=v3.0-aws-jre8%20image%20size&style=for-the-badge)
-
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-jre-11-0.11.2?label=v3.0-aws-jre11%20image%20size&style=for-the-badge)
-
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-py-3.5-0.11.2?label=v3.0-aws-py3.5%20image%20size&style=for-the-badge)
-
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-py-3.6-0.11.2?label=v3.0-aws-py3.6%20image%20size&style=for-the-badge)
 
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/spark/3.0-aws-py-3.7-0.11.2?label=v3.0-aws-py3.7%20image%20size&style=for-the-badge)
 

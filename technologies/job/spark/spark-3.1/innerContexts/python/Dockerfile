@@ -1,6 +1,8 @@
 ARG spark_base_img
 ARG base_img
 
+ARG SPARK_VERSION=3.1.2
+
 FROM ${spark_base_img} AS SPARK_BASE
 
 FROM ${base_img} AS BASE_IMG
@@ -18,7 +20,7 @@ ENV SPARK_HOME /opt/spark
 ENV HADOOP_CONF_DIR=/etc/hadoop/conf
 
 RUN pip --no-cache-dir install --upgrade pip \
-    && pip --no-cache-dir install pyspark==3.0.1 \
+    && pip --no-cache-dir install pyspark==${SPARK_VERSION} \
     && rm -rf /root/.cachex \
     && rm -rf /boot/.cache/pip \
     && rm -rf ~/.cache/pip
