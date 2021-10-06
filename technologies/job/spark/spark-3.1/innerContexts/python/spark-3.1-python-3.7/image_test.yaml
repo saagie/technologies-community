@@ -27,8 +27,8 @@ fileContentTests:
     path: "/opt/entrypoint.sh"
     expectedContents:
       [
-        'wget \$PYSPARK_FILES',
-        'unzip \*\.zip',
+        'wget -nv \$PYSPARK_FILES',
+        'unzip -q \*\.zip',
         'ln -s /sandbox/ /opt/spark/work-dir',
         '--py-files=/sandbox/\*',
         'exec /sbin/tini -s -- '
@@ -42,7 +42,7 @@ commandTests:
   - name: "Spark version"
     command: "/opt/spark/bin/spark-submit"
     args: ["--version"]
-    expectedError: ["version 3.0.*"]
+    expectedError: ["version 3.1.*"]
 
   - name: "python installation"
     command: "which"

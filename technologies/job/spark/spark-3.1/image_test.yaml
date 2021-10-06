@@ -49,7 +49,7 @@ commandTests:
   - name: "Spark version"
     command: "/opt/spark/bin/spark-submit"
     args: ["--version"]
-    expectedError: ["version 3.0.*"]
+    expectedError: ["version 3.1.*"]
 
   - name: "spark-submit on path"
     command: "which"

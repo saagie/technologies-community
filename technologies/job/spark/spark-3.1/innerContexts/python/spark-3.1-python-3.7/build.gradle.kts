@@ -27,14 +27,14 @@ apply<SaagieTechnologiesGradlePlugin>()
 val dockerInfo = readDockerInfo(projectDir)
 
 tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    dependsOn(":spark-3.0:testImage")
+    dependsOn(":spark-3.1:testImage")
     this.buildArgs.put(
         "base_img",
-        "saagie/python:3.5-1.46.0"
+        "saagie/python:3.7-1.46.0"
     )
     this.buildArgs.put(
         "spark_base_img",
-        "${dockerInfo?.image}:3.0-aws-${this.project.getVersionForDocker()}"
+        "${dockerInfo?.image}:3.1-${this.project.getVersionForDocker()}"
     )
 }
 

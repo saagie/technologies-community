@@ -17,16 +17,6 @@
  */
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.saagie.technologies.SaagieTechnologiesGradlePlugin
-import com.saagie.technologies.readDockerInfo
-import com.saagie.technologies.getVersionForDocker
-
 
 apply<DockerRemoteApiPlugin>()
 apply<SaagieTechnologiesGradlePlugin>()
-
-tasks.withType(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
-    this.buildArgs.put(
-        "jre_major",
-        "8"
-    )
-}

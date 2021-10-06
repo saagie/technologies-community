@@ -5,7 +5,7 @@ metadataTest:
     - key: LANG
       value: "C.UTF-8"
     - key: JAVA_HOME
-      value: "/usr/local/openjdk-8"
+      value: "/usr/local/openjdk-11"
     - key: SPARK_HOME
       value: "/opt/spark"
     - key: "HADOOP_CONF_DIR"
@@ -25,14 +25,7 @@ fileExistenceTests:
 fileContentTests:
   - name: "entrypoint.sh"
     path: "/opt/entrypoint.sh"
-    expectedContents:
-      [
-        'wget \$PYSPARK_FILES',
-        'unzip \*\.zip',
-        'ln -s /sandbox/ /opt/spark/work-dir',
-        '--py-files=/sandbox/\*',
-        'exec /sbin/tini -s -- '
-      ]
+    expectedContents: ["exec /sbin/tini -s -- "]
 
 commandTests:
   - name: "Workdir"
@@ -42,12 +35,7 @@ commandTests:
   - name: "Spark version"
     command: "/opt/spark/bin/spark-submit"
     args: ["--version"]
-    expectedError: ["version 3.0.*"]
-
-  - name: "python installation"
-    command: "which"
-    args: ["python"]
-    expectedOutput: ["/usr/local/bin/python"]
+    expectedError: ["version 3.1.*"]
 
   - name: "krb5-user installation"
     command: "kinit"

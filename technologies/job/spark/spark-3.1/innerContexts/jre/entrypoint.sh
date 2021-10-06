@@ -36,38 +36,6 @@ if [ -z "$uidentry" ] ; then
     fi
 fi
 
-# BEGIN SAAGIE SPECIFIC CODE
-if [ -n "$PYSPARK_FILES" ]; then
-    PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
-    #Copy and unzip pyfiles
-    cd /sandbox
-    if [[ $PYSPARK_FILES == *[,]* ]];then
-      echo "PYSPARK_FILES contains comma"
-      pyfiles=$(echo $PYSPARK_FILES | tr "," "\n")
-
-      for file in $pyfiles
-      do
-          echo ">>> [$file]"
-          wget -nv $file
-      done
-    else
-      echo ">>> [$PYSPARK_FILES]"
-      wget -nv $PYSPARK_FILES
-    fi
-    if [ -f *.zip ]
-    then
-      unzip -q *.zip
-    fi
-    if [ -f "requirements.txt" ]
-    then
-      pip install -r requirements.txt
-    fi
-    rm -Rf /opt/spark/work-dir
-    ln -s /sandbox/ /opt/spark/work-dir
-fi
-# END SAAGIE SPECIFIC CODE
-
-
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"
 env | grep SPARK_JAVA_OPT_ | sort -t_ -k4 -n | sed 's/[^=]*=\(.*\)/\1/g' > /tmp/java_opts.txt
 readarray -t SPARK_EXECUTOR_JAVA_OPTS < /tmp/java_opts.txt
@@ -76,17 +44,7 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
-if [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "2" ]; then
-    pyv="$(python -V 2>&1)"
-    export PYTHON_VERSION="${pyv:7}"
-    export PYSPARK_PYTHON="python"
-    export PYSPARK_DRIVER_PYTHON="python"
-elif [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "3" ]; then
-    pyv3="$(python3 -V 2>&1)"
-    export PYTHON_VERSION="${pyv3:7}"
-    export PYSPARK_PYTHON="python3"
-    export PYSPARK_DRIVER_PYTHON="python3"
-fi
+
 
 # If HADOOP_HOME is set and SPARK_DIST_CLASSPATH is not set, set it here so Hadoop jars are available to the executor.
 # It does not set SPARK_DIST_CLASSPATH if already set, to avoid overriding customizations of this value from elsewhere e.g. Docker/K8s.
@@ -98,13 +56,18 @@ if ! [ -z ${HADOOP_CONF_DIR+x} ]; then
   SPARK_CLASSPATH="$HADOOP_CONF_DIR:$SPARK_CLASSPATH";
 fi
 
+if ! [ -z ${SPARK_CONF_DIR+x} ]; then
+  SPARK_CLASSPATH="$SPARK_CONF_DIR:$SPARK_CLASSPATH";
+elif ! [ -z ${SPARK_HOME+x} ]; then
+  SPARK_CLASSPATH="$SPARK_HOME/conf:$SPARK_CLASSPATH";
+fi
+
 case "$1" in
   driver)
     shift 1
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --py-files=/sandbox/* # SAAGIE SPECIFIC CODE
       --deploy-mode client
       "$@"
     )
@@ -123,6 +86,7 @@ case "$1" in
       --cores $SPARK_EXECUTOR_CORES
       --app-id $SPARK_APPLICATION_ID
       --hostname $SPARK_EXECUTOR_POD_IP
+      --resourceProfileId $SPARK_RESOURCE_PROFILE_ID
     )
     ;;
 
