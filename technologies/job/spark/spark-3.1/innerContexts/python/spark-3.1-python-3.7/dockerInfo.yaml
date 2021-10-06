@@ -1,4 +1,4 @@
 image: saagie/spark
 baseTag: 3.1-aws-py-3.7
-dynamicVersion: 1.20.0
-version: 3.1-aws-py-3.7-1.20.0
+dynamicVersion: 1.20.1
+version: 3.1-aws-py-3.7-1.20.1
