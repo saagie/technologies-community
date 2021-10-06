@@ -79,8 +79,8 @@ contexts:
     trustLevel: stable
     dockerInfo:
       image: saagie/spark
-      baseTag: 3.1
-      version: 3.1-1.20.0
+      baseTag: 3.1-aws
+      version: 3.1-aws-1.20.0
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -134,5 +134,5 @@ contexts:
             trustLevel: stable
             dockerInfo:
               image: saagie/spark
-              baseTag: 3.1-py-3.7
-              version: 3.1-py-3.7-1.20.0
+              baseTag: 3.1-aws-py-3.7
+              version: 3.1-aws-py-3.7-1.20.0
