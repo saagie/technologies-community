@@ -1,5 +1,6 @@
 # Grafana
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/7.5.4?label=v7.5.4%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/grafana/8.0.6?label=v8.0.6%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Grafana contenairized and customized for Saagie Platform.
@@ -9,8 +10,8 @@ See Grafana official documentation for more information https://grafana.com/docs
 
 Inside the `grafana-x.y.z` folder corresponding to your version, run :
 ```
-docker build -t saagie/grafana-<version> .
-docker push saagie/grafana-<version>
+docker build -t saagie/grafana:<version> .
+docker push saagie/grafana:<version>
 ```
 
 
