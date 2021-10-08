@@ -24,11 +24,23 @@ RUN apt-get update \
   && chown postgres:postgres /var/lib/postgresql/data \
   && chmod 777 /var/lib/postgresql/data
 
+ENV SUPERVISION_SAAGIE_PG_TABLE="SUPERVISION_SAAGIE_PG_TABLE" \
+  SUPERVISION_SAAGIE_JOBS_PG_TABLE="SUPERVISION_SAAGIE_JOBS_PG_TABLE" \
+  SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE="SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE" \
+  SUPERVISION_DATALAKE_PG_TABLE="SUPERVISION_DATALAKE_PG_TABLE" \
+  SUPERVISION_PG_DB="SUPERVISION_PG_DB" \
+  SUPERVISION_PG_USER="supervision_pg_user" \
+  SUPERVISION_PG_HOST="local_host"
+
+COPY infra.sql infra.sql
+
+RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
+
+
+
 USER postgres
 
-RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data \
-  && echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf \
-  && echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf
+RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data
 
 USER root
 
@@ -37,4 +49,4 @@ ENV GF_PATHS_PLUGINS /opt/plugins
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+ENTRYPOINT ["bash", "/entrypoint.sh"]
