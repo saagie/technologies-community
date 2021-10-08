@@ -8,12 +8,10 @@ RUN apt-get update
 
 # Install Ngins
 RUN apt-get update \
-  && apt-get install -y software-properties-common nginx cron wget \
+  && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev \
   && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get update \
   && apt-get install -y python3.7 pip \
-  #&& apt-get clean \
-  #&& rm -rf /var/lib/apt/lists/ \
   && rm /etc/nginx/sites-enabled/default
 
 COPY server.conf /etc/nginx/sites-enabled/grafana.conf
@@ -39,14 +37,15 @@ RUN apt-get update \
   && mkdir /var/lib/postgresql/data \
   && chown postgres:postgres /var/lib/postgresql/data \
   && chmod 777 /var/lib/postgresql/data
+  #&& apt-get clean \
+  #&& rm -rf /var/lib/apt/lists/ 
 
-ENV SUPERVISION_SAAGIE_PG_TABLE="supervision_saagie_pg_table" \
-  SUPERVISION_SAAGIE_JOBS_PG_TABLE="supervision_saagie_jobs_pg_table" \
-  SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE="supervision_saagie_jobs_snapshot_pg_table" \
-  SUPERVISION_DATALAKE_PG_TABLE="supervision_datalake_pg_table" \
+ENV SUPERVISION_SAAGIE_PG_TABLE="supervision_saagie" \
+  SUPERVISION_SAAGIE_JOBS_PG_TABLE="supervision_saagie_jobs" \
+  SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE="supervision_saagie_jobs_snapshot" \
+  SUPERVISION_DATALAKE_PG_TABLE="supervision_datalake" \
   SUPERVISION_PG_DB="supervision_pg_db" \
-  SUPERVISION_PG_USER="supervision_pg_user" \
-  SUPERVISION_PG_HOST="local_host"
+  SUPERVISION_PG_USER="supervision_pg_user"
 
 USER postgres
 RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data
@@ -60,7 +59,7 @@ ADD grafana/dashboards /var/lib/grafana/dashboards
 ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
 
-#RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
+RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
 ADD code /app
 RUN pip install -r /app/requirements.txt
 

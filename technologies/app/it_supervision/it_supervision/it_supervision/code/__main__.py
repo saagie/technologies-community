@@ -101,6 +101,7 @@ def log_instance_metrics(instance, job_or_pipeline, orchestration_type, project_
 
 def main():
     if monitoring_type == "SAAGIE":
+        logging.info("Get saagie metrics")
         get_saagie_metrics()
     elif monitoring_type == "SAAGIE_AND_DATALAKE":
         logging.info("Get datalake metrics starting")
@@ -115,5 +116,5 @@ def main():
 if __name__ == "__main__":
     logger = logging.getLogger("platform-monitoring")
 
-    logging.basicConfig(level=logging.WARNING, format="%(asctime)s %(message)s", datefmt="%d/%m/%Y %H:%M:%S")
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s", datefmt="%d/%m/%Y %H:%M:%S")
     main()

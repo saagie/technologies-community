@@ -218,7 +218,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  orchestration_name as \"metric\",\n  instance_duration AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and project_id='$project'\n",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  orchestration_name as \"metric\",\n  instance_duration AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and project_id='$project'\nORDER BY 1 ASC",
           "refId": "A",
           "select": [
             [
@@ -324,7 +324,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  orchestration_name as \"metric\",\n  instance_duration AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='pipeline'\n  and project_id='$project'",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  orchestration_name as \"metric\",\n  instance_duration AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='pipeline'\n  and project_id='$project'\nORDER BY 1 ASC",
           "refId": "A",
           "select": [
             [
