@@ -49,7 +49,7 @@ RUN set -ex && \
 # SPARK INSTALL START
 RUN mkdir -p /tmp/spark && \
     cd /tmp/spark && \
-    wget --no-check-certificate https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
     tar xf spark-*.tgz && \
     rm spark-*.tgz && \
     cp -R /tmp/spark/*/jars /opt/spark && \
