@@ -12,9 +12,22 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ftp wget curl unzip telnet openssh-client krb5-user zip && \
+      ca-certificates ftp wget curl unzip telnet openssh-client krb5-user zip && \
     rm -rf /var/lib/apt/lists/*
+	
+RUN apt update -qq \
+        && apt-get install -y alien python3.7 python3-pip libaio1 libaio-dev \
+        && wget https://download.oracle.com/otn_software/linux/instantclient/211000/oracle-instantclient-basic-21.1.0.0.0-1.x86_64.rpm \
+        && alien -i oracle-instantclient-basic-21.1.0.0.0-1.x86_64.rpm \
+        && pip3 install cx_Oracle --trusted-host pypi.org --trusted-host files.pythonhosted.org
+
 # LIGHT DEPENDENCIES END
+
+# ADD ORACLE CLIENT TO THE PATH START
+ENV ORACLE_HOME=/usr/lib/oracle/21/client64
+ENV PATH="${PATH}:${ORACLE_HOME}/bin"
+ENV PATH="${PATH}:${ORACLE_HOME}/lib"
+# ADD ORACLE CLIENT TO THE PATH END
 
 # TINI INSTALL START
 RUN set -ex && \
@@ -26,8 +39,8 @@ RUN set -ex && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     chgrp root /etc/passwd && chmod ug+rw /etc/passwd && \
     export TINI_HOME="/usr/local/sbin" && \
-    curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o "${TINI_HOME}/tini" && \
-    curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o "${TINI_HOME}/tini.asc" && \
+    curl -fSL --insecure "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o "${TINI_HOME}/tini" && \
+    curl -fSL --insecure "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o "${TINI_HOME}/tini.asc" && \
     chmod +x "${TINI_HOME}/tini" && \
     ln -s ${TINI_HOME}/tini /sbin/tini && \
     "${TINI_HOME}/tini" -h
@@ -36,7 +49,7 @@ RUN set -ex && \
 # SPARK INSTALL START
 RUN mkdir -p /tmp/spark && \
     cd /tmp/spark && \
-    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    wget --no-check-certificate https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
     tar xf spark-*.tgz && \
     rm spark-*.tgz && \
     cp -R /tmp/spark/*/jars /opt/spark && \
@@ -58,15 +71,21 @@ RUN mkdir -p /tmp/spark && cd /tmp/spark/ && \
     rm -Rf /tmp/spark
 # SPARK UI FIX SDKTECHNO#83 END
 
-RUN wget https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/1.2.0_spark-3.0/spark-sql-kinesis_2.12-1.2.0_spark-3.0.jar && \
-    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar && \
-    wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar && \
-    wget https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1-assembly.jar && \
+RUN wget --no-check-certificate https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/1.2.0_spark-3.0/spark-sql-kinesis_2.12-1.2.0_spark-3.0.jar && \
+    wget --no-check-certificate https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar && \
+    wget --no-check-certificate https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar && \
+    wget --no-check-certificate https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1-assembly.jar && \
     mv *.jar /opt/spark/jars/
 
 COPY entrypoint.sh /opt/
 RUN chmod 755 /opt/entrypoint.sh
 
 WORKDIR /sandbox/
+
+# CLEANUP START
+RUN rm -rf /root/.cachex \
+    && rm -rf /boot/.cache/pip \
+    && rm -rf ~/.cache/pip
+# CLEANUP END
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
