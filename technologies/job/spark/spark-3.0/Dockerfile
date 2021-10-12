@@ -12,7 +12,7 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
 
 # LIGHT DEPENDENCIES START
 RUN apt update -qq && apt install -yqq --no-install-recommends \
-      ca-certificates ftp wget curl unzip telnet openssh-client krb5-user zip && \
+      ftp wget curl unzip telnet openssh-client krb5-user zip && \
     rm -rf /var/lib/apt/lists/*
 	
 RUN apt update -qq \
@@ -39,8 +39,8 @@ RUN set -ex && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     chgrp root /etc/passwd && chmod ug+rw /etc/passwd && \
     export TINI_HOME="/usr/local/sbin" && \
-    curl -fSL --insecure "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o "${TINI_HOME}/tini" && \
-    curl -fSL --insecure "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o "${TINI_HOME}/tini.asc" && \
+    curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o "${TINI_HOME}/tini" && \
+    curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o "${TINI_HOME}/tini.asc" && \
     chmod +x "${TINI_HOME}/tini" && \
     ln -s ${TINI_HOME}/tini /sbin/tini && \
     "${TINI_HOME}/tini" -h
@@ -71,10 +71,10 @@ RUN mkdir -p /tmp/spark && cd /tmp/spark/ && \
     rm -Rf /tmp/spark
 # SPARK UI FIX SDKTECHNO#83 END
 
-RUN wget --no-check-certificate https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/1.2.0_spark-3.0/spark-sql-kinesis_2.12-1.2.0_spark-3.0.jar && \
-    wget --no-check-certificate https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar && \
-    wget --no-check-certificate https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar && \
-    wget --no-check-certificate https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1-assembly.jar && \
+RUN wget https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/1.2.0_spark-3.0/spark-sql-kinesis_2.12-1.2.0_spark-3.0.jar && \
+    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar && \
+    wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar && \
+    wget https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1-assembly.jar && \
     mv *.jar /opt/spark/jars/
 
 COPY entrypoint.sh /opt/
