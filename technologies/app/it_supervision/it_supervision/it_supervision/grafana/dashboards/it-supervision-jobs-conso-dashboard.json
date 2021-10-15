@@ -15,7 +15,7 @@
   "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -23,11 +23,11 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "fixedColor": "blue",
+            "mode": "fixed"
           },
           "decimals": 0,
           "mappings": [],
-          "max": 250,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -35,14 +35,6 @@
               {
                 "color": "blue",
                 "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 150
-              },
-              {
-                "color": "red",
-                "value": 200
               }
             ]
           },
@@ -58,6 +50,9 @@
       },
       "id": 2,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -66,13 +61,10 @@
           "fields": "",
           "values": true
         },
-        "showThresholdLabels": true,
-        "showThresholdMarkers": true,
-        "text": {
-          "valueSize": 70
-        }
+        "text": {},
+        "textMode": "auto"
       },
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.0.6",
       "targets": [
         {
           "format": "table",
@@ -107,7 +99,7 @@
       "timeShift": null,
       "title": "Total # of Jobs and Apps on Saagie",
       "transparent": true,
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": null,
@@ -179,7 +171,7 @@
       "options": {
         "showHeader": false
       },
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.0.6",
       "targets": [
         {
           "format": "table",
@@ -275,7 +267,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.0.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -392,6 +384,7 @@
           },
           "custom": {
             "align": null,
+            "displayMode": "auto",
             "filterable": false
           },
           "mappings": [],
@@ -497,20 +490,15 @@
                 "id": "mappings",
                 "value": [
                   {
-                    "from": "",
-                    "id": 1,
-                    "text": "Job",
-                    "to": "",
-                    "type": 1,
-                    "value": "job"
-                  },
-                  {
-                    "from": "",
-                    "id": 2,
-                    "text": "Application",
-                    "to": "",
-                    "type": 1,
-                    "value": "app"
+                    "options": {
+                      "app": {
+                        "text": "Application"
+                      },
+                      "job": {
+                        "text": "Job"
+                      }
+                    },
+                    "type": "value"
                   }
                 ]
               },
@@ -568,7 +556,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.0.6",
       "targets": [
         {
           "format": "table",
@@ -652,7 +640,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 27,
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -666,5 +654,5 @@
   "timezone": "",
   "title": "Supervision - Saagie Job Count",
   "uid": "Ijjz6DR7z",
-  "version": 7
+  "version": 3
 }
