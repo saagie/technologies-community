@@ -40,12 +40,7 @@ RUN apt-get update \
   #&& apt-get clean \
   #&& rm -rf /var/lib/apt/lists/ 
 
-ENV SUPERVISION_SAAGIE_PG_TABLE="supervision_saagie" \
-  SUPERVISION_SAAGIE_JOBS_PG_TABLE="supervision_saagie_jobs" \
-  SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE="supervision_saagie_jobs_snapshot" \
-  SUPERVISION_DATALAKE_PG_TABLE="supervision_datalake" \
-  SUPERVISION_PG_DB="supervision_pg_db" \
-  SUPERVISION_PG_USER="supervision_pg_user"
+ENV CRON_DAYS=1
 
 USER postgres
 RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data
@@ -62,11 +57,6 @@ ENV GF_PATHS_PLUGINS /opt/plugins
 RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
 ADD code /app
 RUN pip install -r /app/requirements.txt
-
-#RUN echo "*/15 * * * * echo hello > /tmp/log_2021_10_01_15_24_22.log 2>&1" > mycron \
-#  && crontab mycron \
-#  && rm mycron \
-#  && service cron start
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh

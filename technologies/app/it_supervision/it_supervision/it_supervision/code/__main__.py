@@ -4,6 +4,8 @@ import getopt
 import logging
 import sys
 import os
+import pyarrow as pa
+
 
 monitoring_type = os.environ["MONITORING_OPT"]
 
@@ -13,8 +15,9 @@ def get_datalake_metrics():
     Fetch Metrics from Hadoop API about Datalake usage and save it to PostgreSQL in the supervision Database
     :return:
     """
-    total_capacity = api.get_hadoop_capacity()
-    total_space_used = api.get_hadoop_space_used()
+    hdfs = pa.hdfs.connect(os.environ["IP_HDFS"], port=8020, user="hdfs")
+    total_capacity = api.get_hadoop_capacity(hdfs)
+    total_space_used = api.get_hadoop_space_used(hdfs)
     logging.debug(f"total_capacity : {total_capacity}")
     logging.debug(f"total_space_used : {total_space_used}")
     utils.supervision_datalake_to_pg("total_capacity", total_capacity)

@@ -1,12 +1,9 @@
 import utils
-import os
-import pyarrow as pa
 
 http_session = utils.create_http_session()
-hdfs = pa.hdfs.connect(os.environ["IP_HDFS"], port=8020, user="hdfs")
 
 
-def get_hadoop_capacity():
+def get_hadoop_capacity(hdfs):
     """
     Get Datalake total capacity
     :return: total capacity in GB rounded to 2 decimals
@@ -14,7 +11,7 @@ def get_hadoop_capacity():
     return utils.bytes_to_gb(hdfs.get_capacity())
 
 
-def get_hadoop_space_used():
+def get_hadoop_space_used(hdfs):
     """
     Get Datalake total space used
     :return: total space used in GB rounded to 2 decimals
@@ -22,7 +19,7 @@ def get_hadoop_space_used():
     return utils.bytes_to_gb(hdfs.get_space_used())
 
 
-def get_hadoop_space_used_by_use_case():
+def get_hadoop_space_used_by_use_case(hdfs):
     """
     Get Datalake space used for each folder in /data (corresponding to a use case)
     :return: dict of total space used in GB rounded to 2 decimals, for each use case
@@ -33,7 +30,7 @@ def get_hadoop_space_used_by_use_case():
     return result
 
 
-def get_hadoop_space_used_by_path(path):
+def get_hadoop_space_used_by_path(path, hdfs):
     """
     Get Datalake space used  for a given folder
     :param path: HDFS Path to gather usage

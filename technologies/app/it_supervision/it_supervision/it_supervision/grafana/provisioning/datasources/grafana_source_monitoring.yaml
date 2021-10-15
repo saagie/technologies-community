@@ -19,9 +19,9 @@ datasources:
     # <string> Deprecated, use secureJsonData.password
     password:
     # <string> database user, if used
-    user: $SUPERVISION_PG_USER
+    user: supervision_pg_user
     # <string> database name, if used
-    database: $SUPERVISION_PG_DB
+    database: supervision_pg_db
     # <bool> enable/disable basic auth
     basicAuth: false
     # <bool> enable/disable with credentials headers

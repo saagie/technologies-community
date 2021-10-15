@@ -13,13 +13,13 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 ALTERNATIVE_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
 
-SUPERVISION_SAAGIE_PG_TABLE = os.environ["SUPERVISION_SAAGIE_PG_TABLE"]
-SUPERVISION_SAAGIE_JOBS_PG_TABLE = os.environ["SUPERVISION_SAAGIE_JOBS_PG_TABLE"]
-SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE = os.environ["SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE"]
-SUPERVISION_DATALAKE_PG_TABLE = os.environ["SUPERVISION_DATALAKE_PG_TABLE"]
+SUPERVISION_SAAGIE_PG_TABLE = "supervision_saagie"
+SUPERVISION_SAAGIE_JOBS_PG_TABLE = "supervision_saagie_jobs"
+SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE = "supervision_saagie_jobs_snapshot"
+SUPERVISION_DATALAKE_PG_TABLE = "supervision_datalake"
 
-postgre_db = os.environ["SUPERVISION_PG_DB"]
-postgre_user = os.environ['SUPERVISION_PG_USER']
+postgre_db = "supervision_pg_db"
+postgre_user = "supervision_pg_user"
 
 saagie_login = os.environ["SAAGIE_SUPERVISION_LOGIN"]
 saagie_password = os.environ["SAAGIE_SUPERVISION_PASSWORD"]
