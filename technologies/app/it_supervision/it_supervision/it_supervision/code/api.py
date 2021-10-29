@@ -19,26 +19,6 @@ def get_hadoop_space_used(hdfs):
     return utils.bytes_to_gb(hdfs.get_space_used())
 
 
-def get_hadoop_space_used_by_use_case(hdfs):
-    """
-    Get Datalake space used for each folder in /data (corresponding to a use case)
-    :return: dict of total space used in GB rounded to 2 decimals, for each use case
-    """
-    result = {}
-    for path in hdfs.ls("/data"):
-        result[path] = get_hadoop_space_used_by_path(path)
-    return result
-
-
-def get_hadoop_space_used_by_path(path, hdfs):
-    """
-    Get Datalake space used  for a given folder
-    :param path: HDFS Path to gather usage
-    :return: dict of total space used in GB rounded to 2 decimals, for this path
-    """
-    return utils.bytes_to_gb(hdfs.disk_usage(path))
-
-
 def get_projects():
     """
        Call Saagie graphql API to get the list of projects

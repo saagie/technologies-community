@@ -6,27 +6,36 @@ RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app
 
 RUN apt-get update
 
-# Install Ngins
+# Install Dependencies
 RUN apt-get update \
-  && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev \
+  && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java \
   && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get update \
   && apt-get install -y python3.7 pip \
   && rm /etc/nginx/sites-enabled/default
 
+# Fix certificate issues
+RUN update-ca-certificates -f;
+
 COPY server.conf /etc/nginx/sites-enabled/grafana.conf
 COPY grafana.ini /etc/grafana/grafana.ini
 
 # Hadoop command-line
-RUN mkdir hadoop \
+RUN cd / \
+    && mkdir hadoop \
     && cd hadoop \
-    && wget https://archive.apache.org/dist/hadoop/core/hadoop-2.6.0/hadoop-2.6.0.tar.gz \
-    && tar xvf hadoop-2.6.0.tar.gz \
-    && rm hadoop-2.6.0.tar.gz \
-    && rm -rf hadoop-2.6.0/etc/hadoop/ \
-    && ln -s /etc/hadoop/conf hadoop-2.6.0/etc/hadoop
+    && wget https://archive.apache.org/dist/hadoop/common/hadoop-2.6.5/hadoop-2.6.5.tar.gz \
+    && tar xvf hadoop-2.6.5.tar.gz \
+    && rm hadoop-2.6.5.tar.gz \
+    && rm -rf hadoop-2.6.5/etc/hadoop \
+    && ln -s /etc/hadoop/conf hadoop-2.6.5/etc/hadoop;
 
-ENV PATH "/hadoop/hadoop-2.6.0/bin:${PATH}"
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+ENV HADOOP_HOME=/hadoop/hadoop-2.6.5
+ENV HADOOP_CONF_DIR=/hadoop/hadoop-2.6.5/etc/hadoop
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/hadoop/hadoop-2.6.5/lib/native:/usr/lib/jvm/java-11-openjdk-amd64/lib"
+ENV CLASSPATH="/etc/hadoop/conf:/hadoop/hadoop-2.6.5/share/hadoop/common/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/common/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/*"
+ENV PATH "/hadoop/hadoop-2.6.5/bin:${PATH}"
 
 # Install PostgreSQL
 # check for default search text language (now english, swithc to french?)

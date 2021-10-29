@@ -1,6 +1,5 @@
 import utils
 import api
-import getopt
 import logging
 import sys
 import os
@@ -69,7 +68,6 @@ def get_saagie_jobs_metrics():
                                                 job["technology"]["label"] if job["technology"] != None else None)
         for app in app_list:
             logging.debug(f"Current app : {app}")
-            tmp = app["technology"]["label"] if app["technology"] != None else None
             utils.supervision_saagie_jobs_to_pg(project["id"], project["name"], "app", app["id"], app["name"],
                                                 "WebApp", app["creationDate"], app["countJobInstance"],
                                                 app["technology"]["label"] if app["technology"] != None else None)
