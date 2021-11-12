@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: saagie-monitoring-tool
+label: Saagie Monitoring Tool
+baseline: "Saagie Monitoring Tool let you monitor your Saagie platform"
+description: "Saagie Monitoring Tool let you monitor your Saagie platform including job, app and pipeline stats"
+available: true
+icon: grafana
+backgroundColor: "#45b39d"
+customFlags: []
+contexts:
+  - id: saagie-monitoring-tool
+    label: Saagie Monitoring Tool
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: saagie-monitoring-tool
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/opt/grafana", "/opt/plugins"]
+    dockerInfo:
+      image: saagie/saagie-monitoring-tool
+      version: 0.1

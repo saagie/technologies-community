@@ -115,7 +115,7 @@ def main():
 
 
 if __name__ == "__main__":
-    logger = logging.getLogger("platform-monitoring")
+    logger = logging.getLogger("saagie-monitoring-tool")
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s", datefmt="%d/%m/%Y %H:%M:%S")
     main()
