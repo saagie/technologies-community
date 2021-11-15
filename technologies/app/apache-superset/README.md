@@ -1,4 +1,5 @@
 # Apache Superset
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/superset/1.3.2?label=v1.3.2%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Apache Superset contenairized and customized for Saagie Platform.
