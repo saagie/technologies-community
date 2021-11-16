@@ -1,7 +1,7 @@
 version: v1
 type: APP
-id: metabase
-label: Metabase
+id: metabase-0.38
+label: Metabase 0.38
 baseline: "The fastest, easiest way to share data and analytics inside your company"
 description: "The fastest, easiest way to share data and analytics inside your company"
 available: true
@@ -9,8 +9,8 @@ icon: metabase
 backgroundColor: "#5ea4e3"
 customFlags: []
 contexts:
-  - id: metabase-0.41
-    label: Metabase 0.41
+  - id: metabase-0.38
+    label: Metabase 0.38
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -22,4 +22,4 @@ contexts:
     volumes: ["/metabase-data"]
     dockerInfo:
       image: saagie/metabase
-      version: 0.41.2
+      version: 0.38.4
