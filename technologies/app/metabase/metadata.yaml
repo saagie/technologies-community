@@ -9,8 +9,8 @@ icon: metabase
 backgroundColor: "#5ea4e3"
 customFlags: []
 contexts:
-  - id: metabase-0.38
-    label: Metabase 0.38
+  - id: metabase-0.41
+    label: Metabase 0.41
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -22,4 +22,4 @@ contexts:
     volumes: ["/metabase-data"]
     dockerInfo:
       image: saagie/metabase
-      version: 0.38.4
+      version: 0.41.2
