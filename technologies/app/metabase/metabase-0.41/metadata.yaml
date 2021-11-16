@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: metabase-0.41
+label: Metabase 0.41
+baseline: "The fastest, easiest way to share data and analytics inside your company"
+description: "The fastest, easiest way to share data and analytics inside your company"
+available: true
+icon: metabase
+backgroundColor: "#5ea4e3"
+customFlags: []
+contexts:
+  - id: metabase-0.41
+    label: Metabase 0.41
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: Metabase
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/metabase-data"]
+    dockerInfo:
+      image: saagie/metabase
+      version: 0.41.2
