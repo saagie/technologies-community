@@ -1,6 +1,6 @@
 # Saagie Monitoring Tool
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/saagie-monitoring-tool/0.1?label=v0.1%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/saagie-monitoring-tool/0.2?label=v0.2%20image%20size&style=for-the-badge)
 
 ## Description
 

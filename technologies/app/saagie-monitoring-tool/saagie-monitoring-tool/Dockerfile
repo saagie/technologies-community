@@ -1,11 +1,6 @@
 FROM grafana/grafana:8.2.4-ubuntu
 
 USER root
-
-RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app
-
-RUN apt-get update
-
 # Install Dependencies
 RUN apt-get update \
   && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java postgresql postgresql-contrib \
@@ -36,6 +31,7 @@ ENV HADOOP_CONF_DIR=/hadoop/hadoop-2.6.5/etc/hadoop
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/hadoop/hadoop-2.6.5/lib/native:/usr/lib/jvm/java-11-openjdk-amd64/lib"
 ENV CLASSPATH="/etc/hadoop/conf:/hadoop/hadoop-2.6.5/share/hadoop/common/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/common/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/*"
 ENV PATH "/hadoop/hadoop-2.6.5/bin:${PATH}"
+ENV CRON_DAYS=1
 
 # Configure PostgreSQL
 # check for default search text language (now english, swithc to french?)
@@ -50,7 +46,8 @@ RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data
 
 USER root
 RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
-ENV CRON_DAYS=1
+
+RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app
 
 ADD infra.sql infra.sql
 ADD server.conf /etc/nginx/sites-enabled/grafana.conf
