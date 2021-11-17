@@ -1,4 +1,4 @@
-FROM grafana/grafana:8.0.6-ubuntu
+FROM grafana/grafana:8.2.4-ubuntu
 
 USER root
 
@@ -8,17 +8,17 @@ RUN apt-get update
 
 # Install Dependencies
 RUN apt-get update \
-  && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java \
+  && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java postgresql postgresql-contrib \
   && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get update \
-  && apt-get install -y python3.7 pip \
+  && apt-get install -y python3.9 pip \
   && rm /etc/nginx/sites-enabled/default
+
+ADD code/requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
 
 # Fix certificate issues
 RUN update-ca-certificates -f;
-
-COPY server.conf /etc/nginx/sites-enabled/grafana.conf
-COPY grafana.ini /etc/grafana/grafana.ini
 
 # Hadoop command-line
 RUN cd / \
@@ -37,25 +37,24 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/hadoop/hadoop-2.6.5/lib/native:/usr/lib
 ENV CLASSPATH="/etc/hadoop/conf:/hadoop/hadoop-2.6.5/share/hadoop/common/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/common/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/*"
 ENV PATH "/hadoop/hadoop-2.6.5/bin:${PATH}"
 
-# Install PostgreSQL
+# Configure PostgreSQL
 # check for default search text language (now english, swithc to french?)
-RUN apt-get update \
-  && apt-get install -y postgresql postgresql-contrib \
-  && chown postgres:postgres /run/postgresql/ \
+RUN chown postgres:postgres /run/postgresql/ \
   && chmod 777 /run/postgresql \
   && mkdir /var/lib/postgresql/data \
   && chown postgres:postgres /var/lib/postgresql/data \
   && chmod 777 /var/lib/postgresql/data
-  #&& apt-get clean \
-  #&& rm -rf /var/lib/apt/lists/ 
-
-ENV CRON_DAYS=1
 
 USER postgres
 RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data
 
 USER root
-COPY infra.sql infra.sql
+RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
+ENV CRON_DAYS=1
+
+ADD infra.sql infra.sql
+ADD server.conf /etc/nginx/sites-enabled/grafana.conf
+ADD grafana.ini /etc/grafana/grafana.ini
 
 ADD grafana/provisioning /etc/grafana/provisioning
 ADD grafana/dashboards /var/lib/grafana/dashboards
@@ -63,9 +62,7 @@ ADD grafana/dashboards /var/lib/grafana/dashboards
 ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
 
-RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
 ADD code /app
-RUN pip install -r /app/requirements.txt
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh
