@@ -126,33 +126,33 @@ def supervision_saagie_to_pg(project_id, project_name, orchestration_type, orche
     now = datetime.now()
     connection = None
     cursor = None
-    #try:
-    connection = connect_to_pg()
-    connection.autocommit = True
-    cursor = connection.cursor()
-    logging.debug('''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
-        orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
-        instance_saagie_url)
-        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''' % (SUPERVISION_SAAGIE_PG_TABLE, now, project_id, project_name, orchestration_type, orchestration_id,
-            orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
-            instance_duration,
-            instance_saagie_url))
-    cursor.execute(
-        '''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
-        orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
-        instance_saagie_url)
-        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
-        (AsIs(SUPERVISION_SAAGIE_PG_TABLE), now, project_id, project_name, orchestration_type, orchestration_id,
-            orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
-            instance_duration,
-            instance_saagie_url))
-
-    #except:
-    #    logging.error("Unable to connect to Postgres")
-    #finally:
-    #    if connection:
-    cursor.close()
-    connection.close()
+    try:
+        connection = connect_to_pg()
+        connection.autocommit = True
+        cursor = connection.cursor()
+        logging.debug('''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
+            orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
+            instance_saagie_url)
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''' % (
+        SUPERVISION_SAAGIE_PG_TABLE, now, project_id, project_name, orchestration_type, orchestration_id,
+        orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
+        instance_duration,
+        instance_saagie_url))
+        cursor.execute(
+            '''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
+            orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
+            instance_saagie_url)
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
+            (AsIs(SUPERVISION_SAAGIE_PG_TABLE), now, project_id, project_name, orchestration_type, orchestration_id,
+             orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
+             instance_duration,
+             instance_saagie_url))
+    except:
+        logging.error("Unable to connect to Postgres")
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
 
 
 def supervision_saagie_jobs_to_pg(project_id, project_name, orchestration_type, orchestration_id, orchestration_name,

@@ -7,10 +7,9 @@ RUN apt-get update \
   && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get update \
   && apt-get install -y python3.9 pip \
-  && rm /etc/nginx/sites-enabled/default
-
-ADD code/requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt
+  && rm /etc/nginx/sites-enabled/default \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Fix certificate issues
 RUN update-ca-certificates -f;
@@ -25,6 +24,14 @@ RUN cd / \
     && rm -rf hadoop-2.6.5/etc/hadoop \
     && ln -s /etc/hadoop/conf hadoop-2.6.5/etc/hadoop;
 
+# Python dependencies
+ADD code/requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt \
+    && rm -rf /root/.cachex \
+    && rm -rf /boot/.cache/pip \
+    && rm -rf ~/.cache/pip
+
+# Environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 ENV HADOOP_HOME=/hadoop/hadoop-2.6.5
 ENV HADOOP_CONF_DIR=/hadoop/hadoop-2.6.5/etc/hadoop
@@ -34,22 +41,12 @@ ENV PATH "/hadoop/hadoop-2.6.5/bin:${PATH}"
 ENV CRON_DAYS=1
 
 # Configure PostgreSQL
-# check for default search text language (now english, swithc to french?)
 RUN chown postgres:postgres /run/postgresql/ \
-  && chmod 777 /run/postgresql \
-  && mkdir /var/lib/postgresql/data \
-  && chown postgres:postgres /var/lib/postgresql/data \
-  && chmod 777 /var/lib/postgresql/data
+  && chmod 777 /run/postgresql
 
-USER postgres
-RUN /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/data
-
-USER root
-RUN echo "export PATH=$PATH:/usr/lib/postgresql/12/bin" >> /etc/profile && . /etc/profile
-
+## Configure Grafana
 RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app
 
-ADD infra.sql infra.sql
 ADD server.conf /etc/nginx/sites-enabled/grafana.conf
 ADD grafana.ini /etc/grafana/grafana.ini
 
@@ -60,6 +57,7 @@ ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
 
 ADD code /app
+ADD infra.sql infra.sql
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh

@@ -5,7 +5,6 @@ import sys
 import os
 import pyarrow as pa
 
-
 monitoring_type = os.environ["MONITORING_OPT"]
 
 
@@ -105,10 +104,10 @@ def main():
         logging.info("Get saagie metrics")
         get_saagie_metrics()
     elif monitoring_type == "SAAGIE_AND_DATALAKE":
-        logging.info("Get datalake metrics starting")
-        get_datalake_metrics()
         logging.info("Get saagie metrics")
         get_saagie_metrics()
+        logging.info("Get datalake metrics starting")
+        get_datalake_metrics()
     else:
         logging.error("MONITORING_OPT wrong or missing, correct options are : 'SAAGIE' or 'SAAGIE_AND_DATALAKE'")
         sys.exit(1)

@@ -5,8 +5,8 @@ label: Saagie Monitoring Tool
 baseline: "Saagie Monitoring Tool let you monitor your Saagie platform"
 description: "Saagie Monitoring Tool let you monitor your Saagie platform including job, app and pipeline stats"
 available: true
-icon: grafana
-backgroundColor: "#45b39d"
+icon: project-activity
+backgroundColor: "#253c5b"
 customFlags: []
 contexts:
   - id: saagie-monitoring-tool
@@ -19,7 +19,7 @@ contexts:
         name: saagie-monitoring-tool
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
-    volumes: ["/opt/grafana", "/opt/plugins"]
+    volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
       image: saagie/saagie-monitoring-tool
-      version: 0.2
+      version: 0.9
