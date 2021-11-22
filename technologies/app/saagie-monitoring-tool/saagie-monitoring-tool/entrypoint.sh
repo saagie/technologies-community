@@ -8,7 +8,6 @@ if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z 
   echo "- SAAGIE_REALM"
   echo "- SAAGIE_PLATFORM_ID"
   echo "- MONITORING_OPT"
-  echo "- IP_HDFS"
   exit 1
 fi
 
