@@ -51,6 +51,10 @@ def get_job_instances(project_id):
     jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
                                        id
                                        name
+                                       category
+                                       countJobInstance
+                                       creationDate
+                                       technology {{label}}
                                        instances {{
                                          id
                                          startTime
@@ -80,19 +84,6 @@ def get_pipelines(project_id):
                                        }}}}"""
     pipelines = utils.call_api(pipelines_query)
     return pipelines['pipelines']
-
-
-def get_jobs(project_id):
-    jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
-                                       id
-                                       name
-                                       category
-                                       countJobInstance
-                                       creationDate
-                                       technology {{label}}
-                                       }}}}"""
-    jobs = utils.call_api(jobs_query)
-    return jobs['jobs']
 
 
 def get_webapps(project_id):
