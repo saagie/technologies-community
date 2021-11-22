@@ -95,8 +95,8 @@ def truncate_supervision_saagie_pg():
         cursor = connection.cursor()
         cursor.execute(f'TRUNCATE TABLE {SUPERVISION_SAAGIE_PG_TABLE}')
         cursor.execute(f'TRUNCATE TABLE {SUPERVISION_SAAGIE_JOBS_PG_TABLE}')
-    except:
-        logging.error("Unable to connect to Postgres")
+    except Exception as e:
+        print(e)
     finally:
         if connection:
             cursor.close()
@@ -134,10 +134,10 @@ def supervision_saagie_to_pg(project_id, project_name, orchestration_type, orche
             orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
             instance_saagie_url)
             VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''' % (
-        SUPERVISION_SAAGIE_PG_TABLE, now, project_id, project_name, orchestration_type, orchestration_id,
-        orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
-        instance_duration,
-        instance_saagie_url))
+            SUPERVISION_SAAGIE_PG_TABLE, now, project_id, project_name, orchestration_type, orchestration_id,
+            orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
+            instance_duration,
+            instance_saagie_url))
         cursor.execute(
             '''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
             orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
@@ -147,8 +147,8 @@ def supervision_saagie_to_pg(project_id, project_name, orchestration_type, orche
              orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
              instance_duration,
              instance_saagie_url))
-    except:
-        logging.error("Unable to connect to Postgres")
+    except Exception as e:
+        print(e)
     finally:
         if connection:
             cursor.close()
@@ -186,8 +186,8 @@ def supervision_saagie_jobs_to_pg(project_id, project_name, orchestration_type, 
             (AsIs(SUPERVISION_SAAGIE_JOBS_PG_TABLE), project_id, project_name, orchestration_type, orchestration_id,
              orchestration_name, orchestration_category, creation_date, instance_count, technology))
 
-    except:
-        logging.error("Unable to connect to Postgres")
+    except Exception as e:
+        print(e)
     finally:
         if connection:
             cursor.close()
@@ -217,8 +217,8 @@ def supervision_saagie_jobs_snapshot_to_pg(project_id, project_name, job_count):
             UPDATE
             SET job_count = EXCLUDED.job_count''',
             (AsIs(SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE), project_id, project_name, today, job_count))
-    except:
-        logging.error("Unable to connect to Postgres")
+    except Exception as e:
+        print(e)
     finally:
         if connection:
             cursor.close()
@@ -240,8 +240,6 @@ def supervision_datalake_to_pg(supervision_label, supervision_value):
         connection = connect_to_pg()
         connection.autocommit = True
         cursor = connection.cursor()
-        logging.debug("Starting execute request supervision_datalake_to_pg")
-        logging.debug(f"Values : {today}, {supervision_label}, {supervision_value}")
         cursor.execute(
             '''INSERT INTO %s (supervision_date, supervision_label, supervision_value)
             VALUES(%s,%s,%s)
@@ -250,9 +248,8 @@ def supervision_datalake_to_pg(supervision_label, supervision_value):
             UPDATE
             SET (supervision_label, supervision_value) = (EXCLUDED.supervision_label, EXCLUDED.supervision_value)''',
             (AsIs(SUPERVISION_DATALAKE_PG_TABLE), today, supervision_label, supervision_value))
-        logging.debug("Ending execute request supervision_datalake_to_pg")
-    except:
-        logging.error("Unable to connect to Postgres")
+    except Exception as e:
+        print(e)
     finally:
         if connection:
             cursor.close()
