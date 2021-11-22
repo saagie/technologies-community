@@ -50,7 +50,7 @@ fi
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/grafana/grafana.ini
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/grafana.conf
 
-echo "0 0 */$CRON_DAYS * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
+echo "0 * * * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
 && crontab mycron \
 && rm mycron \
 && service cron start
