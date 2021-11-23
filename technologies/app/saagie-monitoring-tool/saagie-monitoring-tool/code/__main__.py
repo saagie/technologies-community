@@ -43,9 +43,11 @@ def get_saagie_jobs_metrics():
     project_list = api.get_projects()
 
     for project in project_list:
-        project_name = api.get_project_name(project["id"])["name"]
-        logging.debug(f"Getting metrics for project {project_name}")
+        logging.debug(f"Getting metrics for project {project['name']}")
+
         job_list = api.get_job_instances(project["id"])
+        app_list = api.get_webapps(project["id"])
+        pipeline_list = api.get_pipelines(project["id"])
 
         all_jobs = [{
             'project_id': project["id"],
@@ -60,7 +62,6 @@ def get_saagie_jobs_metrics():
         } for job in job_list]
         utils.supervision_saagie_jobs_to_pg(all_jobs)
 
-        app_list = api.get_webapps(project["id"])
         all_apps = [{
             'project_id': project["id"],
             'project_name': project["name"],
@@ -76,9 +77,10 @@ def get_saagie_jobs_metrics():
         utils.supervision_saagie_jobs_to_pg(all_apps)
 
         for job in job_list:
-            log_instance_metrics(job["instances"], job, "job", project["id"], project_name)
-        for pipeline in api.get_pipelines(project["id"]):
-            log_instance_metrics(pipeline["instances"], pipeline, "pipeline", project["id"], project_name)
+            log_instance_metrics(job["instances"], job, "job", project["id"], project['name'])
+
+        for pipeline in pipeline_list:
+            log_instance_metrics(pipeline["instances"], pipeline, "pipeline", project["id"], project['name'])
 
         utils.supervision_saagie_jobs_snapshot_to_pg(project["id"], project["name"], len(job_list) + len(app_list))
 
@@ -110,23 +112,24 @@ def log_instance_metrics(instances, job_or_pipeline, orchestration_type, project
     :return:
     """
     now = datetime.now()
-    all_instances = [{
-        'supervision_timestamp': now,
-        'project_id': project_id,
-        'project_name': project_name,
-        'orchestration_type': orchestration_type,
-        'orchestration_id': job_or_pipeline["id"],
-        'orchestration_name': job_or_pipeline["name"],
-        'instance_id': instance["id"],
-        'instance_start_time': instance["startTime"],
-        'instance_end_time': instance["endTime"],
-        'instance_status': instance["status"],
-        'instance_duration': get_instance_duration(instance["startTime"], instance["endTime"]),
-        'instance_saagie_url': utils.build_saagie_url(project_id, orchestration_type, job_or_pipeline["id"],
-                                                      instance["id"])
-    } for instance in instances]
+    if instances:
+        all_instances = [{
+            'supervision_timestamp': now,
+            'project_id': project_id,
+            'project_name': project_name,
+            'orchestration_type': orchestration_type,
+            'orchestration_id': job_or_pipeline["id"],
+            'orchestration_name': job_or_pipeline["name"],
+            'instance_id': instance["id"],
+            'instance_start_time': instance["startTime"],
+            'instance_end_time': instance["endTime"],
+            'instance_status': instance["status"],
+            'instance_duration': get_instance_duration(instance["startTime"], instance["endTime"]),
+            'instance_saagie_url': utils.build_saagie_url(project_id, orchestration_type, job_or_pipeline["id"],
+                                                          instance["id"])
+        } for instance in instances]
 
-    utils.supervision_saagie_to_pg(all_instances)
+        utils.supervision_saagie_to_pg(all_instances)
 
 
 def main():

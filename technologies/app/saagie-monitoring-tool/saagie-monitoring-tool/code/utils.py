@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 import requests
 import urllib3
@@ -90,7 +91,7 @@ def truncate_supervision_saagie_pg():
         cursor.execute('TRUNCATE TABLE supervision_saagie')
         cursor.execute('TRUNCATE TABLE supervision_saagie_jobs')
     except Exception as e:
-        print(e)
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -141,7 +142,7 @@ def supervision_saagie_to_pg(instances):
             """, instances)
 
     except Exception as e:
-        print(e)
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -185,7 +186,7 @@ def supervision_saagie_jobs_to_pg(jobs_or_apps):
                );
                """, jobs_or_apps)
     except Exception as e:
-        print(e)
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -216,7 +217,7 @@ def supervision_saagie_jobs_snapshot_to_pg(project_id, project_name, job_count):
             SET job_count = EXCLUDED.job_count''',
             (project_id, project_name, today, job_count))
     except Exception as e:
-        print(e)
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -247,7 +248,7 @@ def supervision_datalake_to_pg(supervision_label, supervision_value):
             SET (supervision_label, supervision_value) = (EXCLUDED.supervision_label, EXCLUDED.supervision_value)''',
             (today, supervision_label, supervision_value))
     except Exception as e:
-        print(e)
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -263,28 +264,6 @@ class BearerAuth(requests.auth.AuthBase):
         return r
 
 
-def call_api(query):
-    """
-    Generic function to submit graphgql queries to Saagie API
-    :param query: GraphQL query to submit
-    :return: the API response decoded in JSON
-    """
-    attempts = 0
-    response = {}
-    while attempts < 3:
-        try:
-            data = requests.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
-                                 auth=BearerAuth(), json={"query": query},
-                                 verify=False).content.decode("utf-8")
-            response = json.loads(
-                data)['data']
-
-            break
-        except JSONDecodeError:
-            attempts += 1
-    return response
-
-
 def authenticate():
     """
    Function to authenticate to Saagie given credentials in environment variables
@@ -296,3 +275,27 @@ def authenticate():
     r = s.post(saagie_url + '/authentication/api/open/authenticate',
                json={'login': saagie_login, 'password': saagie_password})
     return r.text
+
+
+auth = BearerAuth()
+
+
+def call_api(query):
+    """
+    Generic function to submit graphgql queries to Saagie API
+    :param query: GraphQL query to submit
+    :return: the API response decoded in JSON
+    """
+    attempts = 0
+    response = {}
+    while attempts < 3:
+        try:
+            data = requests.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
+                                 auth=auth, json={"query": query},
+                                 verify=False).content.decode("utf-8")
+            response = json.loads(
+                data)['data']
+            break
+        except JSONDecodeError:
+            attempts += 1
+    return response
