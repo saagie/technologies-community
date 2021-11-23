@@ -25,7 +25,7 @@ def get_datalake_metrics():
 
 def get_saagie_metrics():
     """
-    Fetch Metrics Saagie API about Jobs and instances and save it to PostgreSQL in the supervision Database
+    Truncate existing metrics and fetch Metrics Saagie API about Jobs and instances and save it to PostgreSQL in the supervision Database
     :return:
     """
     logging.debug("truncate_supervision_saagie_pg starting")
@@ -56,7 +56,7 @@ def get_saagie_jobs_metrics():
             'orchestration_category': job["category"],
             'creation_date': job["creationDate"],
             'instance_count': job["countJobInstance"],
-            'technology': job["technology"]["label"] if job["technology"] != None else None
+            'technology': job["technology"]["label"] if job["technology"] is not None else None
         } for job in job_list]
         utils.supervision_saagie_jobs_to_pg(all_jobs)
 
@@ -70,7 +70,7 @@ def get_saagie_jobs_metrics():
             'orchestration_category': "WebApp",
             'creation_date': app["creationDate"],
             'instance_count': app["countJobInstance"],
-            'technology': app["technology"]["label"] if app["technology"] != None else None
+            'technology': app["technology"]["label"] if app["technology"] is not None else None
         } for app in app_list]
 
         utils.supervision_saagie_jobs_to_pg(all_apps)
@@ -136,15 +136,17 @@ def main():
     elif monitoring_type == "SAAGIE_AND_DATALAKE":
         logging.info("Get saagie metrics")
         get_saagie_metrics()
-        logging.info("Get datalake metrics starting")
+        logging.info("Get datalake metrics")
         get_datalake_metrics()
     else:
         logging.error("MONITORING_OPT wrong or missing, correct options are : 'SAAGIE' or 'SAAGIE_AND_DATALAKE'")
         sys.exit(1)
+    logging.info("Metrics successfully gathered")
 
 
 if __name__ == "__main__":
-    logger = logging.getLogger("saagie-monitoring-tool")
     logging.getLogger("pyarrow").setLevel(logging.ERROR)
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s", datefmt="%d/%m/%Y %H:%M:%S")
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s [%(levelname)s] %(message)s",
+                        datefmt="%d/%m/%Y %H:%M:%S")
     main()

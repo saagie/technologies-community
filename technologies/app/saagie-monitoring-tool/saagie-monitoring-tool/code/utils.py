@@ -3,7 +3,6 @@ import requests
 import urllib3
 import psycopg2
 import psycopg2.extras
-from psycopg2.extensions import AsIs
 import json
 from json import JSONDecodeError
 import os
@@ -12,11 +11,6 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 ALTERNATIVE_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
-
-SUPERVISION_SAAGIE_PG_TABLE = "supervision_saagie"
-SUPERVISION_SAAGIE_JOBS_PG_TABLE = "supervision_saagie_jobs"
-SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE = "supervision_saagie_jobs_snapshot"
-SUPERVISION_DATALAKE_PG_TABLE = "supervision_datalake"
 
 postgre_db = "supervision_pg_db"
 postgre_user = "supervision_pg_user"
@@ -93,8 +87,8 @@ def truncate_supervision_saagie_pg():
         connection = connect_to_pg()
         connection.autocommit = True
         cursor = connection.cursor()
-        cursor.execute(f'TRUNCATE TABLE {SUPERVISION_SAAGIE_PG_TABLE}')
-        cursor.execute(f'TRUNCATE TABLE {SUPERVISION_SAAGIE_JOBS_PG_TABLE}')
+        cursor.execute('TRUNCATE TABLE supervision_saagie')
+        cursor.execute('TRUNCATE TABLE supervision_saagie_jobs')
     except Exception as e:
         print(e)
     finally:
@@ -214,13 +208,13 @@ def supervision_saagie_jobs_snapshot_to_pg(project_id, project_name, job_count):
         connection.autocommit = True
         cursor = connection.cursor()
         cursor.execute(
-            '''INSERT INTO %s (project_id, project_name, snapshot_date, job_count)
+            '''INSERT INTO supervision_saagie_jobs_snapshot (project_id, project_name, snapshot_date, job_count)
             VALUES(%s,%s,%s,%s)
             ON CONFLICT ON CONSTRAINT supervision_saagie_jobs_snapshot_pkey
             DO
             UPDATE
             SET job_count = EXCLUDED.job_count''',
-            (AsIs(SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE), project_id, project_name, today, job_count))
+            (project_id, project_name, today, job_count))
     except Exception as e:
         print(e)
     finally:
@@ -245,13 +239,13 @@ def supervision_datalake_to_pg(supervision_label, supervision_value):
         connection.autocommit = True
         cursor = connection.cursor()
         cursor.execute(
-            '''INSERT INTO %s (supervision_date, supervision_label, supervision_value)
+            '''INSERT INTO supervision_datalake (supervision_date, supervision_label, supervision_value)
             VALUES(%s,%s,%s)
             ON CONFLICT ON CONSTRAINT supervision_datalake_pkey
             DO
             UPDATE
             SET (supervision_label, supervision_value) = (EXCLUDED.supervision_label, EXCLUDED.supervision_value)''',
-            (AsIs(SUPERVISION_DATALAKE_PG_TABLE), today, supervision_label, supervision_value))
+            (today, supervision_label, supervision_value))
     except Exception as e:
         print(e)
     finally:
