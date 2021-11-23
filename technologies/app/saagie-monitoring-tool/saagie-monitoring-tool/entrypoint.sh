@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z ${SAAGIE_URL} || -z ${SAAGIE_REALM} || -z {$SAAGIE_PLATFORM_ID} || -z ${MONITORING_OPT} || -z ${IP_HDFS} ]]; then
+if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z ${SAAGIE_URL} || -z ${SAAGIE_REALM} || -z {$SAAGIE_PLATFORM_ID} || -z ${MONITORING_OPT} ]]; then
   echo "ERROR : Missing environment variables. In order to work, this app needs the following environment variables set : "
   echo "- SAAGIE_SUPERVISION_LOGIN"
   echo "- SAAGIE_SUPERVISION_PASSWORD"
@@ -8,7 +8,6 @@ if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z 
   echo "- SAAGIE_REALM"
   echo "- SAAGIE_PLATFORM_ID"
   echo "- MONITORING_OPT"
-  echo "- IP_HDFS"
   exit 1
 fi
 
@@ -50,7 +49,7 @@ fi
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/grafana/grafana.ini
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/grafana.conf
 
-echo "0 0 */$CRON_DAYS * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
+echo "0 * * * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
 && crontab mycron \
 && rm mycron \
 && service cron start
