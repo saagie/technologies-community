@@ -287,15 +287,18 @@ def call_api(query):
     :return: the API response decoded in JSON
     """
     attempts = 0
-    response = {}
+    data = {}
     while attempts < 3:
         try:
-            data = requests.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
-                                 auth=auth, json={"query": query},
-                                 verify=False).content.decode("utf-8")
-            response = json.loads(
-                data)['data']
+            response = requests.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
+                                     auth=auth, json={"query": query},
+                                     verify=False)
+            data = json.loads(response.content.decode("utf-8"))['data']
             break
         except JSONDecodeError:
             attempts += 1
-    return response
+    if data:
+        return data
+    else:
+        logging.error(f"Saagie API replied with status code {response.status_code} for the following query : \n {query}")
+        return None
