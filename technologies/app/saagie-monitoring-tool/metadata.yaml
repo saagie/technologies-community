@@ -22,4 +22,4 @@ contexts:
     volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
       image: saagie/saagie-monitoring-tool
-      version: 0.13
+      version: 0.15

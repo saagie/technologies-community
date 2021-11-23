@@ -29,19 +29,6 @@ def get_projects():
     return projects['projects']
 
 
-def get_project_name(project_id):
-    """
-    Call Saagie graphql API to get the name of the Saagie project for a given project id
-    :param project_id: Saagie Project ID
-    :return: a JSON containing the project name
-    """
-    project_query = f"""{{ project(id: \"{project_id}\" ) {{
-                                       name
-                                       }}}}"""
-    project = utils.call_api(project_query)
-    return project['project']
-
-
 def get_job_instances(project_id):
     """
     Call Saagie graphql API to get the jobs of a Saagie project for a given project id

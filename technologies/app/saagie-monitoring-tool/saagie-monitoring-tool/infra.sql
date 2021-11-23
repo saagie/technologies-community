@@ -1,4 +1,4 @@
-CREATE TABLE supervision_saagie
+create TABLE supervision_saagie
   (
      supervision_timestamp TIMESTAMP,
      project_id            VARCHAR(60),
@@ -12,23 +12,24 @@ CREATE TABLE supervision_saagie
      instance_status       VARCHAR(30),
      instance_duration     BIGINT,
      instance_saagie_url   VARCHAR(200),
-     PRIMARY KEY (project_id, instance_id)
+     PRIMARY KEY (project_id,orchestration_id, instance_id)
   );
 
-CREATE TABLE supervision_saagie_jobs
+create TABLE supervision_saagie_jobs
   (
      project_id             VARCHAR(60),
      project_name           VARCHAR(60),
      creation_date          TIMESTAMP,
      orchestration_type     VARCHAR(10),
      orchestration_category VARCHAR(60),
-     orchestration_id       VARCHAR(60) PRIMARY KEY,
+     orchestration_id       VARCHAR(60),
      orchestration_name     VARCHAR(60),
      instance_count         INT,
-     technology             VARCHAR(60)
+     technology             VARCHAR(60),
+     PRIMARY KEY (project_id, orchestration_id)
   );
 
-CREATE TABLE supervision_saagie_jobs_snapshot
+create TABLE supervision_saagie_jobs_snapshot
   (
      project_id    VARCHAR(60),
      project_name  VARCHAR(60),
@@ -37,7 +38,7 @@ CREATE TABLE supervision_saagie_jobs_snapshot
      PRIMARY KEY (snapshot_date, project_id)
   );
 
-CREATE TABLE supervision_datalake
+create TABLE supervision_datalake
   (
      supervision_date  DATE,
      supervision_label VARCHAR(60),
