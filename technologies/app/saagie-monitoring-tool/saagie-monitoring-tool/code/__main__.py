@@ -46,8 +46,10 @@ def get_saagie_jobs_metrics():
         logging.debug(f"Getting metrics for project {project['name']}")
 
         job_list = api.get_job_instances(project["id"])
-        app_list = api.get_webapps(project["id"])
-        pipeline_list = api.get_pipelines(project["id"])
+        apps_and_pipelines = api.get_apps_and_pipelines(project["id"])
+
+        app_list = apps_and_pipelines["apps"] if apps_and_pipelines else []
+        pipeline_list = apps_and_pipelines["pipelines"] if apps_and_pipelines else []
 
         all_jobs = [{
             'project_id': project["id"],

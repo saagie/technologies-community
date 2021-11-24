@@ -38,7 +38,6 @@ ENV HADOOP_CONF_DIR=/hadoop/hadoop-2.6.5/etc/hadoop
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/hadoop/hadoop-2.6.5/lib/native:/usr/lib/jvm/java-11-openjdk-amd64/lib"
 ENV CLASSPATH="/etc/hadoop/conf:/hadoop/hadoop-2.6.5/share/hadoop/common/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/common/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/hdfs/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/yarn/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/lib/*:/hadoop/hadoop-2.6.5/share/hadoop/mapreduce/*"
 ENV PATH "/hadoop/hadoop-2.6.5/bin:${PATH}"
-ENV CRON_DAYS=1
 
 # Configure PostgreSQL
 RUN chown postgres:postgres /run/postgresql/ \
