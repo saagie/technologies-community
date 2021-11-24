@@ -1,4 +1,5 @@
 import logging
+import time
 from datetime import datetime
 import requests
 import urllib3
@@ -296,9 +297,11 @@ def call_api(query):
             data = json.loads(response.content.decode("utf-8"))['data']
             break
         except JSONDecodeError:
+            logging.error(
+                f"Saagie API replied with status code {response.status_code}")
             attempts += 1
+            time.sleep(attempts * 10)
     if data:
         return data
     else:
-        logging.error(f"Saagie API replied with status code {response.status_code} for the following query : \n {query}")
         return None
