@@ -62,7 +62,7 @@ def get_pipelines(project_id):
     pipelines_query = f"""{{ pipelines(projectId: \"{project_id}\" ) {{
                                        id
                                        name
-                                       instances {{
+                                       instances (limit : 1000) {{
                                          id
                                          startTime
                                          endTime
