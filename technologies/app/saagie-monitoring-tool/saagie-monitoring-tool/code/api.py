@@ -42,7 +42,7 @@ def get_job_instances(project_id):
                                        countJobInstance
                                        creationDate
                                        technology {{label}}
-                                       instances {{
+                                       instances (limit : 1000) {{
                                          id
                                          startTime
                                          endTime
@@ -69,7 +69,7 @@ def get_apps_and_pipelines(project_id):
                                      pipelines {{
                                         id
                                         name
-                                        instances {{
+                                        instances (limit : 1000) {{
                                             id
                                             startTime
                                             endTime
