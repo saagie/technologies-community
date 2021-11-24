@@ -46,10 +46,8 @@ def get_saagie_jobs_metrics():
         logging.debug(f"Getting metrics for project {project['name']}")
 
         job_list = api.get_job_instances(project["id"])
-        apps_and_pipelines = api.get_apps_and_pipelines(project["id"])
-
-        app_list = apps_and_pipelines["apps"] if apps_and_pipelines else []
-        pipeline_list = apps_and_pipelines["pipelines"] if apps_and_pipelines else []
+        app_list = api.get_webapps(project["id"])
+        pipeline_list = api.get_pipelines(project["id"])
 
         all_jobs = [{
             'project_id': project["id"],
@@ -151,7 +149,7 @@ def main():
 
 if __name__ == "__main__":
     logging.getLogger("pyarrow").setLevel(logging.ERROR)
-    logging.basicConfig(level=logging.INFO,
+    logging.basicConfig(level=logging.DEBUG,
                         format="%(asctime)s [%(levelname)s] %(message)s",
                         datefmt="%d/%m/%Y %H:%M:%S")
     main()
