@@ -1,8 +1,8 @@
 version: "v1"
 type: JOB
 id: spark
-label: Spark for AWS (Hadoop 3.2)
-description: Spark 3.0.2 for AWS (S3 and Kinesis connectors) and for Hadoop 3.2
+label: Spark for AWS
+description: Spark for AWS (S3 and Kinesis connectors) 
 available: true
 icon: spark
 customFlags: [Spark]
@@ -96,3 +96,75 @@ contexts:
               image: saagie/spark
               baseTag: 3.0-aws-py-3.7
               version: 3.0-aws-py-3.7-0.11.2
+  - id: 3.2
+    label: 3.2
+    available: true
+    recommended: true
+    trustLevel: stable
+    dockerInfo:
+      image: saagie/spark
+      baseTag: 3.2
+      version: 3.2-aws-1.25.0
+    innerContexts:
+      - id: java-scala
+        label: Java/Scala
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --name app-name --class=Main {file} arg1 arg2
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .jar"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 11
+            label: 11
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.2-aws-jre-11
+              version: 3.2-aws-jre-11-1.25.0
+      - id: python
+        label: Python
+        available: true
+        trustLevel: stable
+        job:
+          features:
+            - type: COMMAND_LINE
+              label: Command line
+              mandatory: true
+              comment: Linux shell command to launch the job.
+              defaultValue: spark-submit --name app-name --py-files={file} local://__main__.py
+            - type: ARTIFACT
+              label: Package
+              mandatory: true
+              comment: "Compatible upload file : .py or .zip"
+            - type: SCHEDULER
+              label: Scheduled
+              mandatory: true
+        innerContexts:
+          - id: 3.8
+            label: 3.8
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.2-aws-py-3.8
+              version: 3.2-aws-py-3.8-1.25.0
+          - id: 3.9
+            label: 3.9
+            available: true
+            trustLevel: stable
+            dockerInfo:
+              image: saagie/spark
+              baseTag: 3.2-aws-py-3.9
+              version: 3.2-aws-py-3.9-1.25.0
