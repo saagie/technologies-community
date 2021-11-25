@@ -1,22 +1,18 @@
+import logging
+import time
 from datetime import datetime
 import requests
 import urllib3
 import psycopg2
-from psycopg2.extensions import AsIs
+import psycopg2.extras
 import json
 from json import JSONDecodeError
-import logging
 import os
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 ALTERNATIVE_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
-
-SUPERVISION_SAAGIE_PG_TABLE = "supervision_saagie"
-SUPERVISION_SAAGIE_JOBS_PG_TABLE = "supervision_saagie_jobs"
-SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE = "supervision_saagie_jobs_snapshot"
-SUPERVISION_DATALAKE_PG_TABLE = "supervision_datalake"
 
 postgre_db = "supervision_pg_db"
 postgre_user = "supervision_pg_user"
@@ -93,83 +89,71 @@ def truncate_supervision_saagie_pg():
         connection = connect_to_pg()
         connection.autocommit = True
         cursor = connection.cursor()
-        cursor.execute(f'TRUNCATE TABLE {SUPERVISION_SAAGIE_PG_TABLE}')
-        cursor.execute(f'TRUNCATE TABLE {SUPERVISION_SAAGIE_JOBS_PG_TABLE}')
-    except:
-        logging.error("Unable to connect to Postgres")
+        cursor.execute('TRUNCATE TABLE supervision_saagie')
+        cursor.execute('TRUNCATE TABLE supervision_saagie_jobs')
+    except Exception as e:
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
             connection.close()
 
 
-def supervision_saagie_to_pg(project_id, project_name, orchestration_type, orchestration_id, orchestration_name,
-                             instance_id, instance_start_time,
-                             instance_end_time,
-                             instance_status, instance_duration, instance_saagie_url):
+def supervision_saagie_to_pg(instances):
     """
     Log saagie metrics to PostgresSQL.
-    :param instance_duration: Duration of the instance
-    :param instance_status: Status of the instance
-    :param instance_end_time: End time of the instance
-    :param instance_start_time: Start time of the instance
-    :param instance_id: Saagie instance ID
-    :param orchestration_id:job or pipeline id
-    :param orchestration_name:job or pipeline name
-    :param orchestration_type: job or pipeline
-    :param instance_saagie_url: link on Saagie
-    :param project_name: Saagie project Name
-    :param project_id:Saagie project ID
+    :param instances: List of instances
     :return:
     """
-
-    now = datetime.now()
     connection = None
     cursor = None
     try:
         connection = connect_to_pg()
         connection.autocommit = True
         cursor = connection.cursor()
-        logging.debug('''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
-            orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
-            instance_saagie_url)
-            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''' % (
-        SUPERVISION_SAAGIE_PG_TABLE, now, project_id, project_name, orchestration_type, orchestration_id,
-        orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
-        instance_duration,
-        instance_saagie_url))
-        cursor.execute(
-            '''INSERT INTO %s (supervision_timestamp, project_id, project_name, orchestration_type, orchestration_id,
-            orchestration_name, instance_id, instance_start_time,instance_end_time,instance_status,instance_duration,
-            instance_saagie_url)
-            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
-            (AsIs(SUPERVISION_SAAGIE_PG_TABLE), now, project_id, project_name, orchestration_type, orchestration_id,
-             orchestration_name, instance_id, instance_start_time, instance_end_time, instance_status,
-             instance_duration,
-             instance_saagie_url))
-    except:
-        logging.error("Unable to connect to Postgres")
+
+        psycopg2.extras.execute_batch(cursor, """
+            INSERT INTO supervision_saagie (
+                supervision_timestamp, 
+                project_id, 
+                project_name, 
+                orchestration_type, 
+                orchestration_id,
+                orchestration_name, 
+                instance_id, 
+                instance_start_time,
+                instance_end_time,
+                instance_status,
+                instance_duration,
+                instance_saagie_url)
+            VALUES (
+                %(supervision_timestamp)s, 
+                %(project_id)s, 
+                %(project_name)s, 
+                %(orchestration_type)s, 
+                %(orchestration_id)s,
+                %(orchestration_name)s, 
+                %(instance_id)s, 
+                %(instance_start_time)s,
+                %(instance_end_time)s,
+                %(instance_status)s,
+                %(instance_duration)s,
+                %(instance_saagie_url)s
+            );
+            """, instances)
+
+    except Exception as e:
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
             connection.close()
 
 
-def supervision_saagie_jobs_to_pg(project_id, project_name, orchestration_type, orchestration_id, orchestration_name,
-                                  orchestration_category, creation_date,
-                                  instance_count,
-                                  technology):
+def supervision_saagie_jobs_to_pg(jobs_or_apps):
     """
     Log saagie jobs metrics to PostgresSQL.
-    :param orchestration_category: Saagie category (Extraction, Processing..)
-    :param creation_date: Creation date of the job or the app
-    :param instance_count: # of instances
-    :param technology: Technology of the jbo or the app
-    :param orchestration_id:job or app id
-    :param orchestration_name:job or app name
-    :param orchestration_type: job or app
-    :param project_name: Saagie project Name
-    :param project_id:Saagie project ID
+    :param jobs_or_apps: List of jobs or Apps
     :return:
     """
 
@@ -179,15 +163,31 @@ def supervision_saagie_jobs_to_pg(project_id, project_name, orchestration_type, 
         connection = connect_to_pg()
         connection.autocommit = True
         cursor = connection.cursor()
-        cursor.execute(
-            '''INSERT INTO %s (project_id, project_name, orchestration_type, orchestration_id,
-             orchestration_name, orchestration_category, creation_date, instance_count, technology)
-            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
-            (AsIs(SUPERVISION_SAAGIE_JOBS_PG_TABLE), project_id, project_name, orchestration_type, orchestration_id,
-             orchestration_name, orchestration_category, creation_date, instance_count, technology))
-
-    except:
-        logging.error("Unable to connect to Postgres")
+        psycopg2.extras.execute_batch(cursor, """
+               INSERT INTO supervision_saagie_jobs (
+                   project_id, 
+                   project_name, 
+                   orchestration_type, 
+                   orchestration_id, 
+                   orchestration_name,
+                   orchestration_category, 
+                   creation_date, 
+                   instance_count,
+                   technology)
+                   VALUES (
+                   %(project_id)s, 
+                   %(project_name)s, 
+                   %(orchestration_type)s, 
+                   %(orchestration_id)s, 
+                   %(orchestration_name)s,
+                   %(orchestration_category)s, 
+                   %(creation_date)s, 
+                   %(instance_count)s,
+                   %(technology)s
+               );
+               """, jobs_or_apps)
+    except Exception as e:
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -210,15 +210,15 @@ def supervision_saagie_jobs_snapshot_to_pg(project_id, project_name, job_count):
         connection.autocommit = True
         cursor = connection.cursor()
         cursor.execute(
-            '''INSERT INTO %s (project_id, project_name, snapshot_date, job_count)
+            '''INSERT INTO supervision_saagie_jobs_snapshot (project_id, project_name, snapshot_date, job_count)
             VALUES(%s,%s,%s,%s)
             ON CONFLICT ON CONSTRAINT supervision_saagie_jobs_snapshot_pkey
             DO
             UPDATE
             SET job_count = EXCLUDED.job_count''',
-            (AsIs(SUPERVISION_SAAGIE_JOBS_SNAPSHOT_PG_TABLE), project_id, project_name, today, job_count))
-    except:
-        logging.error("Unable to connect to Postgres")
+            (project_id, project_name, today, job_count))
+    except Exception as e:
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -240,19 +240,16 @@ def supervision_datalake_to_pg(supervision_label, supervision_value):
         connection = connect_to_pg()
         connection.autocommit = True
         cursor = connection.cursor()
-        logging.debug("Starting execute request supervision_datalake_to_pg")
-        logging.debug(f"Values : {today}, {supervision_label}, {supervision_value}")
         cursor.execute(
-            '''INSERT INTO %s (supervision_date, supervision_label, supervision_value)
+            '''INSERT INTO supervision_datalake (supervision_date, supervision_label, supervision_value)
             VALUES(%s,%s,%s)
             ON CONFLICT ON CONSTRAINT supervision_datalake_pkey
             DO
             UPDATE
             SET (supervision_label, supervision_value) = (EXCLUDED.supervision_label, EXCLUDED.supervision_value)''',
-            (AsIs(SUPERVISION_DATALAKE_PG_TABLE), today, supervision_label, supervision_value))
-        logging.debug("Ending execute request supervision_datalake_to_pg")
-    except:
-        logging.error("Unable to connect to Postgres")
+            (today, supervision_label, supervision_value))
+    except Exception as e:
+        logging.error(e)
     finally:
         if connection:
             cursor.close()
@@ -268,28 +265,6 @@ class BearerAuth(requests.auth.AuthBase):
         return r
 
 
-def call_api(query):
-    """
-    Generic function to submit graphgql queries to Saagie API
-    :param query: GraphQL query to submit
-    :return: the API response decoded in JSON
-    """
-    attempts = 0
-    response = {}
-    while attempts < 3:
-        try:
-            data = requests.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
-                                 auth=BearerAuth(), json={"query": query},
-                                 verify=False).content.decode("utf-8")
-            response = json.loads(
-                data)['data']
-
-            break
-        except JSONDecodeError:
-            attempts += 1
-    return response
-
-
 def authenticate():
     """
    Function to authenticate to Saagie given credentials in environment variables
@@ -301,3 +276,32 @@ def authenticate():
     r = s.post(saagie_url + '/authentication/api/open/authenticate',
                json={'login': saagie_login, 'password': saagie_password})
     return r.text
+
+
+auth = BearerAuth()
+
+
+def call_api(query):
+    """
+    Generic function to submit graphgql queries to Saagie API
+    :param query: GraphQL query to submit
+    :return: the API response decoded in JSON
+    """
+    attempts = 0
+    data = {}
+    while attempts < 3:
+        try:
+            response = requests.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
+                                     auth=auth, json={"query": query},
+                                     verify=False)
+            data = json.loads(response.content.decode("utf-8"))['data']
+            break
+        except JSONDecodeError:
+            logging.error(
+                f"Saagie API replied with status code {response.status_code}")
+            attempts += 1
+            time.sleep(attempts * 10)
+    if data:
+        return data
+    else:
+        return None

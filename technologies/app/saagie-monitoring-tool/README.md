@@ -30,7 +30,3 @@ Finally, you can choose the monitoring type and the frequency :
 - MONITORING_OPT : `SAAGIE` if you want to monitor only Saagie or `SAAGIE_AND_DATALAKE` if you want to monitor Saagie and HDFS
 - IP_HDFS (Required if MONITORING_OPT=`SAAGIE_AND_DATALAKE`) : Namenode IP
 - CRON_DAYS (Optional, default : `1`) : This application is based on script that will pull data from Saagie platform and HDFS. This option set the interval between two runs (i.e. : `1` for daily basis, `7` for weekly basis, etc.)
-
-## Known issues
-
-In case of restart, all data will be lost. Indeed, data are persisted yet.

@@ -26,20 +26,7 @@ def get_projects():
        """
     projects_query = "{projects {id name}}"
     projects = utils.call_api(projects_query)
-    return projects['projects']
-
-
-def get_project_name(project_id):
-    """
-    Call Saagie graphql API to get the name of the Saagie project for a given project id
-    :param project_id: Saagie Project ID
-    :return: a JSON containing the project name
-    """
-    project_query = f"""{{ project(id: \"{project_id}\" ) {{
-                                       name
-                                       }}}}"""
-    project = utils.call_api(project_query)
-    return project['project']
+    return projects['projects'] if projects else []
 
 
 def get_job_instances(project_id):
@@ -51,7 +38,11 @@ def get_job_instances(project_id):
     jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
                                        id
                                        name
-                                       instances {{
+                                       category
+                                       countJobInstance
+                                       creationDate
+                                       technology {{label}}
+                                       instances (limit : 1000) {{
                                          id
                                          startTime
                                          endTime
@@ -59,7 +50,7 @@ def get_job_instances(project_id):
                                        }}
                                        }}}}"""
     jobs = utils.call_api(jobs_query)
-    return jobs['jobs']
+    return jobs['jobs'] if jobs else []
 
 
 def get_pipelines(project_id):
@@ -71,7 +62,7 @@ def get_pipelines(project_id):
     pipelines_query = f"""{{ pipelines(projectId: \"{project_id}\" ) {{
                                        id
                                        name
-                                       instances {{
+                                       instances (limit : 1000) {{
                                          id
                                          startTime
                                          endTime
@@ -79,20 +70,7 @@ def get_pipelines(project_id):
                                        }}
                                        }}}}"""
     pipelines = utils.call_api(pipelines_query)
-    return pipelines['pipelines']
-
-
-def get_jobs(project_id):
-    jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
-                                       id
-                                       name
-                                       category
-                                       countJobInstance
-                                       creationDate
-                                       technology {{label}}
-                                       }}}}"""
-    jobs = utils.call_api(jobs_query)
-    return jobs['jobs']
+    return pipelines['pipelines'] if pipelines else []
 
 
 def get_webapps(project_id):
@@ -104,4 +82,4 @@ def get_webapps(project_id):
                                        technology {{label}}
                                        }}}}"""
     webapps = utils.call_api(jobs_query)
-    return webapps['labWebApps']
+    return webapps['labWebApps'] if webapps else []
