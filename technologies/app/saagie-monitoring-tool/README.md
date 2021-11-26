@@ -14,9 +14,9 @@ docker build -t saagie/saagie-monitoring-tool:<version> .
 docker push saagie/saagie-monitoring-tool:<version>
 ```
 
-## Job/App specific information
+## How to launch it
 
-To make to work, you need to create a user with viewer rights on all projects at least and then set the following environment variables in Saagie :
+To deploy Saagie Monitoring Tool on your platform, you need to create a user with viewer rights on all projects at least and then set the following environment variables in Saagie :
 
 - SAAGIE_SUPERVISION_LOGIN : Application user's username
 - SAAGIE_SUPERVISION_PASSWORD : Application user's password
