@@ -1,0 +1,6 @@
+id: 3.2
+label: 3.2
+description: Spark 3.2 for AWS (S3 connector)
+available: true
+recommended: true
+trustLevel: stable
