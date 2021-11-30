@@ -22,6 +22,8 @@ saagie_url = os.environ["SAAGIE_URL"]
 saagie_realm = os.environ["SAAGIE_REALM"]
 saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
 
+# Workaround for platforms with too many instances
+MAX_INSTANCES_FETCHED = os.environ.get("SMT_MAX_INSTANCES_FETCHED", 1000)
 
 
 class BearerAuth(requests.auth.AuthBase):
@@ -100,7 +102,7 @@ class ApiUtils(object):
                                            countJobInstance
                                            creationDate
                                            technology {{label}}
-                                           instances (limit : 100) {{
+                                           instances (limit : {MAX_INSTANCES_FETCHED}) {{
                                              id
                                              startTime
                                              endTime
@@ -119,7 +121,7 @@ class ApiUtils(object):
         pipelines_query = f"""{{ pipelines(projectId: \"{project_id}\" ) {{
                                            id
                                            name
-                                           instances (limit : 100) {{
+                                           instances (limit : {MAX_INSTANCES_FETCHED}) {{
                                              id
                                              startTime
                                              endTime
