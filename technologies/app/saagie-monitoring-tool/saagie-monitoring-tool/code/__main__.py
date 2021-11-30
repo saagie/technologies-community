@@ -1,5 +1,4 @@
 import utils
-import api
 import logging
 import sys
 import os
@@ -14,75 +13,80 @@ def get_datalake_metrics():
     Fetch Metrics from Hadoop API about Datalake usage and save it to PostgreSQL in the supervision Database
     :return:
     """
-    hdfs = pa.hdfs.connect(os.environ["IP_HDFS"], port=8020, user="hdfs")
-    total_capacity = api.get_hadoop_capacity(hdfs)
-    total_space_used = api.get_hadoop_space_used(hdfs)
-    logging.debug(f"total_capacity : {total_capacity}")
-    logging.debug(f"total_space_used : {total_space_used}")
-    utils.supervision_datalake_to_pg("total_capacity", total_capacity)
-    utils.supervision_datalake_to_pg("total_used", total_space_used)
+    with utils.DatabaseUtils() as database_utils:
+        hdfs = pa.hdfs.connect(os.environ["IP_HDFS"], port=8020, user="hdfs")
+        total_capacity = utils.get_hadoop_capacity(hdfs)
+        total_space_used = utils.get_hadoop_space_used(hdfs)
+        logging.debug(f"total_capacity : {total_capacity}")
+        logging.debug(f"total_space_used : {total_space_used}")
+        database_utils.supervision_datalake_to_pg("total_capacity", total_capacity)
+        database_utils.supervision_datalake_to_pg("total_used", total_space_used)
 
 
 def get_saagie_metrics():
     """
-    Truncate existing metrics and fetch Metrics Saagie API about Jobs and instances and save it to PostgreSQL in the supervision Database
-    :return:
+    Truncate existing metrics and fetch Metrics Saagie API about Jobs and instances and save it to PostgreSQL in the
+    supervision Database :return:
     """
-    logging.debug("truncate_supervision_saagie_pg starting")
-    utils.truncate_supervision_saagie_pg()
-    logging.debug("truncate_supervision_saagie_pg finished")
-    get_saagie_jobs_metrics()
+    with utils.DatabaseUtils() as database_utils:
+        logging.debug("truncate_supervision_saagie_pg starting")
+        database_utils.truncate_supervision_saagie_pg()
+        logging.debug("truncate_supervision_saagie_pg finished")
+        get_saagie_jobs_metrics(database_utils)
 
 
-def get_saagie_jobs_metrics():
+def get_saagie_jobs_metrics(database_utils):
     """
-    Fetch Metrics from Saagie API about Jobs and Pipelines duration and status and save it to PostgreSQL in the supervision Database
-    :return:
+    Fetch Metrics from Saagie API about Jobs and Pipelines duration and status and save it to PostgreSQL in the
+    supervision Database :return:
     """
-    utils.truncate_supervision_saagie_pg()
-    project_list = api.get_projects()
+    database_utils.truncate_supervision_saagie_pg()
 
-    for project in project_list:
-        logging.debug(f"Getting metrics for project {project['name']}")
+    with utils.ApiUtils() as api_utils:
+        project_list = api_utils.get_projects()
+        for project in project_list:
+            logging.debug(f"Getting metrics for project {project['name']}")
 
-        job_list = api.get_job_instances(project["id"])
-        app_list = api.get_webapps(project["id"])
-        pipeline_list = api.get_pipelines(project["id"])
+            job_list = api_utils.get_job_instances(project["id"])
+            app_list = api_utils.get_webapps(project["id"])
+            pipeline_list = api_utils.get_pipelines(project["id"])
 
-        all_jobs = [{
-            'project_id': project["id"],
-            'project_name': project["name"],
-            'orchestration_type': "job",
-            'orchestration_id': job["id"],
-            'orchestration_name': job["name"],
-            'orchestration_category': job["category"],
-            'creation_date': job["creationDate"],
-            'instance_count': job["countJobInstance"],
-            'technology': job["technology"]["label"] if job["technology"] is not None else None
-        } for job in job_list]
-        utils.supervision_saagie_jobs_to_pg(all_jobs)
+            all_jobs = [{
+                'project_id': project["id"],
+                'project_name': project["name"],
+                'orchestration_type': "job",
+                'orchestration_id': job["id"],
+                'orchestration_name': job["name"],
+                'orchestration_category': job["category"],
+                'creation_date': job["creationDate"],
+                'instance_count': job["countJobInstance"],
+                'technology': job["technology"]["label"] if job["technology"] is not None else None
+            } for job in job_list]
+            database_utils.supervision_saagie_jobs_to_pg(all_jobs)
 
-        all_apps = [{
-            'project_id': project["id"],
-            'project_name': project["name"],
-            'orchestration_type': "app",
-            'orchestration_id': app["id"],
-            'orchestration_name': app["name"],
-            'orchestration_category': "WebApp",
-            'creation_date': app["creationDate"],
-            'instance_count': app["countJobInstance"],
-            'technology': app["technology"]["label"] if app["technology"] is not None else None
-        } for app in app_list]
+            all_apps = [{
+                'project_id': project["id"],
+                'project_name': project["name"],
+                'orchestration_type': "app",
+                'orchestration_id': app["id"],
+                'orchestration_name': app["name"],
+                'orchestration_category': "WebApp",
+                'creation_date': app["creationDate"],
+                'instance_count': app["countJobInstance"],
+                'technology': app["technology"]["label"] if app["technology"] is not None else None
+            } for app in app_list]
 
-        utils.supervision_saagie_jobs_to_pg(all_apps)
+            database_utils.supervision_saagie_jobs_to_pg(all_apps)
 
-        for job in job_list:
-            log_instance_metrics(job["instances"], job, "job", project["id"], project['name'])
+            for job in job_list:
+                log_instance_metrics(database_utils, job["instances"], job, "job", project["id"], project['name'])
 
-        for pipeline in pipeline_list:
-            log_instance_metrics(pipeline["instances"], pipeline, "pipeline", project["id"], project['name'])
+            for pipeline in pipeline_list:
+                log_instance_metrics(database_utils, pipeline["instances"], pipeline, "pipeline", project["id"],
+                                     project['name'])
 
-        utils.supervision_saagie_jobs_snapshot_to_pg(project["id"], project["name"], len(job_list) + len(app_list))
+            database_utils.supervision_saagie_jobs_snapshot_to_pg(project["id"], project["name"],
+                                                                  len(job_list) + len(app_list))
 
 
 def get_instance_duration(start_time, end_time):
@@ -100,10 +104,11 @@ def get_instance_duration(start_time, end_time):
         return 0
 
 
-def log_instance_metrics(instances, job_or_pipeline, orchestration_type, project_id, project_name):
+def log_instance_metrics(database_utils, instances, job_or_pipeline, orchestration_type, project_id, project_name):
     """
     For each instance of a job or a pipeline, compute its duration and its Saagie URL and save it to PostgreSQL
     in the supervision Database
+    :param database_utils: Instance of database utils to connect to PG
     :param instances: instances of the current job
     :param job_or_pipeline: job_or_pipeline object returned from Saagie API
     :param orchestration_type: indicating whether its a job or a pipeline
@@ -129,7 +134,7 @@ def log_instance_metrics(instances, job_or_pipeline, orchestration_type, project
                                                           instance["id"])
         } for instance in instances]
 
-        utils.supervision_saagie_to_pg(all_instances)
+        database_utils.supervision_saagie_to_pg(all_instances)
 
 
 def main():
