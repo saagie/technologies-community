@@ -49,9 +49,4 @@ RUN wget -nv https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.
     wget -nv https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.1/hadoop-aws-3.3.1.jar && \
     mv *.jar /opt/spark/jars/
 
-COPY entrypoint.sh /opt/
-RUN chmod 755 /opt/entrypoint.sh
-
 WORKDIR /sandbox/
-
-ENTRYPOINT [ "/opt/entrypoint.sh" ]

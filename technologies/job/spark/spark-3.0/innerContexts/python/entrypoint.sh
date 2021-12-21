@@ -17,7 +17,7 @@
 #
 
 # echo commands to the terminal output
-set -ex
+set -e
 
 # Check whether there is a passwd entry for the container UID
 myuid=$(id -u)
@@ -37,10 +37,16 @@ if [ -z "$uidentry" ] ; then
 fi
 
 # BEGIN SAAGIE SPECIFIC CODE
+cd /sandbox
+ # parse content and if pyfiles extract minio url and inject it
+if [ -f main_script ] && grep -q "\--py-files" main_script;
+then
+  PYSPARK_FILES="`grep -Po '.*--py-files=\K[^ ]+' main_script`"
+fi;
+
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
     #Copy and unzip pyfiles
-    cd /sandbox
     if [[ $PYSPARK_FILES == *[,]* ]];then
       echo "PYSPARK_FILES contains comma"
       pyfiles=$(echo $PYSPARK_FILES | tr "," "\n")
@@ -56,7 +62,7 @@ if [ -n "$PYSPARK_FILES" ]; then
     fi
     if [ -f *.zip ]
     then
-      unzip *.zip
+      unzip -q *.zip
     fi
     if [ -f "requirements.txt" ]
     then
@@ -76,16 +82,11 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
-if [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "2" ]; then
-    pyv="$(python -V 2>&1)"
-    export PYTHON_VERSION="${pyv:7}"
-    export PYSPARK_PYTHON="python"
-    export PYSPARK_DRIVER_PYTHON="python"
-elif [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "3" ]; then
-    pyv3="$(python3 -V 2>&1)"
-    export PYTHON_VERSION="${pyv3:7}"
-    export PYSPARK_PYTHON="python3"
-    export PYSPARK_DRIVER_PYTHON="python3"
+if ! [ -z ${PYSPARK_PYTHON+x} ]; then
+    export PYSPARK_PYTHON
+fi
+if ! [ -z ${PYSPARK_DRIVER_PYTHON+x} ]; then
+    export PYSPARK_DRIVER_PYTHON
 fi
 
 # If HADOOP_HOME is set and SPARK_DIST_CLASSPATH is not set, set it here so Hadoop jars are available to the executor.
@@ -96,6 +97,12 @@ fi
 
 if ! [ -z ${HADOOP_CONF_DIR+x} ]; then
   SPARK_CLASSPATH="$HADOOP_CONF_DIR:$SPARK_CLASSPATH";
+fi
+
+if ! [ -z ${SPARK_CONF_DIR+x} ]; then
+  SPARK_CLASSPATH="$SPARK_CONF_DIR:$SPARK_CLASSPATH";
+elif ! [ -z ${SPARK_HOME+x} ]; then
+  SPARK_CLASSPATH="$SPARK_HOME/conf:$SPARK_CLASSPATH";
 fi
 
 case "$1" in
@@ -123,12 +130,21 @@ case "$1" in
       --cores $SPARK_EXECUTOR_CORES
       --app-id $SPARK_APPLICATION_ID
       --hostname $SPARK_EXECUTOR_POD_IP
+      --resourceProfileId $SPARK_RESOURCE_PROFILE_ID
     )
     ;;
 
   *)
-    echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-    CMD=("$@")
+    mkdir -p /opt/spark/conf/
+    cat conf/*.conf > /opt/spark/conf/spark-defaults.conf
+    echo "spark.kubernetes.driver.pod.name $HOSTNAME" >> /opt/spark/conf/spark-defaults.conf
+    if test -f main_script;
+    then
+        CMD=(/bin/sh ./main_script)
+    else
+      echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
+      CMD=("$@")
+    fi;
     ;;
 esac
 

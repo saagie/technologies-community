@@ -64,9 +64,4 @@ RUN wget https://repo1.maven.org/maven2/com/qubole/spark/spark-sql-kinesis_2.12/
     wget https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1-assembly.jar && \
     mv *.jar /opt/spark/jars/
 
-COPY entrypoint.sh /opt/
-RUN chmod 755 /opt/entrypoint.sh
-
 WORKDIR /sandbox/
-
-ENTRYPOINT [ "/opt/entrypoint.sh" ]
