@@ -44,7 +44,7 @@ def authenticate():
     s.headers["Content-Type"] = "application/json"
     s.headers["Saagie-Realm"] = saagie_realm
     r = s.post(saagie_url + '/authentication/api/open/authenticate',
-               json={'login': saagie_login, 'password': saagie_password})
+               json={'login': saagie_login, 'password': saagie_password}, verify=False)
     return r.text
 
 
@@ -76,7 +76,7 @@ class ApiUtils(object):
         :param query: GraphQL query to submit
         :return: the API response decoded in JSON
         """
-        response = self._session.post(f"{saagie_url}/api/v1/projects/platform/{saagie_platform}/graphql",
+        response = self._session.post(f"{saagie_url}/projects/api/platform/{saagie_platform}/graphql",
                                       json={"query": query}, verify=False)
         return json.loads(response.content.decode("utf-8"))['data']
 
