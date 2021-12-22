@@ -35,6 +35,8 @@ jobs:
           - name: Commit files
             if: steps.git_info.outputs.changes > 0
             run: |
+              git config --local user.email "service@saagie.com"
+              git config --local user.name "Team Service"
               git status
               git add .
               git commit -m "[BOT] Set version for this branch"
