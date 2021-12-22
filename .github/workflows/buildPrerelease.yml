@@ -35,8 +35,6 @@ jobs:
           - name: Commit files
             if: steps.git_info.outputs.changes > 0
             run: |
-              git config --local user.email "baptiste.courbe@saagie.com"
-              git config --local user.name "Baptiste Courbe"
               git status
               git add .
               git commit -m "[BOT] Set version for this branch"
