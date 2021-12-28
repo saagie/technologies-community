@@ -1,4 +1,4 @@
-FROM saagie/spark:3.0-aws-0.11.2 as builder
+FROM saagie/spark:3.1-1.100.0 as builder
 
 FROM alpine:3.10
 
