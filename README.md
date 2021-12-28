@@ -20,7 +20,7 @@ This repository contains all community technologies you can use in Saagie. You c
 
 All these technologies shared on this Github repository are supported by its creator or the community on a best effort basis without any obligations. Any bugs found in these technologies will have te be raised through an issue in this repository and won't be covered through Saagie platform SLAs.
 
-Before contributing to this repository, make sure your technology does not already exist in the [Saagie Official Technology Repository](https://github.com/saagie/technologies) nor is planned in [the oficial repository kanban](https://github.com/saagie/technologies/projects).
+Before contributing to this repository, make sure your technology does not already exist in the [Saagie Official Technology Repository](https://github.com/saagie/technologies).
 
 
 ## Technologies
