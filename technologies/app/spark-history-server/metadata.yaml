@@ -21,4 +21,4 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/spark-history-server
-      version: 1.2
+      version: 1.3
