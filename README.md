@@ -1,3 +1,5 @@
+<p align="center"><img width=100% src="https://github.com/saagie/technologies-community/blob/chore/logos/logos/technologies.png"></p>
+
 # Saagie Community Technologies
 
 
