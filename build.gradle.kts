@@ -126,11 +126,9 @@ tasks.register("checkDockerImages") {
 tasks.register("buildSparkJobs") {
     group = "technologies"
     description = "Build all Spark jobs"
-
     logger.info(this.description)
     subprojects.forEach {
         dependsOn("${it.path}:$buildDockerTaskName")
     }
-    finalizedBy(":packageAllVersions")
 }
 

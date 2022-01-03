@@ -2,7 +2,7 @@ version: "v1"
 type: JOB
 id: spark
 label: Spark for AWS
-description: Spark for AWS (S3 and Kinesis connectors) 
+description: Spark for AWS (S3 connectors)
 available: true
 icon: spark
 customFlags: [Spark]
@@ -16,7 +16,7 @@ contexts:
     dockerInfo:
       image: saagie/spark
       baseTag: 3.0-aws
-      version: 3.0-aws-0.11.2
+      version: 3.0-aws-0.36
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -44,7 +44,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-aws-jre-11
-              version: 3.0-aws-jre-11-0.11.2
+              version: 3.0-aws-jre-11-0.36
           - id: 8
             label: 8
             available: true
@@ -52,7 +52,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-aws-jre-8
-              version: 3.0-aws-jre-8-0.11.2
+              version: 3.0-aws-jre-8-0.36
       - id: python
         label: Python
         available: true
@@ -72,14 +72,6 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.5
-            label: 3.5
-            available: true
-            trustLevel: stable
-            dockerInfo:
-              image: saagie/spark
-              baseTag: 3.0-aws-py-3.5
-              version: 3.0-aws-py-3.5-0.11.2
           - id: 3.6
             label: 3.6
             available: true
@@ -87,7 +79,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-aws-py-3.6
-              version: 3.0-aws-py-3.6-0.11.2
+              version: 3.0-aws-py-3.6-0.36
           - id: 3.7
             label: 3.7
             available: true
@@ -95,16 +87,17 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.0-aws-py-3.7
-              version: 3.0-aws-py-3.7-0.11.2
+              version: 3.0-aws-py-3.7-0.36
   - id: 3.2
     label: 3.2
+    description: Spark 3.2 for AWS (S3 connector)
     available: true
     recommended: true
     trustLevel: stable
     dockerInfo:
       image: saagie/spark
-      baseTag: 3.2
-      version: 3.2-aws-1.25.0
+      baseTag: 3.2-aws
+      version: 3.2-aws-0.36
     innerContexts:
       - id: java-scala
         label: Java/Scala
@@ -116,7 +109,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --name app-name --class=Main {file} arg1 arg2
+              defaultValue: spark-submit --class=Main {file} arg1 arg2
             - type: ARTIFACT
               label: Package
               mandatory: true
@@ -132,7 +125,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.2-aws-jre-11
-              version: 3.2-aws-jre-11-1.25.0
+              version: 3.2-aws-jre-11-0.36
       - id: python
         label: Python
         available: true
@@ -159,7 +152,7 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.2-aws-py-3.8
-              version: 3.2-aws-py-3.8-1.25.0
+              version: 3.2-aws-py-3.8-0.36
           - id: 3.9
             label: 3.9
             available: true
@@ -167,4 +160,4 @@ contexts:
             dockerInfo:
               image: saagie/spark
               baseTag: 3.2-aws-py-3.9
-              version: 3.2-aws-py-3.9-1.25.0
+              version: 3.2-aws-py-3.9-0.36
