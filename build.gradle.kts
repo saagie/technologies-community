@@ -128,31 +128,9 @@ tasks.register("buildSparkJobs") {
     description = "Build all Spark jobs"
 
     logger.info(this.description)
-    dependsOn("incrementBuildMeta")
     subprojects.forEach {
         dependsOn("${it.path}:$buildDockerTaskName")
     }
     finalizedBy(":packageAllVersions")
 }
 
-tasks {
-    "incrementBuildMeta"(SemverIncrementBuildMetaTask::class) {
-        doFirst {
-            if (buildMeta == "master") {
-                buildMeta = ""
-            }
-            this.project.version = version as String
-        }
-
-        doLast {
-            with(File("version.properties")) {
-                val version = File("versions")
-                this.readLines()
-                        .drop(2)
-                        .forEach { version.appendText(it + "\n") }
-                this.delete()
-                version.renameTo(this)
-            }
-        }
-    }
-}
