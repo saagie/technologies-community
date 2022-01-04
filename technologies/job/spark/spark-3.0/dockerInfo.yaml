@@ -1,4 +1,0 @@
-image: saagie/spark
-baseTag: 3.0-aws
-dynamicVersion: 0.36
-version: 3.0-aws-0.36
