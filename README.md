@@ -1,3 +1,5 @@
+<p align="center"><img width=70% src="https://github.com/saagie/technologies-community/blob/chore/logos/logos/technologies.png"></p>
+
 # Saagie Community Technologies
 
 
@@ -20,7 +22,7 @@ This repository contains all community technologies you can use in Saagie. You c
 
 All these technologies shared on this Github repository are supported by its creator or the community on a best effort basis without any obligations. Any bugs found in these technologies will have te be raised through an issue in this repository and won't be covered through Saagie platform SLAs.
 
-Before contributing to this repository, make sure your technology does not already exist in the [Saagie Official Technology Repository](https://github.com/saagie/technologies) nor is planned in [the oficial repository kanban](https://github.com/saagie/technologies/projects).
+Before contributing to this repository, make sure your technology does not already exist in the [Saagie Official Technology Repository](https://github.com/saagie/technologies).
 
 
 ## Technologies
@@ -36,8 +38,6 @@ This repository contains community job and application technologies.
 |<img src="./logos/vscode.svg" width="30" > |**Visual Studio Code**| App| IDE that supports several languages
 |<img src="./logos/superset.svg" width="30" > |**Apache Superset**| App| Modern data exploration and visualization platform
 |<img src="./logos/spark.svg" width="30"> | **Spark for AWS (Hadoop 3.2)**| Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
-|<img src="./logos/rstudio.svg" width="30"> | **Rstudio**| App | R is a language and environment for statistical computing and graphics.
-|<img src="./logos/r.svg" width="30"> | **R**| Job | RStudio is an integrated development environment (IDE) for R.
 |<img src="./logos/saagieMonitoringTool.svg" width="30"> | **Saagie Monitoring Tool** | App | Saagie Monitoring Tool based on Grafana dashboards
 
 ### Job technologies

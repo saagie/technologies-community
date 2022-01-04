@@ -34,8 +34,8 @@ jobs:
                     });
           - name: Delete PreRelease Tag
             run: |
-              git config --local user.email "baptiste.courbe@saagie.com"
-              git config --local user.name "Baptiste Courbe"
+              git config --local user.email "service@saagie.com"
+              git config --local user.name "Team Service"
               remote_repo="https://${{ github.actor }}:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}.git"
               git push --delete "${remote_repo}" ${{ steps.extract_pr_version.outputs.v }}
           - name: Upgrade version
@@ -71,8 +71,8 @@ jobs:
               asset_content_type: application/zip
           - name: Commit files
             run: |
-              git config --local user.email "baptiste.courbe@saagie.com"
-              git config --local user.name "Baptiste Courbe"
+              git config --local user.email "service@saagie.com"
+              git config --local user.name "Team Service"
               git commit -am "[BOT] Set new version"
           - name: Push changes
             uses: ad-m/github-push-action@master
