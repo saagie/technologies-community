@@ -29,7 +29,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --class=Main {file} arg1 arg2
+              defaultValue: "spark-submit --conf spark.executor.cores=1 --conf spark.executor.instances=2 --conf spark.executor.memory=2g --conf spark.driver.memory=1g --class=Main {file}"
             - type: ARTIFACT
               label: Package
               mandatory: true
@@ -56,7 +56,7 @@ contexts:
               label: Command line
               mandatory: true
               comment: Linux shell command to launch the job.
-              defaultValue: spark-submit --name app-name --py-files={file} local://__main__.py
+              defaultValue: "spark-submit --py-files={file} --conf spark.executor.cores=1 --conf spark.executor.instances=2 --conf spark.executor.memory=2g --conf spark.driver.memory=1g --name app-name local://__main__.py"
             - type: ARTIFACT
               label: Package
               mandatory: true
