@@ -18,7 +18,7 @@ postgresql_user = "supervision_pg_user"
 
 saagie_login = os.environ["SAAGIE_SUPERVISION_LOGIN"]
 saagie_password = os.environ["SAAGIE_SUPERVISION_PASSWORD"]
-saagie_url = os.environ["SAAGIE_URL"]
+saagie_url = os.environ["SAAGIE_URL"] + "/" if not os.environ["SAAGIE_URL"].endswith("/") else os.environ["SAAGIE_URL"]
 saagie_realm = os.environ["SAAGIE_REALM"]
 saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
 
@@ -43,7 +43,7 @@ def authenticate():
     s = requests.session()
     s.headers["Content-Type"] = "application/json"
     s.headers["Saagie-Realm"] = saagie_realm
-    r = s.post(saagie_url + '/authentication/api/open/authenticate',
+    r = s.post(saagie_url + 'authentication/api/open/authenticate',
                json={'login': saagie_login, 'password': saagie_password}, verify=False)
     return r.text
 
@@ -63,6 +63,9 @@ class ApiUtils(object):
         self._session.mount("http://", adapter)
         self._session.auth = BearerAuth()
 
+        # URL Gateway
+        self.url_gateway = saagie_url + 'gateway/api/graphql'
+
     def __enter__(self):
         return self
 
@@ -76,8 +79,17 @@ class ApiUtils(object):
         :param query: GraphQL query to submit
         :return: the API response decoded in JSON
         """
-        response = self._session.post(f"{saagie_url}/projects/api/platform/{saagie_platform}/graphql",
+        response = self._session.post(f"{saagie_url}projects/api/platform/{saagie_platform}/graphql",
                                       json={"query": query}, verify=False)
+        return json.loads(response.content.decode("utf-8"))['data']
+
+    def call_gateway_api(self, query):
+        """
+        Generic function to submit graphql queries to Saagie gateway API
+        :param query: GraphQL query to submit
+        :return: the API response decoded in JSON
+        """
+        response = self._session.post(f"{self.url_gateway}", json={"query": query}, verify=False)
         return json.loads(response.content.decode("utf-8"))['data']
 
     def get_projects(self):
@@ -95,13 +107,15 @@ class ApiUtils(object):
         :param project_id: Saagie Project ID
         :return: a JSON containing a list of jobs
         """
+        dict_technology = {}
+        result = []
         jobs_query = f"""{{ jobs(projectId: \"{project_id}\" ) {{
                                            id
                                            name
                                            category
                                            countJobInstance
                                            creationDate
-                                           technology {{label}}
+                                           technology {{id}}
                                            instances (limit : {MAX_INSTANCES_FETCHED}) {{
                                              id
                                              startTime
@@ -110,7 +124,16 @@ class ApiUtils(object):
                                            }}
                                            }}}}"""
         jobs = self.call_api(jobs_query)
-        return jobs['jobs'] if jobs else []
+        if jobs:
+            for job in jobs["jobs"]:
+                technology_id = job["technology"]["id"]
+                if not dict_technology.get(technology_id):
+                    technology_label = self.get_technology_label(technology_id)
+                    dict_technology[technology_id] = technology_label
+                job["technology"]["label"] = dict_technology.get(technology_id)
+                result.append(job)
+
+        return result if result else []
 
     def get_pipelines(self, project_id):
         """
@@ -118,7 +141,8 @@ class ApiUtils(object):
         :param project_id: Saagie Project ID
         :return: a JSON containing a list of pipelines
         """
-        pipelines_query = f"""{{ pipelines(projectId: \"{project_id}\" ) {{
+        pipelines_query = f"""{{ project(id: \"{project_id}\") {{
+                                    pipelines {{
                                            id
                                            name
                                            instances (limit : {MAX_INSTANCES_FETCHED}) {{
@@ -127,20 +151,41 @@ class ApiUtils(object):
                                              endTime
                                              status
                                            }}
-                                           }}}}"""
+                                        }}
+                                    }}
+                                    }}"""
         pipelines = self.call_api(pipelines_query)
-        return pipelines['pipelines'] if pipelines else []
+        return pipelines["project"]['pipelines'] if pipelines["project"] is not None else []
 
     def get_webapps(self, project_id):
+        dict_technology = {}
+        result = []
         jobs_query = f"""{{ labWebApps(projectId: \"{project_id}\" ) {{
                                            id
                                            name
                                            countJobInstance
                                            creationDate
-                                           technology {{label}}
+                                           technology {{id}}
                                            }}}}"""
         webapps = self.call_api(jobs_query)
-        return webapps['labWebApps'] if webapps else []
+        if webapps:
+            for job in webapps["labWebApps"]:
+                technology_id = job["technology"]["id"]
+                if not dict_technology.get(technology_id):
+                    technology_label = self.get_technology_label(technology_id)
+                    dict_technology[technology_id] = technology_label
+                job["technology"]["label"] = dict_technology.get(technology_id)
+                result.append(job)
+        return result if result else []
+
+    def get_technology_label(self, technology_id):
+        technology_query = f"""{{
+          technology(id: \"{technology_id}\") {{
+            label
+          }}
+        }}"""
+        technology_label = self.call_gateway_api(technology_query)
+        return technology_label["technology"]["label"] if technology_label["technology"] is not None else None
 
 
 class DatabaseUtils(object):
