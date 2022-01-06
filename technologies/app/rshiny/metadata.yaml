@@ -1,0 +1,24 @@
+version: v1
+type: APP
+id: r-shiny
+label: r-shiny
+baseline: "Shiny is an R package that makes it easy to build interactive web apps straight from R"
+description: "Shiny is an R package that makes it easy to build interactive web apps straight from R"
+available: true
+icon: r-shiny
+backgroundColor: "#428BCA"
+customFlags: []
+contexts:
+  - id: r-shiny-1.7.1
+    label: r-shiny 1.7.1
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 3838
+        name: r-shiny
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/rshiny
+      version: 1.7.1
