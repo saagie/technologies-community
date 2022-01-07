@@ -5,7 +5,7 @@ label: r-shiny
 baseline: "Shiny is an R package that makes it easy to build interactive web apps straight from R"
 description: "Shiny is an R package that makes it easy to build interactive web apps straight from R"
 available: true
-icon: r-shiny
+icon: r
 backgroundColor: "#428BCA"
 customFlags: []
 contexts:
