@@ -1,24 +1,25 @@
 version: v1
 type: APP
-id: r-shiny
-label: r-shiny
-baseline: "Neo4j gives developers and data scientists the most trusted and advanced tools to quickly build today’s intelligent applications and machine learning workflows. Available as a fully managed cloud service or self-hosted."
-description: "Neo4j gives developers and data scientists the most trusted and advanced tools to quickly build today’s intelligent applications and machine learning workflows. Available as a fully managed cloud service or self-hosted."
+id: neo4j
+label: neo4j
+baseline: "Neo4j gives developers and data scientists the most trusted and advanced tools to quickly build today’s intelligent applications and machine learning workflows. Available as a fully managed cloud service or self-hosted. NB: Default user/password: neo4j/neo4j"
+description: "Neo4j gives developers and data scientists the most trusted and advanced tools to quickly build today’s intelligent applications and machine learning workflows. Available as a fully managed cloud service or self-hosted. NB: Default user/password: neo4j/neo4j"
 available: true
 icon: neo4j
 backgroundColor: "#428BCA"
 customFlags: []
 contexts:
   - id: neo4j-4-4-3
-    label: r-shiny 4.4.3
-    releaseNotes: ""
+    label: Neo4j 4.4.3
+    releaseNotes: "default user/password: neo4j/neo4j"
     available: true
     trustLevel: experimental
     ports:
       - port: 80
-        name: r-shiny
+        name: neo4j
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/data", "/logs", "/var/lib/neo4j/import", "/plugins"]
     dockerInfo:
-      image: saagie/rshiny
-      version: 4.4.3
+      image: gus75/neo4j
+      version: test-4-4-3
