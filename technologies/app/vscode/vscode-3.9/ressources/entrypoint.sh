@@ -1,5 +1,12 @@
 #!/bin/bash
 echo "Set Proxy"
+
+echo "
+- INFO: 'PASSWORD' variable is optional and allow you to set a password to access your VsCode
+
+INFO: If you hae any request don't hesitate to create an issue in this repository: https://github.com/saagie/technologies-community
+"
+
 export PROXY_DOMAIN=$SAAGIE_BASE_PATH
 
 echo "SAAGIE_BASE_PATH"
