@@ -2,7 +2,7 @@ name: Create Trello card on opened issues
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   create_trello_card_job:
