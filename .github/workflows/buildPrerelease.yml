@@ -81,3 +81,13 @@ jobs:
               asset_path: ./dist/technologies.zip
               asset_name: technologies.zip
               asset_content_type: application/zip
+          - name: Upload Release technologies Asset TEXT-PLAIN
+            id: upload-release-asset-technologies-textplain
+            uses: actions/upload-release-asset@v1.0.1
+            env:
+              GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB}}
+            with:
+              upload_url: ${{ steps.create_release.outputs.upload_url }}
+              asset_path: ./dist/docker_listing.txt
+              asset_name: docker_listing.txt
+              asset_content_type: text/plain
