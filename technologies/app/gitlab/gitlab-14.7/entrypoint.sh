@@ -3,4 +3,4 @@ set -xeuo pipefail
 
 export GITLAB_LOG_LEVEL="warn"
 
-/assets/wrapper
+/assets/wrapper > /dev/null

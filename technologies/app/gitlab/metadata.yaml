@@ -21,5 +21,5 @@ contexts:
         basePath: GITLAB_RELATIVE_URL
     volumes: ["/var/opt/gitlab"]
     dockerInfo:
-      image: thomassaagie/gitlab-ce
-      version: 1.8
+      image: saagie/gitlab
+      version: ce-0.1
