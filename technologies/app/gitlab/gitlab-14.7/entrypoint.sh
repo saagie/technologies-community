@@ -1,6 +1,6 @@
 #!/bin/bash
 set -xeuo pipefail
 
-export GITLAB_LOG_LEVEL=2
+export GITLAB_LOG_LEVEL="warn"
 
-/assets/wrapper > /dev/null
+/assets/wrapper

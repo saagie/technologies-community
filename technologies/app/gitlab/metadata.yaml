@@ -22,4 +22,4 @@ contexts:
     volumes: ["/var/opt/gitlab"]
     dockerInfo:
       image: thomassaagie/gitlab-ce
-      version: 1.6
+      version: 1.8
