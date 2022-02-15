@@ -1,6 +1,6 @@
 # Metabase
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/gitlab-ce/14.7?label=v14.7%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/thomassaagie/gitlab-ce/1.3?label=v14.7%20image%20size&style=for-the-badge)
 
 ## Description
 This directory contains version of Gitlab CE contenairized and customized for Saagie Platform.
