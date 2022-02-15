@@ -19,7 +19,7 @@ contexts:
         name: http
         rewriteUrl: false
         basePath: GITLAB_RELATIVE_URL
-    volumes: ["/var/opt/gitlab","/etc/gitlab"]
+    volumes: ["/var/opt/gitlab"]
     dockerInfo:
       image: thomassaagie/gitlab-ce
-      version: 1.5
+      version: 1.6
