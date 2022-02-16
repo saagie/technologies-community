@@ -1,0 +1,25 @@
+version: v1
+type: APP
+id: gitlab-ce
+label: Gitlab-CE
+baseline: "Open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD"
+description: "Open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD"
+available: true
+icon: versions
+backgroundColor: "#FCA326"
+customFlags: []
+contexts:
+  - id: gitlab-ce-14.7
+    label: Gitlab CE 14.7
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 80
+        name: http
+        rewriteUrl: false
+        basePath: GITLAB_RELATIVE_URL
+    volumes: ["/var/opt/gitlab","/etc/gitlab"]
+    dockerInfo:
+      image: saagie/gitlab
+      version: ce-1.0
