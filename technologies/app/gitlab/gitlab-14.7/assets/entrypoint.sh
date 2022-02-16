@@ -9,6 +9,7 @@ if [[ -z "${GITLAB_INITIAL_ROOT_PASSWORD}" ]]; then
 elif [[ -z "${SAAGIE_PLATFORM_URL}" ]]; then
   echo "ERROR : SAAGIE_PLATFORM_URL environment variable must be set"
   echo "Usage : SAAGIE_PLATFORM_URL = must be specified in order for Gitlab to configure the relative url"
+  echo "See documentation to setup SAAGIE_PLATFORM_URL -> https://github.com/saagie/technologies-community/blob/master/technologies/app/gitlab/README.md#deployment"
   exit 1
 else
   echo "_____________________________________________________________________________________________________"
@@ -19,4 +20,3 @@ else
 
   /assets/wrapper > /dev/null
 fi
-
