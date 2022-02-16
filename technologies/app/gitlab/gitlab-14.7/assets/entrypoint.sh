@@ -20,4 +20,3 @@ else
 
   /assets/wrapper > /dev/null
 fi
-
