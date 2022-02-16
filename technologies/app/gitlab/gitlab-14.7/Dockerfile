@@ -5,6 +5,6 @@ USER root
 COPY assets/gitlab.rb /tmp/gitlab.rb
 
 EXPOSE 80 22 443
-ADD entrypoint.sh /entrypoint.sh
+ADD assets/entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
