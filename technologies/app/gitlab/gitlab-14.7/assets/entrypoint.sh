@@ -2,9 +2,9 @@
 set -euo pipefail
 
 
-f [[ -z "${GITLAB_INITIAL_ROOT_PASSWORD}" ]]; then
+if [[ -z "${GITLAB_INITIAL_ROOT_PASSWORD}" ]]; then
   echo "ERROR : GITLAB_INITIAL_ROOT_PASSWORD environment variable must be set"
-  echo "Usage : GITLAB_INITIAL_ROOT_PASSWORD = database-backed store as SQLAlchemy database URI <dialect>+<driver>://<username>:<password>@<host>:<port>/<database> MLflow supports the database dialects mysql, mssql, sqlite, and postgresql."
+  echo "Usage : GITLAB_INITIAL_ROOT_PASSWORD = initial password of the root user, must be changed after first login"
   exit 1
 elif [[ -z "${SAAGIE_PLATFORM_URL}" ]]; then
   echo "ERROR : SAAGIE_PLATFORM_URL environment variable must be set"
