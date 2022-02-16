@@ -22,4 +22,4 @@ contexts:
     volumes: ["/var/opt/gitlab","/etc/gitlab"]
     dockerInfo:
       image: saagie/gitlab
-      version: ce-0.3
+      version: ce-1.0

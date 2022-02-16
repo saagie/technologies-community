@@ -3,7 +3,7 @@ external_url ENV["SAAGIE_PLATFORM_URL"].to_s + ENV["GITLAB_RELATIVE_URL"].to_s
 
 #Lower log level
 registry['log_level'] = 'warn'
-gitlab_shell['log_level'] = 'warn'
+gitlab_shell['log_level'] = 'WARN'
 gitaly['logging_level'] = 'warn'
 
 #Disable Grafana and Prometheus to optimize Gitlab performance
