@@ -29,17 +29,18 @@ Before contributing to this repository, make sure your technology does not alrea
 
 This repository contains community job and application technologies.
 
-|  | Technology |Type |Description|
-| --- | --- | --- |--- |
-|<img src="./logos/spark.svg" width="30"> | **Spark History Server**| App | Monitoring tool that displays information about completed Spark applications
-|<img src="./logos/shinyproxy.svg" width="30"> |**ShinyProxy**| App| Open source platform to deploy Shiny apps
-|<img src="./logos/ttyd.svg" width="30"> |**TTYD**| App| Interactive Bash with hadoop commands
-|<img src="./logos/metabase.svg" width="30" > |**Metabase**| App| Open source Business Intelligence server
-|<img src="./logos/vscode.svg" width="30" > |**Visual Studio Code**| App| IDE that supports several languages
-|<img src="./logos/superset.svg" width="30" > |**Apache Superset**| App| Modern data exploration and visualization platform
-|<img src="./logos/spark.svg" width="30"> | **Spark for AWS (Hadoop 3.2)**| Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
-|<img src="./logos/saagieMonitoringTool.svg" width="30"> | **Saagie Monitoring Tool** | App | Saagie Monitoring Tool based on Grafana dashboards
-|<img src="./logos/shiny.svg" width="30"> | **RShiny** | App | R package that makes it easy to build interactive web apps straight from R
+|                                                         | Technology                     |Type |Description|
+|---------------------------------------------------------|--------------------------------| --- |--- |
+| <img src="./logos/spark.svg" width="30">                | **Spark History Server**       | App | Monitoring tool that displays information about completed Spark applications
+| <img src="./logos/shinyproxy.svg" width="30">           | **ShinyProxy**                 | App| Open source platform to deploy Shiny apps
+| <img src="./logos/ttyd.svg" width="30">                 | **TTYD**                       | App| Interactive Bash with hadoop commands
+| <img src="./logos/metabase.svg" width="30" >            | **Metabase**                   | App| Open source Business Intelligence server
+| <img src="./logos/vscode.svg" width="30" >              | **Visual Studio Code**         | App| IDE that supports several languages
+| <img src="./logos/superset.svg" width="30" >            | **Apache Superset**            | App| Modern data exploration and visualization platform
+| <img src="./logos/spark.svg" width="30">                | **Spark for AWS (Hadoop 3.2)** | Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
+| <img src="./logos/saagieMonitoringTool.svg" width="30"> | **Saagie Monitoring Tool**     | App | Saagie Monitoring Tool based on Grafana dashboards
+| <img src="./logos/shiny.svg" width="30">                | **RShiny**                     | App | R package that makes it easy to build interactive web apps straight from R
+| <img src="./logos/gitlab.svg" width="30">               | **Gitlab CE**                  | App | Open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD
 
 ### Job technologies
 
