@@ -1,16 +1,15 @@
+#External URL to use on Saagie
 external_url ENV["SAAGIE_PLATFORM_URL"].to_s + ENV["GITLAB_RELATIVE_URL"].to_s
 
+#Lower log level
 registry['log_level'] = 'warn'
 gitlab_shell['log_level'] = 'warn'
 gitaly['logging_level'] = 'warn'
 
-gitlab_rails['initial_root_password'] = ENV["GITLAB_INITIAL_ROOT_PASSWORD"].to_s
+#Disable Grafana and Prometheus to optimize Gitlab performance
+grafana['enable'] = false
+prometheus_monitoring['enable'] = false
 
-# Disable the bundled Omnibus provided PostgreSQL
-#postgresql['enable'] = false
-#https://docs.gitlab.com/ee/install/requirements.html#database
-# PostgreSQL connection details
-#gitlab_rails['db_adapter'] = 'postgresql'
-#gitlab_rails['db_encoding'] = 'unicode'
-#gitlab_rails['db_host'] = '10.1.0.5' # IP/hostname of database server
-#gitlab_rails['db_password'] = 'DB password'
+
+#Initial root password is set with an environment variable in your Saagie project
+gitlab_rails['initial_root_password'] = ENV["GITLAB_INITIAL_ROOT_PASSWORD"].to_s
