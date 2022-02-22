@@ -41,9 +41,11 @@ def get_saagie_jobs_metrics(database_utils):
     supervision Database :return:
     """
     database_utils.truncate_supervision_saagie_pg()
+    today = datetime.today().strftime('%Y-%m-%d')
 
     with utils.ApiUtils() as api_utils:
         project_list = api_utils.get_projects()
+        all_projects = []
         for project in project_list:
             logging.debug(f"Getting metrics for project {project['name']}")
 
@@ -85,8 +87,12 @@ def get_saagie_jobs_metrics(database_utils):
                 log_instance_metrics(database_utils, pipeline["instances"], pipeline, "pipeline", project["id"],
                                      project['name'])
 
-            database_utils.supervision_saagie_jobs_snapshot_to_pg(project["id"], project["name"],
-                                                                  len(job_list) + len(app_list))
+            all_projects.append({
+                'project_id': project["id"],
+                'project_name': project["name"],
+                'snapshot_date': today,
+                'job_count': len(job_list) + len(app_list)})
+        database_utils.supervision_saagie_jobs_snapshot_to_pg(all_projects)
 
 
 def get_instance_duration(start_time, end_time):

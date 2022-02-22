@@ -71,7 +71,7 @@
           "group": [],
           "metricColumn": "orchestration_id",
           "rawQuery": true,
-          "rawSql": "SELECT\n  count(*)\nFROM supervision_saagie_jobs",
+          "rawSql": "SELECT\n  sum(job_count)\nFROM supervision_saagie_jobs_snapshot\nwhere snapshot_date = (select MAX(snapshot_date) FROM supervision_saagie_jobs_snapshot )",
           "refId": "A",
           "select": [
             [
@@ -185,7 +185,7 @@
           ],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  project_name as \"metric\",\n  count(*) AS \"value\"\nFROM supervision_saagie_jobs\nGROUP BY project_name\nORDER BY 2 DESC",
+          "rawSql": "SELECT\n  project_name as \"metric\",\n  job_count AS \"value\"\nFROM supervision_saagie_jobs_snapshot\nwhere snapshot_date = (select MAX(snapshot_date) FROM supervision_saagie_jobs_snapshot )\nGROUP BY project_name,job_count\nORDER BY 2 DESC",
           "refId": "A",
           "select": [
             [
@@ -262,7 +262,7 @@
       },
       "lines": false,
       "linewidth": 1,
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
       "options": {
         "alertThreshold": false
       },
