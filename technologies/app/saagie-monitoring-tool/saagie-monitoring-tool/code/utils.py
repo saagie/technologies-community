@@ -287,24 +287,23 @@ class DatabaseUtils(object):
         except Exception as e:
             logging.error(e)
 
-    def supervision_saagie_jobs_snapshot_to_pg(self, project_id, project_name, job_count):
+    def supervision_saagie_jobs_snapshot_to_pg(self, project_job_counts):
         """
         Log saagie job daily snapshot count to PostgresSQL.
-        :param project_name: Saagie project Name
-        :param project_id:Saagie project ID
-        :param job_count:# of Saagie jobs and Apps
+        :param project_job_counts: List of projects with job and apps count
         :return:
         """
         today = datetime.today().strftime('%Y-%m-%d')
         try:
             self._db_cur.execute(
-                '''INSERT INTO supervision_saagie_jobs_snapshot (project_id, project_name, snapshot_date, job_count)
-                VALUES(%s,%s,%s,%s)
-                ON CONFLICT ON CONSTRAINT supervision_saagie_jobs_snapshot_pkey
-                DO
-                UPDATE
-                SET job_count = EXCLUDED.job_count''',
-                (project_id, project_name, today, job_count))
+                f'''DELETE FROM supervision_saagie_jobs_snapshot
+                                    WHERE snapshot_date = \'{today}\'''')
+            psycopg2.extras.execute_batch(self._db_cur, """
+                    INSERT INTO supervision_saagie_jobs_snapshot (project_id, project_name, snapshot_date, job_count)
+                    VALUES( %(project_id)s, 
+                            %(project_name)s,
+                            %(snapshot_date)s, 
+                            %(job_count)s)""", project_job_counts)
         except Exception as e:
             logging.error(e)
 
