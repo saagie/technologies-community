@@ -1,0 +1,30 @@
+version: "v1"
+type: JOB
+id: dbt
+label: dbt
+description: dbt is a transformation workflow that lets teams quickly and collaboratively deploy analytics code following software engineering best practices like modularity, portability, CI/CD, and documentation.
+available: true
+icon: dbt
+contexts:
+  - id: dbt
+    label: dbt-cli
+    available: true
+    recommended: true
+    trustLevel: stable
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: Linux shell command to launch your dbt project (dbt run, dbt test...).
+          defaultValue: dbt run --profiles-dir .
+        - type: ARTIFACT
+          label: Package containing your dbt project
+          mandatory: true
+          comment: "Compatible upload file : .zip"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/python
+      version: dbt-0.2
