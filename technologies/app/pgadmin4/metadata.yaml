@@ -19,6 +19,7 @@ contexts:
         name: pgadmin4
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
+    volumes: ["/var/lib/pgadmin"]
     dockerInfo:
       image: saagie/pgAdmin4
       version: 6.5
