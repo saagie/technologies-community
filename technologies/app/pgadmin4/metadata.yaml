@@ -1,0 +1,24 @@
+version: v1
+type: APP
+id: pgadmin4
+label: pgAdmin4
+baseline: "pgAdmin4"
+description: "pgAdmin4 is a postgresql browser. \nCreate an environment variable named 'PGADMIN_DEFAULT_EMAIL' to set a user mail and PGADMIN_DEFAULT_PASSWORD for his password."
+available: true
+icon: pgAdmin4
+backgroundColor: "#3EAAF2"
+customFlags: []
+contexts:
+  - id: pgAdmin4 6.5
+    label: pgAdmin4 6.5
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: pgadmin4
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/pgAdmin4
+      version: 6.5
