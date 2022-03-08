@@ -1,0 +1,21 @@
+dvd: # this needs to match the profile: in your dbt_project.yml file
+  outputs:
+    dev:
+      type: postgres
+      threads: 1
+      host: datamart1.p6.saagie.prod.saagie.io
+      port: 5432
+      user: "admin"
+      pass: "WJj5DqXf4hq9drKv7xyzxVqLR"
+      dbname: dvd_rental
+      schema: dev
+    prod:
+      type: postgres
+      threads: 1
+      host: datamart1.p6.saagie.prod.saagie.io
+      port: 5432
+      user: "admin"
+      pass: "WJj5DqXf4hq9drKv7xyzxVqLR"
+      dbname: dvd_rental
+      schema: analytics
+  target: dev
