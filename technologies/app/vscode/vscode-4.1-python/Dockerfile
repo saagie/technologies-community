@@ -94,7 +94,8 @@ RUN sh -x \
        done \
     && conda clean -ay \
     && rm -rf ~/.cache/pip \
-    && fix-permissions "${CONDA_DIR}"
+    && fix-permissions "${CONDA_DIR}" \
+    && echo "conda activate py310" >> ~/.bashrc
 
 
 # Install Vscode Python extension
