@@ -30,7 +30,7 @@ contexts:
     available: true
     trustLevel: experimental
     ports:
-      - port: 8443
+      - port: 80
         name: vscode
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
@@ -44,7 +44,7 @@ contexts:
     available: true
     trustLevel: experimental
     ports:
-      - port: 8443
+      - port: 80
         name: vscode
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
