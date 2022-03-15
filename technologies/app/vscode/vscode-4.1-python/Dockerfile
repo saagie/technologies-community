@@ -101,17 +101,21 @@ RUN sh -x \
 RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --install-extension ms-python.python
 
 # # # Change settings to run interactive code in jupyter
-COPY resources/* /config/data/User/
+# COPY resources/* /config/data/User/
+RUN mkdir -p /tmp/settings
+COPY resources/* /tmp/settings/
 
 ENV CONDA_DEFAULT_ENV=py310
 
 # Setup user env and prefix environment variables with VSCODE_
 RUN conda init bash \
     && echo "conda activate py310" >> ~/.bashrc \
-    && mkdir -p /config/workspace/.vscode && fix-permissions /config/workspace/ \
+    # && mkdir -p /config/workspace/.vscode && fix-permissions /config/workspace/ \
     && sed -i 's/SUDO_PASSWORD/VSCODE_SUDO_PASSWORD/g' /etc/cont-init.d/30-config \
     && sed -i '2s|^|mkdir -p /config/workspace/.vscode \n \
-    cp -u /config/data/User/project-settings.json /config/workspace/.vscode/settings.json \n \
-    fix-permissions /config/workspace/ \n \
+    mkdir -p /config/data/User/ \n \
+    cp -u /tmp/settings/project-settings.json /config/workspace/.vscode/settings.json \n \
+    cp -u /tmp/settings/settings.json /config/data/User/ \n \
+    fix-permissions /config/ \n \
     export PASSWORD=$VSCODE_PASSWORD \n \
     export HASHED_PASSWORD=$VSCODE_HASHED_PASSWORD \n|' /etc/services.d/code-server/run
