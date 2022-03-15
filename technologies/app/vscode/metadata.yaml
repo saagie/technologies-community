@@ -51,4 +51,4 @@ contexts:
     volumes: ["/config"]
     dockerInfo:
       image: saagie/vscode-server
-      version: python-4.1.0-5
+      version: python-4.1.0-6
