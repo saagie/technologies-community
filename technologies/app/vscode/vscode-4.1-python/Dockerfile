@@ -98,7 +98,7 @@ RUN sh -x \
 
 
 # Install Vscode Python extension
-# RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --install-extension ms-python.python
+RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --install-extension ms-python.python
 
 # # # Change settings to run interactive code in jupyter
 # COPY resources/* /config/data/User/
@@ -116,7 +116,6 @@ RUN conda init bash \
     mkdir -p /config/data/User/ \n \
     cp -u /tmp/settings/project-settings.json /config/workspace/.vscode/settings.json \n \
     cp -u /tmp/settings/settings.json /config/data/User/ \n \
-    install-extension ms-python.python \n \
     fix-permissions /config/ \n \
     export PASSWORD=$VSCODE_PASSWORD \n \
     export HASHED_PASSWORD=$VSCODE_HASHED_PASSWORD \n|' /etc/services.d/code-server/run
