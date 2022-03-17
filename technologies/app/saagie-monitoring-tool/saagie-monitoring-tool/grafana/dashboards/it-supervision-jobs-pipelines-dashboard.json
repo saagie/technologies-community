@@ -23,7 +23,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1647428616473,
+  "iteration": 1647514148657,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -577,7 +577,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Failure Ratio"
+              "options": "Success Ratio"
             },
             "properties": [
               {
@@ -591,7 +591,7 @@
               {
                 "id": "color",
                 "value": {
-                  "mode": "continuous-GrYlRd"
+                  "mode": "continuous-RdYlGr"
                 }
               },
               {
@@ -642,11 +642,15 @@
       "pluginVersion": "8.4.1",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "my_unique_uid"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "orchestration_name",
           "rawQuery": true,
-          "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id and  instance_status != 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Failure Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
+          "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and  instance_status = 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Success Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
           "refId": "A",
           "select": [
             [
@@ -670,7 +674,7 @@
           ]
         }
       ],
-      "title": "Failure ratio",
+      "title": "Success ratio",
       "transformations": [],
       "type": "table"
     }
@@ -683,9 +687,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "[TEAM42 - OKAPI] RCAD",
-          "value": "14abe35f-efb1-433b-8127-864baf68fd4f"
+          "selected": false,
+          "text": "Côté Clients - Leclerc",
+          "value": "dbb92e75-dcf9-41f8-962d-75d83ca12d60"
         },
         "definition": "select distinct project_name as\"__text\", project_id as \"__value\" from supervision_saagie",
         "hide": 0,
@@ -714,6 +718,6 @@
   "timezone": "",
   "title": "IT Supervision - Jobs and Pipelines",
   "uid": "eAcqmu6Gk",
-  "version": 5,
+  "version": 4,
   "weekStart": ""
 }
