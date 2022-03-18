@@ -18,7 +18,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 1,
@@ -67,6 +67,7 @@
           },
           "decimals": 2,
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -215,6 +216,6 @@
   "timezone": "",
   "title": "IT Supervision - Data Lake Usage",
   "uid": "4PDAtXeMk",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }
