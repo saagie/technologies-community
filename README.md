@@ -31,7 +31,6 @@ This repository contains community job and application technologies.
 
 |                                                         | Technology                     |Type |Description|
 |---------------------------------------------------------|--------------------------------| --- |--- |
-| <img src="./logos/spark.svg" width="30">                | **Spark History Server**       | App | Monitoring tool that displays information about completed Spark applications
 | <img src="./logos/shinyproxy.svg" width="30">           | **ShinyProxy**                 | App| Open source platform to deploy Shiny apps
 | <img src="./logos/ttyd.svg" width="30">                 | **TTYD**                       | App| Interactive Bash with hadoop commands
 | <img src="./logos/metabase.svg" width="30" >            | **Metabase**                   | App| Open source Business Intelligence server
