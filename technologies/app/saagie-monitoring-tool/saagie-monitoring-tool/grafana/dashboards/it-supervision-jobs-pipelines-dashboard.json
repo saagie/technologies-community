@@ -8,17 +8,24 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "description": "Saagie Jobs and Pipelines duration and status",
   "editable": false,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1623845675652,
+  "id": 3,
+  "iteration": 1647514148657,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "aliasColors": {
@@ -29,11 +36,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -64,7 +66,7 @@
         "alertThreshold": true
       },
       "percentage": true,
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.4.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -101,9 +103,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Status Job Evolution",
       "tooltip": {
         "shared": false,
@@ -112,40 +112,31 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "$$hashKey": "object:68",
-          "decimals": null,
           "format": "percent",
           "label": "% of instances",
           "logBase": 1,
           "max": "100",
-          "min": null,
           "show": true
         },
         {
           "$$hashKey": "object:69",
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -161,7 +152,8 @@
             "hideFrom": {
               "graph": false,
               "legend": false,
-              "tooltip": false
+              "tooltip": false,
+              "viz": false
             },
             "lineInterpolation": "linear",
             "lineStyle": {
@@ -177,7 +169,14 @@
               "type": "linear"
             },
             "showPoints": "always",
-            "spanNulls": true
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -207,8 +206,9 @@
           "displayMode": "list",
           "placement": "right"
         },
-        "tooltipOptions": {
-          "mode": "single"
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "7.5.4",
@@ -240,14 +240,11 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Jobs duration",
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -263,7 +260,8 @@
             "hideFrom": {
               "graph": false,
               "legend": false,
-              "tooltip": false
+              "tooltip": false,
+              "viz": false
             },
             "lineInterpolation": "linear",
             "lineStyle": {
@@ -279,7 +277,14 @@
               "type": "linear"
             },
             "showPoints": "always",
-            "spanNulls": true
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -313,8 +318,9 @@
           "displayMode": "list",
           "placement": "right"
         },
-        "tooltipOptions": {
-          "mode": "single"
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "7.5.4",
@@ -346,15 +352,12 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Pipelines duration",
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": null,
-      "description": "Based on their last instance",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -365,15 +368,7 @@
             "displayMode": "auto",
             "filterable": false
           },
-          "mappings": [
-            {
-              "from": "",
-              "id": 1,
-              "text": "",
-              "to": "",
-              "type": 1
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -389,7 +384,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "instance_duration"
+              "options": "avg_duration"
             },
             "properties": [
               {
@@ -414,7 +409,7 @@
               },
               {
                 "id": "displayName",
-                "value": "Duration"
+                "value": "Average duration"
               },
               {
                 "id": "color",
@@ -431,84 +426,16 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "instance_start_time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "dateTimeAsIso"
-              },
-              {
-                "id": "custom.width",
-                "value": 200
-              },
-              {
-                "id": "displayName",
-                "value": "Start Time"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "instance_end_time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "dateTimeAsIso"
-              },
-              {
-                "id": "custom.width",
-                "value": 200
-              },
-              {
-                "id": "displayName",
-                "value": "End Time"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "instance_status"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 200
-              },
-              {
-                "id": "displayName",
-                "value": "Status"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
               "options": "orchestration_name"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 300
+                "value": 500
               },
               {
                 "id": "displayName",
                 "value": "Job Name"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "instance_saagie_url"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Saagie URL"
               }
             ]
           }
@@ -521,19 +448,29 @@
         "y": 30
       },
       "id": 5,
-      "maxDataPoints": null,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.4.1",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "my_unique_uid"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT instance_duration,orchestration_name,instance_start_time, instance_end_time, instance_status, instance_saagie_url FROM supervision_saagie a\nwhere orchestration_type='job'\nand project_id='$project'\nand instance_start_time = (select max(instance_start_time) from supervision_saagie b\nwhere orchestration_type='job' and a.orchestration_id = b.orchestration_id)\nORDER BY instance_duration DESC\nLIMIT 20",
+          "rawSql": "SELECT orchestration_name,avg(instance_duration) as avg_duration FROM supervision_saagie a\nwhere orchestration_type='job'\nand project_id='$project'\nGROUP BY orchestration_name\nORDER BY avg_duration DESC",
           "refId": "A",
           "select": [
             [
@@ -555,12 +492,11 @@
           ]
         }
       ],
-      "title": "Longest jobs",
+      "title": "Longest jobs (average duration)",
       "transparent": true,
       "type": "table"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -578,13 +514,10 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": [
           {
@@ -644,7 +577,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Failure Ratio"
+              "options": "Success Ratio"
             },
             "properties": [
               {
@@ -658,12 +591,20 @@
               {
                 "id": "color",
                 "value": {
-                  "mode": "continuous-GrYlRd"
+                  "mode": "continuous-RdYlGr"
                 }
               },
               {
                 "id": "custom.width",
                 "value": 500
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "min",
+                "value": 0
               }
             ]
           },
@@ -689,16 +630,27 @@
       },
       "id": 9,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
-      "pluginVersion": "7.5.4",
+      "pluginVersion": "8.4.1",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "my_unique_uid"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "orchestration_name",
           "rawQuery": true,
-          "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id and  instance_status != 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Failure Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
+          "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and  instance_status = 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Success Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
           "refId": "A",
           "select": [
             [
@@ -722,28 +674,24 @@
           ]
         }
       ],
-      "title": "Failure ratio",
+      "title": "Success ratio",
       "transformations": [],
       "type": "table"
     }
   ],
   "refresh": false,
-  "schemaVersion": 27,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {
           "selected": false,
-          "text": "LCB-FT",
-          "value": "e39877ec-1432-46bf-83c2-7f93809fb96e"
+          "text": "Côté Clients - Leclerc",
+          "value": "dbb92e75-dcf9-41f8-962d-75d83ca12d60"
         },
-        "datasource": null,
         "definition": "select distinct project_name as\"__text\", project_id as \"__value\" from supervision_saagie",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Project Name",
@@ -756,7 +704,6 @@
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -771,5 +718,6 @@
   "timezone": "",
   "title": "IT Supervision - Jobs and Pipelines",
   "uid": "eAcqmu6Gk",
-  "version": 55
+  "version": 4,
+  "weekStart": ""
 }
