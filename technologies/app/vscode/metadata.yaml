@@ -13,7 +13,7 @@ contexts:
   - id: vscode-3.9.3
     label: VsCode 3.9.3
     releaseNotes: ""
-    available: true
+    available: false
     trustLevel: experimental
     ports:
       - port: 80
@@ -37,7 +37,7 @@ contexts:
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
       image: saagie/vscode-server
-      version: 4.1.0
+      version: 4.1.0-2
   - id: vscode-python-4.1.0
     label: VS Code Python 4.1.0
     releaseNotes: ""
@@ -51,4 +51,4 @@ contexts:
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
       image: saagie/vscode-server
-      version: python-4.1.0-7
+      version: python-4.1.0-9
