@@ -34,7 +34,7 @@ contexts:
         name: vscode
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
-    volumes: ["/config"]
+    volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
       image: saagie/vscode-server
       version: 4.1.0
