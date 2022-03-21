@@ -18,6 +18,22 @@ COPY resources/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh \   
     && chmod +x /etc/nginx/sites-enabled/nginx.conf
 
+# Copy a script that we will use to correct permissions after running certain commands
+COPY resources/fix-permissions /usr/local/bin/fix-permissions
+RUN chmod a+rx /usr/local/bin/fix-permissions
+
+RUN mkdir -p /tmp/settings
+COPY resources/settings.json /tmp/settings/
+
+RUN sed -i 's/SUDO_PASSWORD/VSCODE_SUDO_PASSWORD/g' /etc/cont-init.d/30-config \
+    && sed -i '2s|^|\
+    export PASSWORD=$VSCODE_PASSWORD \n \
+    export HASHED_PASSWORD=$VSCODE_HASHED_PASSWORD \n \
+    mkdir -p /config/data/User/ \n \ 
+    cp -u /tmp/settings/settings.json /config/data/User/ \n \
+    fix-permissions /config/ \n \
+    |' /etc/services.d/code-server/run
+
 EXPOSE 8443
 
 ENTRYPOINT ["/entrypoint.sh"]

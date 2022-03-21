@@ -1,5 +1,5 @@
 FROM saagie/python:3.9-1.109.0 AS PYTHON310
-FROM saagie/vscode-server:4.1.0
+FROM saagie/vscode-server:4.1.0-2
 
 RUN apt-get update \
     && apt-get install -qqy --no-install-recommends \
@@ -35,10 +35,6 @@ ENV CONDA_DIR=/opt/conda \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 ENV PATH="${CONDA_DIR}/bin:${PATH}"
-
-# Copy a script that we will use to correct permissions after running certain commands
-COPY resources/fix-permissions /usr/local/bin/fix-permissions
-RUN chmod a+rx /usr/local/bin/fix-permissions
 
 # Install miniforge
 ARG CONDA_MIRROR=https://github.com/conda-forge/miniforge/releases/latest/download
@@ -102,7 +98,7 @@ RUN /app/code-server/bin/code-server --extensions-dir /config/extensions/ --inst
 
 # # # Change settings to run interactive code in jupyter
 # COPY resources/* /config/data/User/
-RUN mkdir -p /tmp/settings
+RUN rm /tmp/settings/settings.json
 COPY resources/* /tmp/settings/
 
 ENV CONDA_DEFAULT_ENV=py310
@@ -110,12 +106,7 @@ ENV CONDA_DEFAULT_ENV=py310
 # Setup user env and prefix environment variables with VSCODE_
 RUN conda init bash \
     && echo "conda activate py310" >> ~/.bashrc \
-    # && mkdir -p /config/workspace/.vscode && fix-permissions /config/workspace/ \
-    && sed -i 's/SUDO_PASSWORD/VSCODE_SUDO_PASSWORD/g' /etc/cont-init.d/30-config \
-    && sed -i '2s|^|mkdir -p /config/workspace/.vscode \n \
-    mkdir -p /config/data/User/ \n \
+    && sed -i '2s|^|\
+    mkdir -p /config/workspace/.vscode \n \
     cp -u /tmp/settings/project-settings.json /config/workspace/.vscode/settings.json \n \
-    cp -u /tmp/settings/settings.json /config/data/User/ \n \
-    fix-permissions /config/ \n \
-    export PASSWORD=$VSCODE_PASSWORD \n \
-    export HASHED_PASSWORD=$VSCODE_HASHED_PASSWORD \n|' /etc/services.d/code-server/run
+    |' /etc/services.d/code-server/run
