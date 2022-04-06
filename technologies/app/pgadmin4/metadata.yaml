@@ -13,7 +13,7 @@ contexts:
     label: pgAdmin4 6.5
     releaseNotes: ""
     available: true
-    trustLevel: experimental
+    trustLevel: stable
     ports:
       - port: 80
         name: pgadmin4
