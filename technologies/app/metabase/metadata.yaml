@@ -1,7 +1,7 @@
 version: v1
 type: APP
-id: metabase-0.41
-label: Metabase 0.41
+id: metabase
+label: Metabase
 baseline: "The fastest, easiest way to share data and analytics inside your company"
 description: "The fastest, easiest way to share data and analytics inside your company"
 available: true
