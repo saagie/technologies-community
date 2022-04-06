@@ -9,11 +9,25 @@ icon: metabase
 backgroundColor: "#5ea4e3"
 customFlags: []
 contexts:
+  - id: metabase-0.38
+    label: Metabase 0.38
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: Metabase
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: ["/metabase-data"]
+    dockerInfo:
+      image: saagie/metabase
+      version: 0.38.4
   - id: metabase-0.41
     label: Metabase 0.41
     releaseNotes: ""
     available: true
-    trustLevel: experimental
+    trustLevel: stable
     ports:
       - port: 80
         name: Metabase

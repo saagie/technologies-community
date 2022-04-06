@@ -13,7 +13,7 @@ contexts:
     label: TTYD - Interactive Bash
     releaseNotes: ""
     available: true
-    trustLevel: experimental
+    trustLevel: stable
     ports:
       - port: 7681
         name: ttyd
