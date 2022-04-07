@@ -16,7 +16,6 @@ ENV EXTENSION_SCRIPT=/saagie_entrypoint.sh
 # Bolt connector port 7687
 # HTTP Connector port 7474
 # HTTPS Connector port 7473
-# Redirected port 80
-EXPOSE 7687 80
+EXPOSE 7687 7474 7473
 
 VOLUME ["/data", "/logs", "/var/lib/neo4j/import", "/plugins"]
