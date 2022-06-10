@@ -10,7 +10,7 @@ See Metabase official documentation for more information https://www.metabase.co
 
 Inside the `metabase-x.y` folder corresponding to your version, run :
 ```
-docker build -t saagie/metabase:<version> .
+docker build --build-arg METABASE_VERSION=<version> -t saagie/metabase:<version> .
 docker push saagie/metabase:<version>
 ```
 
