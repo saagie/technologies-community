@@ -9,8 +9,8 @@ icon: superset
 backgroundColor: "#00d1c1"
 customFlags: []
 contexts:
-  - id: apache-superset
-    label: Apache Superset
+  - id: apache-superset-1.3
+    label: Apache Superset 1.3
     releaseNotes: ""
     available: true
     trustLevel: experimental
