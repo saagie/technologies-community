@@ -5,7 +5,7 @@ label: Radiant
 baseline: "Radiant is an open-source platform-independent browser-based interface for business analytics in R."
 description: "The application is based on the Shiny package and can be run locally or on a server"
 available: true
-icon: radiant
+icon: r
 backgroundColor: "#75aadb"
 customFlags: []
 contexts:
