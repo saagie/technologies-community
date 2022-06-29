@@ -33,6 +33,7 @@
         "type": "postgres",
         "uid": "my_unique_uid"
       },
+      "description": "Jobs Failed  in red \nJobs Killed in yellow",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -209,7 +210,7 @@
           ]
         }
       ],
-      "title": "Job Failed Timeline",
+      "title": "Jobs Failed / Killed Timeline",
       "transformations": [],
       "transparent": true,
       "type": "timeseries"
