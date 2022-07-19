@@ -84,21 +84,6 @@
           {
             "matcher": {
               "id": "byFrameRefID",
-              "options": "A"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byFrameRefID",
               "options": "B"
             },
             "properties": [
@@ -157,7 +142,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='FAILED'\n  order by time",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='FAILED'\n  order by time",
           "refId": "B",
           "select": [
             [
@@ -188,7 +173,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name  as job\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='KILLED'\n  order by time",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='KILLED'\n  order by time",
           "refId": "C",
           "select": [
             [
@@ -216,7 +201,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
@@ -231,6 +216,6 @@
   "timezone": "",
   "title": "Jobs Failed Timeline",
   "uid": "1rZzZuj7k",
-  "version": 15,
+  "version": 2,
   "weekStart": ""
 }
