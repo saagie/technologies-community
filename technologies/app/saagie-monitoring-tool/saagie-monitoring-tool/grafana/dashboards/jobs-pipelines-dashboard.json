@@ -22,8 +22,8 @@
   "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1647514148657,
+  "id": 1,
+  "iteration": 1658827593949,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -36,6 +36,10 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -66,7 +70,7 @@
         "alertThreshold": true
       },
       "percentage": true,
-      "pluginVersion": "8.4.1",
+      "pluginVersion": "9.0.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -123,6 +127,7 @@
           "label": "% of instances",
           "logBase": 1,
           "max": "100",
+          "min": "0",
           "show": true
         },
         {
@@ -137,6 +142,10 @@
       }
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -245,6 +254,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -357,6 +370,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -366,7 +383,8 @@
           "custom": {
             "align": "left",
             "displayMode": "auto",
-            "filterable": false
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -459,7 +477,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.4.1",
+      "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
@@ -470,7 +488,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT orchestration_name,avg(instance_duration) as avg_duration FROM supervision_saagie a\nwhere orchestration_type='job'\nand project_id='$project'\nGROUP BY orchestration_name\nORDER BY avg_duration DESC",
+          "rawSql": "SELECT orchestration_name,avg(instance_duration) as avg_duration FROM supervision_saagie a\nwhere $__timeFilter(instance_start_time)\n  and orchestration_type='job'\nand project_id='$project'\nGROUP BY orchestration_name\nORDER BY avg_duration DESC",
           "refId": "A",
           "select": [
             [
@@ -497,6 +515,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "my_unique_uid"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -505,7 +527,8 @@
           "custom": {
             "align": "left",
             "displayMode": "auto",
-            "filterable": false
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -639,7 +662,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.4.1",
+      "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
@@ -650,7 +673,7 @@
           "group": [],
           "metricColumn": "orchestration_name",
           "rawQuery": true,
-          "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and  instance_status = 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Success Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
+          "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE project_id='$project' and t1.orchestration_id = t2.orchestration_id and  instance_status = 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Success Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere $__timeFilter(instance_start_time)\n  and  project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
           "refId": "A",
           "select": [
             [
@@ -680,16 +703,20 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 35,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "Côté Clients - Leclerc",
-          "value": "dbb92e75-dcf9-41f8-962d-75d83ca12d60"
+          "selected": true,
+          "text": "New Project Nicolas C",
+          "value": "8321e13c-892a-4481-8552-5be4b6cc5df4"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "my_unique_uid"
         },
         "definition": "select distinct project_name as\"__text\", project_id as \"__value\" from supervision_saagie",
         "hide": 0,
@@ -711,13 +738,13 @@
     ]
   },
   "time": {
-    "from": "now-30d",
+    "from": "now-90d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Jobs and Pipelines",
   "uid": "eAcqmu6Gk",
-  "version": 4,
+  "version": 3,
   "weekStart": ""
 }
