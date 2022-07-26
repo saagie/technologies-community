@@ -18,7 +18,7 @@ RUN update-ca-certificates -f;
 RUN cd / \
     && mkdir hadoop \
     && cd hadoop \
-    && wget https://archive.apache.org/dist/hadoop/common/hadoop-2.6.5/hadoop-2.6.5.tar.gz \
+    && wget -q https://archive.apache.org/dist/hadoop/common/hadoop-2.6.5/hadoop-2.6.5.tar.gz \
     && tar xvf hadoop-2.6.5.tar.gz \
     && rm hadoop-2.6.5.tar.gz \
     && rm -rf hadoop-2.6.5/etc/hadoop \
