@@ -53,7 +53,7 @@
             },
             "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 7,
             "scaleDistribution": {
               "log": 2,
               "type": "log"
@@ -142,7 +142,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='FAILED'\n  order by time",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='FAILED'\n  and project_name in (${Project})\n  order by time",
           "refId": "B",
           "select": [
             [
@@ -173,7 +173,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='KILLED'\n  order by time",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='KILLED'\n  and project_name in (${Project})\n  order by time",
           "refId": "C",
           "select": [
             [
@@ -206,7 +206,33 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "SELECT DISTINCT project_name \nFROM supervision_saagie_jobs\nORDER BY 1",
+        "description": "Project",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Project",
+        "multi": true,
+        "name": "Project",
+        "options": [],
+        "query": "SELECT DISTINCT project_name \nFROM supervision_saagie_jobs\nORDER BY 1",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-7d",
