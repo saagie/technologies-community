@@ -45,6 +45,7 @@ class UrlFixer:
     @staticmethod
     def _run(replacements: list, path: str, ext: str, func) -> None:
         for filename in UrlFixer.find_files(path, ext):
+            print("Replacement in " + filename)
             fin = open(filename, "rt")
             content = fin.read()
             new_content = func(replacements, content)

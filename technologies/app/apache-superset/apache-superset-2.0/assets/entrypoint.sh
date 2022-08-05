@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
+
 if [[ -z "${SUPERSET_ADMIN_PASSWORD}" ]]; then
   echo "ERROR : Superset admin password must be set through SUPERSET_ADMIN_PASSWORD environment variable. Exiting."
   exit 1
