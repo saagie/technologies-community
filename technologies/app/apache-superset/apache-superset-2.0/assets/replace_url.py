@@ -35,7 +35,8 @@ replacementsInPython: list = [
     ('label=__("CSS Templates"),', f'label=__("CSS Templates"), href="/{prefix}/csstemplatemodelview/list/",'),
     ('label=__("Row level security"),',
      f'label=__("Row level security"), href="/{prefix}/rowlevelsecurityfiltersmodelview/list/",'),
-    ('label=__("Action Log"),', f'label=__("Action Log"), href="/{prefix}/logmodelview/list/",')
+    ('label=__("Action Log"),', f'label=__("Action Log"), href="/{prefix}/logmodelview/list/",'),
+    ('LOGO_TARGET_PATH = None', 'LOGO_TARGET_PATH = "/' + prefix + '"')
 ]
 
 replacementsInJavascript: list = [
