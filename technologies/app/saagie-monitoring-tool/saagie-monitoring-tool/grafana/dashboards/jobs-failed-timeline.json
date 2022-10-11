@@ -24,7 +24,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 3,
+  "iteration": 1665493226485,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -68,6 +69,13 @@
               "mode": "off"
             }
           },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Job",
+              "url": "${__field.labels.instance_saagie_url}"
+            }
+          ],
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -93,6 +101,10 @@
                   "fixedColor": "red",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "${__field.labels.metric}"
               }
             ]
           },
@@ -108,6 +120,10 @@
                   "fixedColor": "yellow",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "${__field.labels.metric}"
               }
             ]
           }
@@ -142,7 +158,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='FAILED'\n  and project_name in (${Project})\n  order by time",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric,\n  instance_saagie_url\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='FAILED'\n  and project_name in (${Project})\n  order by time",
           "refId": "B",
           "select": [
             [
@@ -173,7 +189,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='KILLED'\n  and project_name in (${Project})\n  order by time",
+          "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  instance_duration as value,\n  project_name || ' - '|| orchestration_name || ' - '|| instance_status  as metric,\n  instance_saagie_url\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and instance_status='KILLED'\n  and project_name in (${Project})\n  order by time",
           "refId": "C",
           "select": [
             [
@@ -217,7 +233,11 @@
             "$__all"
           ]
         },
-        "definition": "SELECT DISTINCT project_name \nFROM supervision_saagie_jobs\nORDER BY 1",
+        "datasource": {
+          "type": "postgres",
+          "uid": "my_unique_uid"
+        },
+        "definition": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
         "description": "Project",
         "hide": 0,
         "includeAll": true,
@@ -225,7 +245,7 @@
         "multi": true,
         "name": "Project",
         "options": [],
-        "query": "SELECT DISTINCT project_name \nFROM supervision_saagie_jobs\nORDER BY 1",
+        "query": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -242,6 +262,6 @@
   "timezone": "",
   "title": "Jobs Failed Timeline",
   "uid": "1rZzZuj7k",
-  "version": 2,
+  "version": 6,
   "weekStart": ""
 }
