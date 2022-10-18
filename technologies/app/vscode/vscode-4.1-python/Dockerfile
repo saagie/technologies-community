@@ -110,3 +110,39 @@ RUN conda init bash \
     mkdir -p /config/workspace/.vscode \n \
     cp -u /tmp/settings/project-settings.json /config/workspace/.vscode/settings.json \n \
     |' /etc/services.d/code-server/run
+    
+#Install Java, Hadoop and Hive
+ENV APACHE_URL="https://archive.apache.org/dist"
+ENV HADOOP_VERSION=2.6.0
+ENV HADOOP_FILE="hadoop-${HADOOP_VERSION}"
+ENV HADOOP_URL="${APACHE_URL}/hadoop/common/${HADOOP_FILE}"
+ENV HADOOP_PREFIX="/usr/lib/hadoop"
+ENV HADOOP_HOME="/usr/lib/hadoop"
+
+RUN apt-get update && \
+    apt-get install -yqq --no-install-recommends openjdk-11-jdk && \
+    rm -rf /var/lib/apt/lists/*
+    
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+#ENV CLASSPATH=`$HADOOP_HOME/bin/hadoop classpath --glob`
+ENV PATH="${PATH}:${HADOOP_PREFIX}/bin"
+
+# Hadoop client installation
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sL "${HADOOP_URL}/${HADOOP_FILE}.tar.gz" | tar xzf - -C "/" \
+    && ln -s "/${HADOOP_FILE}" "${HADOOP_PREFIX}"
+ENV PATH "${PATH}:${HADOOP_PREFIX}/bin"
+ENV HADOOP_COMMON_HOME "${HADOOP_PREFIX}"
+
+
+# From https://cwiki.apache.org/confluence/display/Hive/Hive+on+Spark%3A+Getting+Started
+# Solves JLine version incompatibility between Hadoop and Hive
+ENV HADOOP_USER_CLASSPATH_FIRST "true"
+
+RUN sed '9iexport CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath --glob)' /entrypoint.sh > /entrypoint.sh2 && \
+	rm /entrypoint.sh && \
+	mv /entrypoint.sh2 /entrypoint.sh && \
+	chmod +x /entrypoint.sh
+
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native"
+
