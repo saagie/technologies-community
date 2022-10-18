@@ -1,10 +1,11 @@
 # Saagie Monitoring Tool
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/saagie-monitoring-tool/0.28?label=v0.28%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/saagie-monitoring-tool/0.43?label=v0.43%20image%20size&style=for-the-badge)
 
 ## Description
 
 This directory contains Saagie Monitoring Tool based on Grafana dashboards.
+The version 1.0 works with Saagie >= 3.0.0
 
 ## How to build in local
 
