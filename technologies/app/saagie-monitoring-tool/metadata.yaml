@@ -9,8 +9,8 @@ icon: project-activity
 backgroundColor: "#253c5b"
 customFlags: []
 contexts:
-  - id: saagie-monitoring-tool-0.43
-    label: Saagie Monitoring Tool 0.43
+  - id: saagie-monitoring-tool-2.0
+    label: Saagie Monitoring Tool for Saagie 2.x
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -23,8 +23,8 @@ contexts:
     dockerInfo:
       image: saagie/saagie-monitoring-tool
       version: 0.43
-  - id: saagie-monitoring-tool-1.0
-    label: Saagie Monitoring Tool 1.0
+  - id: saagie-monitoring-tool-3.0
+    label: Saagie Monitoring Tool for Saagie 3.x
     releaseNotes: ""
     available: true
     trustLevel: experimental
