@@ -52,13 +52,14 @@ def get_s3_metrics():
     with utils.S3Utils() as s3_utils, utils.DatabaseUtils() as database_utils:
         buckets = s3_utils.get_all_buckets()
         total_size = 0
+        total_objects = 0
         for bucket in buckets['Buckets']:
-            bucket_size = s3_utils.get_bucket_size(bucket['Name'])
-            #get prefix and put it in a hashamp
+            bucket_size, number_of_objects = s3_utils.get_bucket_size(bucket['Name'], database_utils)
             total_size += bucket_size
-            database_utils.supervision_s3_to_pg("bucket_size", bucket['Name'], utils.bytes_to_gb(bucket_size))
-        database_utils.supervision_s3_to_pg("bucket_size", 'all_buckets', utils.bytes_to_gb(total_size))
+            total_objects += number_of_objects
 
+        database_utils.supervision_s3_to_pg("bucket_size", 'all_buckets', utils.bytes_to_gb(total_size))
+        database_utils.supervision_s3_to_pg("bucket_objects", 'all_buckets', total_objects)
 
 def get_metrics_for_folder(client_hdfs, database_utils, folder):
     sub = client_hdfs.content(folder)
@@ -198,7 +199,7 @@ def main():
         get_datalake_metrics()
     elif monitoring_type == "SAAGIE_AND_S3":
         logging.info("Get saagie metrics")
-        # get_saagie_metrics() #TODO
+        get_saagie_metrics()
         logging.info("Get S3 metrics")
         get_s3_metrics()
     else:

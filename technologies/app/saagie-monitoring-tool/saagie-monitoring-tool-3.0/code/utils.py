@@ -221,19 +221,56 @@ class S3Utils(object):
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, tb)
 
-    def get_bucket_size(self, bucket):
-        total_size = 0
+    def get_bucket_size(self, bucket_name, database_utils):
+        """
+        Save size and # objects for each bucket and each object prefix
+        :param bucket_name: name of the bucket
+        :param database_utils: utils to save metrics in pg
+        :return: a tuple (total bucket size, total number of files) for the bucket
+        """
+        total_bucket_size = 0
+        total_bucket_objects = 0
+        prefix_size = {}
+        prefix_objects = {}
         try:
-            bucket = self._s3_resource.Bucket(bucket)
-            for object in bucket.objects.all():
-                total_size += object.size
-            return total_size
+            bucket = self._s3_resource.Bucket(bucket_name)
+            for bucket_object in bucket.objects.all():
+                prefix = self.get_object_prefix(bucket_name, bucket_object.key)
+                if prefix:
+                    total_bucket_size += bucket_object.size
+                    total_bucket_objects += 1
+                    prefix_size[prefix] = prefix_size.get(prefix, 0) + bucket_object.size
+                    if bucket_object.size > 0:
+                        prefix_objects[prefix] = prefix_objects.get(prefix, 0) + 1
+            for prefix, size in prefix_size.items():
+                database_utils.supervision_s3_to_pg("prefix_size", prefix, bytes_to_gb(size))
+            for prefix, number_objects in prefix_objects.items():
+                database_utils.supervision_s3_to_pg("prefix_objects", prefix, number_objects)
+            database_utils.supervision_s3_to_pg("bucket_size", bucket_name, bytes_to_gb(total_bucket_size))
+            database_utils.supervision_s3_to_pg("bucket_objects", bucket_name, bytes_to_gb(total_bucket_objects))
+            return total_bucket_size, total_bucket_objects
         except botocore.exceptions.ClientError:
-            logging.error(f"Cannot fetch metrics from bucket {bucket}")
-            return 0
+            logging.warning(f"Cannot fetch metrics from bucket {bucket_name}")
+            return 0, 0
 
     def get_all_buckets(self):
+        """
+        Returns all the buckets
+        :return: a list of buckets
+        """
         return self._s3_client.list_buckets()
+
+    @staticmethod
+    def get_object_prefix(bucket_name: str, object_key: str):
+        """
+        Returns the prefix of the object key if it's an object, None if it's a directory
+        :param bucket_name: name of the bucket
+        :param object_key: the object's key
+        :return: a string containning the object prefix
+        """
+        if object_key.endswith("/") or not object_key:
+            return None
+        return bucket_name + ("/" + object_key.split("/")[0] if "/" in object_key else "/")
 
 
 class DatabaseUtils(object):
