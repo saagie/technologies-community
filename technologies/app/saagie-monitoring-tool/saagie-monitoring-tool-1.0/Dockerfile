@@ -44,19 +44,21 @@ RUN chown postgres:postgres /run/postgresql/ \
   && chmod 777 /run/postgresql
 
 ## Configure Grafana
-RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app
+RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app && mkdir /var/lib/grafana/dashboards
 
 ADD server.conf /etc/nginx/sites-enabled/grafana.conf
 ADD grafana.ini /etc/grafana/grafana.ini
 
 ADD grafana/provisioning /etc/grafana/provisioning
-ADD grafana/dashboards /var/lib/grafana/dashboards
+ADD grafana/dashboards /var/lib/grafana/tmp-dashboards
 
 ENV GF_PATHS_DATA /opt/grafana
 ENV GF_PATHS_PLUGINS /opt/plugins
 
 ADD code /app
 ADD infra.sql infra.sql
+
+RUN grafana-cli --pluginsDir "/opt/plugins" plugins install marcusolsson-treemap-panel
 
 EXPOSE 80
 ADD entrypoint.sh /entrypoint.sh

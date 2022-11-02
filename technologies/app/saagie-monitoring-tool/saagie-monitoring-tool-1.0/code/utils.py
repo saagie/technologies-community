@@ -432,3 +432,9 @@ def get_hadoop_space_used(hdfs):
     :return: total space used in GB rounded to 2 decimals
     """
     return bytes_to_gb(hdfs.get_space_used())
+
+def get_average_file_size(sub):
+    """
+    Get the average file size of a subdirectory
+    """
+    return sub["length"] / sub["fileCount"] if sub["length"] != 0 else 0

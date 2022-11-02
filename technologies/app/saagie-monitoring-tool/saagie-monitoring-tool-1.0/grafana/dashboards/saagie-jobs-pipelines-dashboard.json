@@ -11,7 +11,9 @@
         "target": {
           "limit": 100,
           "matchAny": false,
-          "tags": [],
+          "tags": [
+            
+          ],
           "type": "dashboard"
         },
         "type": "dashboard"
@@ -24,7 +26,9 @@
   "graphTooltip": 0,
   "id": 1,
   "iteration": 1658827593949,
-  "links": [],
+  "links": [
+    
+  ],
   "liveNow": false,
   "panels": [
     {
@@ -74,14 +78,18 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        
+      ],
       "spaceLength": 10,
       "stack": true,
       "steppedLine": false,
       "targets": [
         {
           "format": "time_series",
-          "group": [],
+          "group": [
+            
+          ],
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT\n  date(instance_start_time) AS \"time\",\n  instance_status as \"metric\",\n  count(*) AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and project_id='$project'\n  group by time, metric\n  order by time, metric\n \n  \n",
@@ -100,14 +108,20 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+                
+              ],
               "type": "macro"
             }
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
+      "thresholds": [
+        
+      ],
+      "timeRegions": [
+        
+      ],
       "title": "Status Job Evolution",
       "tooltip": {
         "shared": false,
@@ -118,7 +132,9 @@
       "xaxis": {
         "mode": "time",
         "show": true,
-        "values": []
+        "values": [
+          
+        ]
       },
       "yaxes": [
         {
@@ -187,7 +203,9 @@
               "mode": "off"
             }
           },
-          "mappings": [],
+          "mappings": [
+            
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -199,7 +217,9 @@
           },
           "unit": "ms"
         },
-        "overrides": []
+        "overrides": [
+          
+        ]
       },
       "gridPos": {
         "h": 11,
@@ -209,9 +229,13 @@
       },
       "id": 2,
       "options": {
-        "graph": {},
+        "graph": {
+          
+        },
         "legend": {
-          "calcs": [],
+          "calcs": [
+            
+          ],
           "displayMode": "list",
           "placement": "right"
         },
@@ -224,7 +248,9 @@
       "targets": [
         {
           "format": "time_series",
-          "group": [],
+          "group": [
+            
+          ],
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  orchestration_name as \"metric\",\n  instance_duration AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='job'\n  and project_id='$project'\nORDER BY 1 ASC",
@@ -243,7 +269,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+                
+              ],
               "type": "macro"
             }
           ]
@@ -299,7 +327,9 @@
               "mode": "off"
             }
           },
-          "mappings": [],
+          "mappings": [
+            
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -315,7 +345,9 @@
           },
           "unit": "ms"
         },
-        "overrides": []
+        "overrides": [
+          
+        ]
       },
       "gridPos": {
         "h": 11,
@@ -325,9 +357,13 @@
       },
       "id": 3,
       "options": {
-        "graph": {},
+        "graph": {
+          
+        },
         "legend": {
-          "calcs": [],
+          "calcs": [
+            
+          ],
           "displayMode": "list",
           "placement": "right"
         },
@@ -340,7 +376,9 @@
       "targets": [
         {
           "format": "time_series",
-          "group": [],
+          "group": [
+            
+          ],
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT\n  instance_start_time AS \"time\",\n  orchestration_name as \"metric\",\n  instance_duration AS \"value\"\nFROM supervision_saagie\nWHERE\n  $__timeFilter(instance_start_time)\n  and orchestration_type='pipeline'\n  and project_id='$project'\nORDER BY 1 ASC",
@@ -359,7 +397,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+                
+              ],
               "type": "macro"
             }
           ]
@@ -386,7 +426,9 @@
             "filterable": false,
             "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+            
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -475,7 +517,9 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          
+        ]
       },
       "pluginVersion": "9.0.0",
       "targets": [
@@ -485,7 +529,9 @@
             "uid": "my_unique_uid"
           },
           "format": "table",
-          "group": [],
+          "group": [
+            
+          ],
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT orchestration_name,avg(instance_duration) as avg_duration FROM supervision_saagie a\nwhere $__timeFilter(instance_start_time)\n  and orchestration_type='job'\nand project_id='$project'\nGROUP BY orchestration_name\nORDER BY avg_duration DESC",
@@ -504,7 +550,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+                
+              ],
               "type": "macro"
             }
           ]
@@ -530,7 +578,9 @@
             "filterable": false,
             "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+            
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -670,7 +720,9 @@
             "uid": "my_unique_uid"
           },
           "format": "table",
-          "group": [],
+          "group": [
+            
+          ],
           "metricColumn": "orchestration_name",
           "rawQuery": true,
           "rawSql": "SELECT\n    \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id and  instance_status = 'SUCCEEDED') AS DECIMAL) / \n    CAST((SELECT COUNT(*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id ) AS DECIMAL)*100 AS \"Success Ratio\",\n    orchestration_name as \"Job Name\", \n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status = 'SUCCEEDED') AS \"Success\",\n\t(SELECT COUNT (*) FROM supervision_saagie t2 WHERE $__timeFilter(instance_start_time) and project_id='$project' and t1.orchestration_id = t2.orchestration_id and instance_status != 'SUCCEEDED') AS \"Failed\"\n\tFROM supervision_saagie t1 \n\twhere $__timeFilter(instance_start_time)\n  and  project_id='$project'\n\tgroup by orchestration_id,orchestration_name\norder by 1 DESC",
@@ -691,21 +743,27 @@
           "where": [
             {
               "name": "$__unixEpochFilter",
-              "params": [],
+              "params": [
+                
+              ],
               "type": "macro"
             }
           ]
         }
       ],
       "title": "Success ratio",
-      "transformations": [],
+      "transformations": [
+        
+      ],
       "type": "table"
     }
   ],
   "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    
+  ],
   "templating": {
     "list": [
       {
@@ -724,7 +782,9 @@
         "label": "Project Name",
         "multi": false,
         "name": "project",
-        "options": [],
+        "options": [
+          
+        ],
         "query": "select distinct project_name as\"__text\", project_id as \"__value\" from supervision_saagie",
         "refresh": 1,
         "regex": "",
@@ -741,9 +801,11 @@
     "from": "now-90d",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    
+  },
   "timezone": "",
-  "title": "Jobs and Pipelines",
+  "title": "Saagie - Jobs and Pipelines",
   "uid": "eAcqmu6Gk",
   "version": 3,
   "weekStart": ""
