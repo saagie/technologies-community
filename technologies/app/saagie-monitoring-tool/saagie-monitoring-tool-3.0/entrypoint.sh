@@ -49,6 +49,12 @@ fi
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/grafana/grafana.ini
 sed -i 's:SAAGIE_BASE_PATH:'"$SAAGIE_BASE_PATH"':g' /etc/nginx/sites-enabled/grafana.conf
 
+cp /var/lib/grafana/tmp-dashboards/saagie*.json /var/lib/grafana/dashboards/
+
+if [ "$MONITORING_OPT" == "SAAGIE_AND_DATALAKE" ]; then
+   cp /var/lib/grafana/tmp-dashboards/datalake*.json /var/lib/grafana/dashboards/
+fi
+
 echo "0 * * * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \
 && crontab mycron \
 && rm mycron \

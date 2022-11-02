@@ -14,7 +14,9 @@
         "target": {
           "limit": 100,
           "matchAny": false,
-          "tags": [],
+          "tags": [
+
+          ],
           "type": "dashboard"
         },
         "type": "dashboard"
@@ -25,7 +27,9 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 2,
-  "links": [],
+  "links": [
+
+  ],
   "liveNow": false,
   "panels": [
     {
@@ -40,7 +44,9 @@
             "mode": "fixed"
           },
           "decimals": 0,
-          "mappings": [],
+          "mappings": [
+
+          ],
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -53,7 +59,9 @@
           },
           "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+
+        ]
       },
       "gridPos": {
         "h": 11,
@@ -74,14 +82,18 @@
           "fields": "",
           "values": true
         },
-        "text": {},
+        "text": {
+
+        },
         "textMode": "auto"
       },
       "pluginVersion": "9.0.0",
       "targets": [
         {
           "format": "table",
-          "group": [],
+          "group": [
+
+          ],
           "metricColumn": "orchestration_id",
           "rawQuery": true,
           "rawSql": "SELECT\n  sum(job_count)\nFROM supervision_saagie_jobs_snapshot\nwhere snapshot_date = (select MAX(snapshot_date) FROM supervision_saagie_jobs_snapshot )",
@@ -102,7 +114,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
@@ -128,7 +142,9 @@
             "filterable": false,
             "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -237,7 +253,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
@@ -262,7 +280,9 @@
         "defaults": {
           "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+
+        ]
       },
       "fill": 6,
       "fillGradient": 5,
@@ -350,14 +370,20 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
+      "thresholds": [
+
+      ],
+      "timeRegions": [
+
+      ],
       "title": "Job/App evolution",
       "tooltip": {
         "shared": true,
@@ -369,7 +395,9 @@
       "xaxis": {
         "mode": "time",
         "show": true,
-        "values": []
+        "values": [
+
+        ]
       },
       "yaxes": [
         {
@@ -406,7 +434,9 @@
             "filterable": false,
             "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -580,7 +610,9 @@
             "uid": "my_unique_uid"
           },
           "format": "table",
-          "group": [],
+          "group": [
+
+          ],
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT\n  project_name as \"Project\",\n  orchestration_name as \"Name\",\n  technology as \"Technology\",\n  orchestration_category as \"Category\",\n  creation_date as \"Creation Date\",\n  instance_count as \"# of instances\"\n  FROM supervision_saagie_jobs\n  ORDER BY 1,2,3 ASC\n",
@@ -649,7 +681,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
@@ -673,7 +707,9 @@
             "displayMode": "auto",
             "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -901,7 +937,9 @@
             "uid": "my_unique_uid"
           },
           "format": "table",
-          "group": [],
+          "group": [
+
+          ],
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT\n  project_name as \"Project\",\n  orchestration_name as \"Name\",\n  technology as \"Technology\",\n  current_status as \"Current Status\",\n  creation_date as \"Creation Date\",\n  start_time as \"Start Time\",\n  stop_time as \"Stop Time\"\n  \nFROM supervision_saagie_apps\nORDER BY 1,2,3",
@@ -962,7 +1000,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
@@ -975,17 +1015,23 @@
   "refresh": "",
   "schemaVersion": 36,
   "style": "dark",
-  "tags": [],
+  "tags": [
+
+  ],
   "templating": {
-    "list": []
+    "list": [
+
+    ]
   },
   "time": {
     "from": "now-30d",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+
+  },
   "timezone": "",
-  "title": "Saagie Job Count",
+  "title": "Saagie - Job Count",
   "uid": "Ijjz6DR7z",
   "version": 28,
   "weekStart": ""

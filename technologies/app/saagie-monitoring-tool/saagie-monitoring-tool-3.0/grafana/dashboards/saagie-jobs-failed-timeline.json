@@ -14,7 +14,9 @@
         "target": {
           "limit": 100,
           "matchAny": false,
-          "tags": [],
+          "tags": [
+
+          ],
           "type": "dashboard"
         },
         "type": "dashboard"
@@ -26,7 +28,9 @@
   "graphTooltip": 0,
   "id": 3,
   "iteration": 1665493226485,
-  "links": [],
+  "links": [
+
+  ],
   "liveNow": false,
   "panels": [
     {
@@ -76,7 +80,9 @@
               "url": "${__field.labels.instance_saagie_url}"
             }
           ],
-          "mappings": [],
+          "mappings": [
+
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -138,7 +144,9 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+
+          ],
           "displayMode": "hidden",
           "placement": "bottom"
         },
@@ -154,7 +162,9 @@
             "uid": "my_unique_uid"
           },
           "format": "time_series",
-          "group": [],
+          "group": [
+
+          ],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
@@ -174,7 +184,9 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
@@ -185,7 +197,9 @@
             "uid": "my_unique_uid"
           },
           "format": "time_series",
-          "group": [],
+          "group": [
+
+          ],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
@@ -205,14 +219,18 @@
           "where": [
             {
               "name": "$__timeFilter",
-              "params": [],
+              "params": [
+
+              ],
               "type": "macro"
             }
           ]
         }
       ],
       "title": "Jobs Failed / Killed Timeline",
-      "transformations": [],
+      "transformations": [
+
+      ],
       "transparent": true,
       "type": "timeseries"
     }
@@ -220,7 +238,9 @@
   "refresh": "",
   "schemaVersion": 36,
   "style": "dark",
-  "tags": [],
+  "tags": [
+
+  ],
   "templating": {
     "list": [
       {
@@ -244,7 +264,9 @@
         "label": "Project",
         "multi": true,
         "name": "Project",
-        "options": [],
+        "options": [
+
+        ],
         "query": "SELECT DISTINCT project_name\nFROM supervision_saagie_jobs\nORDER BY 1",
         "refresh": 1,
         "regex": "",
@@ -258,9 +280,11 @@
     "from": "now-7d",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+
+  },
   "timezone": "",
-  "title": "Jobs Failed Timeline",
+  "title": "Saagie - Jobs Failed Timeline",
   "uid": "1rZzZuj7k",
   "version": 6,
   "weekStart": ""

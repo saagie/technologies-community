@@ -4,6 +4,7 @@ import sys
 import os
 import pyarrow as pa
 from datetime import datetime
+from hdfs import InsecureClient
 
 monitoring_type = os.environ["MONITORING_OPT"]
 
@@ -21,6 +22,32 @@ def get_datalake_metrics():
         logging.debug(f"total_space_used : {total_space_used}")
         database_utils.supervision_datalake_to_pg("total_capacity", total_capacity)
         database_utils.supervision_datalake_to_pg("total_used", total_space_used)
+
+        # Get count files
+        client_hdfs = InsecureClient("http://" + os.environ["IP_HDFS"] + ":50070", user="hdfs")
+        content_root = client_hdfs.list("/", status=True)
+
+        get_metrics_for_folder(client_hdfs=client_hdfs,
+                               database_utils=database_utils,
+                               folder="/")
+        for f in content_root:
+            if f[1]['type'] == 'DIRECTORY':
+                base_folder = "/" + f[0]
+                get_metrics_for_folder(client_hdfs=client_hdfs,
+                                       database_utils=database_utils,
+                                       folder=base_folder)
+            content_data = client_hdfs.list(base_folder, status=True)
+            for f in content_data:
+                if f[1]['type'] == 'DIRECTORY':
+                    get_metrics_for_folder(client_hdfs=client_hdfs,
+                                           database_utils=database_utils,
+                                           folder=base_folder + "/" + f[0])
+
+def get_metrics_for_folder(client_hdfs, database_utils, folder):
+    sub = client_hdfs.content(folder)
+    database_utils.supervision_datalake_to_pg(f"Data size {folder}", sub["length"])
+    database_utils.supervision_datalake_to_pg(f"File Count {folder}", sub["fileCount"])
+    database_utils.supervision_datalake_to_pg(f"Average size file {folder}", utils.get_average_file_size(sub))
 
 
 def get_saagie_metrics():
