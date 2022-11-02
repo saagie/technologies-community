@@ -53,6 +53,8 @@ cp /var/lib/grafana/tmp-dashboards/saagie*.json /var/lib/grafana/dashboards/
 
 if [ "$MONITORING_OPT" == "SAAGIE_AND_DATALAKE" ]; then
    cp /var/lib/grafana/tmp-dashboards/datalake*.json /var/lib/grafana/dashboards/
+elif [ "$MONITORING_OPT" == "SAAGIE_AND_S3" ]; then
+   cp /var/lib/grafana/tmp-dashboards/s3*.json /var/lib/grafana/dashboards/
 fi
 
 echo "0 * * * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \

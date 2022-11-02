@@ -60,3 +60,12 @@ create TABLE supervision_datalake
      supervision_value NUMERIC(20, 2),
      PRIMARY KEY (supervision_date, supervision_label)
   );
+
+ create TABLE supervision_s3
+  (
+     supervision_date  DATE,
+     supervision_label VARCHAR(120),
+     supervision_namespace VARCHAR(120),
+     supervision_value NUMERIC(20, 2),
+     PRIMARY KEY (supervision_date, supervision_label,supervision_namespace)
+  );

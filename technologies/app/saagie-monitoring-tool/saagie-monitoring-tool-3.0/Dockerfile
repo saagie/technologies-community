@@ -1,4 +1,4 @@
-FROM grafana/grafana:9.0.0-ubuntu
+FROM grafana/grafana:9.2.3-ubuntu
 
 USER root
 # Install Dependencies

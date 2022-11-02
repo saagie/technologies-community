@@ -24,6 +24,10 @@ To deploy Saagie Monitoring Tool on your platform, you need to create a user wit
 - SAAGIE_URL : URL of the Saagie plateform (i.e. : `https://saagie-workspace.prod.saagie.io`)
 - SAAGIE_REALM : Realm of your Saagie plateform (i.e: `saagie` if your URL is `https://saagie-workspace.prod.saagie.io`)
 - SAAGIE_PLATFORM_ID : ID of your plateform (i.e. : `4`)
-- MONITORING_OPT : `SAAGIE` if you want to monitor only Saagie or `SAAGIE_AND_DATALAKE` if you want to monitor Saagie and HDFS
+- MONITORING_OPT : 
+  - `SAAGIE` if you want to monitor only Saagie 
+  - `SAAGIE_AND_DATALAKE` if you want to monitor Saagie and HDFS
+  - `SAAGIE_AND_S3` if you want to monitor Saagie and S3 buckets
 - IP_HDFS (Required if MONITORING_OPT=`SAAGIE_AND_DATALAKE`) : Namenode IP
+- AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_ENDPOINT and AWS_REGION_NAME (Required if MONITORING_OPT=`SAAGIE_AND_S3`)
 
