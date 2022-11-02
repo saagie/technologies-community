@@ -172,7 +172,19 @@ def log_instance_metrics(database_utils, instances, job_or_pipeline, orchestrati
 
 
 def main():
-    get_datalake_metrics()
+    if monitoring_type == "SAAGIE":
+        logging.info("Get saagie metrics")
+        get_saagie_metrics()
+    elif monitoring_type == "SAAGIE_AND_DATALAKE":
+        logging.info("Get saagie metrics")
+        get_saagie_metrics()
+        logging.info("Get datalake metrics")
+        get_datalake_metrics()
+    else:
+        logging.error("MONITORING_OPT wrong or missing, correct options are : 'SAAGIE' or 'SAAGIE_AND_DATALAKE'")
+        sys.exit(1)
+    logging.info("Metrics successfully gathered")
+
 
 if __name__ == "__main__":
     logging.getLogger("pyarrow").setLevel(logging.ERROR)
