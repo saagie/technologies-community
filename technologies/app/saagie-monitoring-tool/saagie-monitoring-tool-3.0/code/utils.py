@@ -14,6 +14,8 @@ import json
 import os
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+logging.getLogger("boto3").setLevel(logging.WARNING)
+logging.getLogger("botocore").setLevel(logging.WARNING)
 
 postgresql_db = "supervision_pg_db"
 postgresql_user = "supervision_pg_user"
@@ -207,9 +209,6 @@ class ApiUtils(object):
 class S3Utils(object):
 
     def __init__(self):
-        self._s3_client = boto3.client("s3",
-                                       endpoint_url=s3_endpoint,
-                                       region_name=s3_region)
         self._s3_resource = boto3.resource("s3",
                                            endpoint_url=s3_endpoint,
                                            region_name=s3_region)
@@ -258,7 +257,7 @@ class S3Utils(object):
         Returns all the buckets
         :return: a list of buckets
         """
-        return self._s3_client.list_buckets()
+        return self._s3_resource.buckets.all()
 
     @staticmethod
     def get_object_prefix(bucket_name: str, object_key: str):

@@ -20,6 +20,10 @@ echo \#!/bin/bash
   echo export SAAGIE_PLATFORM_ID=$SAAGIE_PLATFORM_ID
   echo export MONITORING_OPT=$MONITORING_OPT
   echo export IP_HDFS=$IP_HDFS
+  echo export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+  echo export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+  echo export AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT
+  echo export AWS_REGION_NAME=$AWS_REGION_NAME
   echo export HADOOP_HOME=/hadoop/hadoop-2.6.5
   echo python3 /app/__main__.py
 } >> /app/script.sh
