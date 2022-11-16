@@ -20,6 +20,10 @@ echo \#!/bin/bash
   echo export SAAGIE_PLATFORM_ID=$SAAGIE_PLATFORM_ID
   echo export MONITORING_OPT=$MONITORING_OPT
   echo export IP_HDFS=$IP_HDFS
+  echo export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+  echo export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+  echo export AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT
+  echo export AWS_REGION_NAME=$AWS_REGION_NAME
   echo export HADOOP_HOME=/hadoop/hadoop-2.6.5
   echo python3 /app/__main__.py
 } >> /app/script.sh
@@ -53,6 +57,8 @@ cp /var/lib/grafana/tmp-dashboards/saagie*.json /var/lib/grafana/dashboards/
 
 if [ "$MONITORING_OPT" == "SAAGIE_AND_DATALAKE" ]; then
    cp /var/lib/grafana/tmp-dashboards/datalake*.json /var/lib/grafana/dashboards/
+elif [ "$MONITORING_OPT" == "SAAGIE_AND_S3" ]; then
+   cp /var/lib/grafana/tmp-dashboards/s3*.json /var/lib/grafana/dashboards/
 fi
 
 echo "0 * * * * /app/script.sh >> /tmp/log_cron.log 2>&1" > mycron \

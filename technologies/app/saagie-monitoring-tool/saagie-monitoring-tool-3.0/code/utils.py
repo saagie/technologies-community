@@ -7,11 +7,15 @@ import psycopg2
 import psycopg2.extras
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
+import boto3
+import botocore.exceptions
 
 import json
 import os
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+logging.getLogger("boto3").setLevel(logging.WARNING)
+logging.getLogger("botocore").setLevel(logging.WARNING)
 
 postgresql_db = "supervision_pg_db"
 postgresql_user = "supervision_pg_user"
@@ -21,6 +25,8 @@ saagie_password = os.environ["SAAGIE_SUPERVISION_PASSWORD"]
 saagie_url = os.environ["SAAGIE_URL"] + "/" if not os.environ["SAAGIE_URL"].endswith("/") else os.environ["SAAGIE_URL"]
 saagie_realm = os.environ["SAAGIE_REALM"]
 saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
+s3_endpoint = os.environ['AWS_S3_ENDPOINT']
+s3_region = os.environ['AWS_REGION_NAME']
 
 # Workaround for platforms with too many instances
 MAX_INSTANCES_FETCHED = os.environ.get("SMT_MAX_INSTANCES_FETCHED", 1000)
@@ -200,6 +206,72 @@ class ApiUtils(object):
         return technology_label["technology"]["label"] if technology_label["technology"] is not None else None
 
 
+class S3Utils(object):
+
+    def __init__(self):
+        self._s3_resource = boto3.resource("s3",
+                                           endpoint_url=s3_endpoint,
+                                           region_name=s3_region)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, tb):
+        if exc_type is not None:
+            traceback.print_exception(exc_type, exc_value, tb)
+
+    def get_bucket_size(self, bucket_name, database_utils):
+        """
+        Save size and # objects for each bucket and each object prefix
+        :param bucket_name: name of the bucket
+        :param database_utils: utils to save metrics in pg
+        :return: a tuple (total bucket size, total number of files) for the bucket
+        """
+        total_bucket_size = 0
+        total_bucket_objects = 0
+        prefix_size = {}
+        prefix_objects = {}
+        try:
+            bucket = self._s3_resource.Bucket(bucket_name)
+            for bucket_object in bucket.objects.all():
+                prefix = self.get_object_prefix(bucket_name, bucket_object.key)
+                if prefix:
+                    total_bucket_size += bucket_object.size
+                    total_bucket_objects += 1
+                    prefix_size[prefix] = prefix_size.get(prefix, 0) + bucket_object.size
+                    if bucket_object.size > 0:
+                        prefix_objects[prefix] = prefix_objects.get(prefix, 0) + 1
+            for prefix, size in prefix_size.items():
+                database_utils.supervision_s3_to_pg("prefix_size", prefix, bytes_to_gb(size))
+            for prefix, number_objects in prefix_objects.items():
+                database_utils.supervision_s3_to_pg("prefix_objects", prefix, number_objects)
+            database_utils.supervision_s3_to_pg("bucket_size", bucket_name, bytes_to_gb(total_bucket_size))
+            database_utils.supervision_s3_to_pg("bucket_objects", bucket_name, bytes_to_gb(total_bucket_objects))
+            return total_bucket_size, total_bucket_objects
+        except botocore.exceptions.ClientError:
+            logging.warning(f"Cannot fetch metrics from bucket {bucket_name}")
+            return 0, 0
+
+    def get_all_buckets(self):
+        """
+        Returns all the buckets
+        :return: a list of buckets
+        """
+        return self._s3_resource.buckets.all()
+
+    @staticmethod
+    def get_object_prefix(bucket_name: str, object_key: str):
+        """
+        Returns the prefix of the object key if it's an object, None if it's a directory
+        :param bucket_name: name of the bucket
+        :param object_key: the object's key
+        :return: a string containning the object prefix
+        """
+        if object_key.endswith("/") or not object_key:
+            return None
+        return bucket_name + ("/" + object_key.split("/")[0] if "/" in object_key else "/")
+
+
 class DatabaseUtils(object):
 
     def __init__(self):
@@ -377,6 +449,28 @@ class DatabaseUtils(object):
         except Exception as e:
             logging.error(e)
 
+    def supervision_s3_to_pg(self, supervision_label, supervision_namespace, supervision_value):
+        """
+        Log datalake metrics to PostgresSQL.
+        :param supervision_label: Label of the metric (e.g. space_used, total_capacity..)
+        :param supervision_namespace: Namespace of the metric (e.g. bucket name...)
+        :param supervision_value: Value in Gigabytes
+        :return:
+        """
+
+        today = datetime.today().strftime('%Y-%m-%d')
+        try:
+            self._db_cur.execute(
+                '''INSERT INTO supervision_s3 (supervision_date, supervision_label,supervision_namespace, supervision_value)
+                VALUES(%s,%s,%s,%s)
+                ON CONFLICT ON CONSTRAINT supervision_s3_pkey
+                DO
+                UPDATE
+                SET (supervision_label, supervision_value) = (EXCLUDED.supervision_label, EXCLUDED.supervision_value)''',
+                (today, supervision_label, supervision_namespace, supervision_value))
+        except Exception as e:
+            logging.error(e)
+
 
 def parse_instance_timestamp(instance_timestamp):
     """
@@ -432,6 +526,7 @@ def get_hadoop_space_used(hdfs):
     :return: total space used in GB rounded to 2 decimals
     """
     return bytes_to_gb(hdfs.get_space_used())
+
 
 def get_average_file_size(sub):
     """

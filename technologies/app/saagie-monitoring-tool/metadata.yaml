@@ -10,7 +10,7 @@ backgroundColor: "#253c5b"
 customFlags: []
 contexts:
   - id: saagie-monitoring-tool-2.0
-    label: Saagie Monitoring Tool for Saagie 2.x
+    label: For Saagie 2.x
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -24,7 +24,7 @@ contexts:
       image: saagie/saagie-monitoring-tool
       version: 0.43
   - id: saagie-monitoring-tool-3.0
-    label: Saagie Monitoring Tool for Saagie 3.x
+    label: For Saagie 3.x
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -36,5 +36,5 @@ contexts:
     volumes: [ "/opt/grafana", "/var/lib/postgresql/data" ]
     dockerInfo:
       image: saagie/saagie-monitoring-tool
-      version: 1.1
+      version: 1.8
 

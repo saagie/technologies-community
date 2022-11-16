@@ -1,10 +1,10 @@
-import utils
 import logging
 import sys
 import os
 import pyarrow as pa
 from datetime import datetime
 from hdfs import InsecureClient
+import utils
 
 monitoring_type = os.environ["MONITORING_OPT"]
 
@@ -42,6 +42,25 @@ def get_datalake_metrics():
                     get_metrics_for_folder(client_hdfs=client_hdfs,
                                            database_utils=database_utils,
                                            folder=base_folder + "/" + f[0])
+
+
+def get_s3_metrics():
+    """
+    Fetch Metrics from S3 buckets usage and save it to PostgreSQL in the supervision Database
+    :return:
+    """
+    with utils.S3Utils() as s3_utils, utils.DatabaseUtils() as database_utils:
+        buckets = s3_utils.get_all_buckets()
+        total_size = 0
+        total_objects = 0
+        for bucket in buckets:
+            bucket_size, number_of_objects = s3_utils.get_bucket_size(bucket.name, database_utils)
+            total_size += bucket_size
+            total_objects += number_of_objects
+
+        database_utils.supervision_s3_to_pg("bucket_size", 'all_buckets', utils.bytes_to_gb(total_size))
+        database_utils.supervision_s3_to_pg("bucket_objects", 'all_buckets', total_objects)
+
 
 def get_metrics_for_folder(client_hdfs, database_utils, folder):
     sub = client_hdfs.content(folder)
@@ -172,13 +191,18 @@ def log_instance_metrics(database_utils, instances, job_or_pipeline, orchestrati
 
 def main():
     if monitoring_type == "SAAGIE":
-        logging.info("Get saagie metrics")
+        logging.info("Getting saagie metrics")
         get_saagie_metrics()
     elif monitoring_type == "SAAGIE_AND_DATALAKE":
-        logging.info("Get saagie metrics")
+        logging.info("Getting saagie metrics")
         get_saagie_metrics()
-        logging.info("Get datalake metrics")
+        logging.info("Getting datalake metrics")
         get_datalake_metrics()
+    elif monitoring_type == "SAAGIE_AND_S3":
+        logging.info("Getting saagie metrics")
+        get_saagie_metrics()
+        logging.info("Getting S3 metrics")
+        get_s3_metrics()
     else:
         logging.error("MONITORING_OPT wrong or missing, correct options are : 'SAAGIE' or 'SAAGIE_AND_DATALAKE'")
         sys.exit(1)
