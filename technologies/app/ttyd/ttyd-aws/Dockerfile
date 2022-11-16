@@ -41,7 +41,4 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN apt-get update \
     && apt-get install -y postgresql postgresql-contrib
 
-
-# Auto refresh every hour
-#CMD ["bash", "-r", "3600"]
 CMD ["ttyd", "bash"]
