@@ -22,3 +22,16 @@ contexts:
     dockerInfo:
       image: saagie/ttyd-saagie
       version: 1.0
+  - id: ttyd-aws
+    label: TTYD - Interactive Bash for AWS
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 7681
+        name: ttyd
+        rewriteUrl: true
+        basePath:
+    dockerInfo:
+      image: saagie/ttyd-aws-saagie
+      version: 1.0
