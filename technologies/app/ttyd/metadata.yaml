@@ -10,7 +10,7 @@ backgroundColor: "#979ba1"
 customFlags: []
 contexts:
   - id: ttyd
-    label: TTYD - Interactive Bash
+    label: For Hadoop
     releaseNotes: ""
     available: true
     trustLevel: stable
@@ -22,3 +22,16 @@ contexts:
     dockerInfo:
       image: saagie/ttyd-saagie
       version: 1.0
+  - id: ttyd-aws
+    label: For AWS
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 7681
+        name: ttyd
+        rewriteUrl: true
+        basePath:
+    dockerInfo:
+      image: saagie/ttyd-saagie
+      version: aws-1.0
