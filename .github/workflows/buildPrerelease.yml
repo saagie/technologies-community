@@ -2,7 +2,7 @@ name: Build Prerelease
 
 on:
   push:
-    branches:    
+    branches:
     - 'feature/**'
     - 'bug/**'
     - '!master'
@@ -31,7 +31,7 @@ jobs:
               cat version.properties
           - name: extract branch
             id: git_info
-            run: echo "::set-output name=changes::$(git status -s | wc -l)"
+            run: echo "name=changes::$(git status -s | wc -l)" >> $GITHUB_OUTPUT
           - name: Commit files
             if: steps.git_info.outputs.changes > 0
             run: |
