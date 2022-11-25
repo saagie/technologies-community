@@ -23,7 +23,7 @@ jobs:
               ./gradlew createZip
           - name: Change version to BETA
             run: |
-              ./gradlew -Dversion.prerelease=BETA -Dversion.buildmeta=${GITHUB_REF##*/}
+              ./gradlew -Dversion.prerelease=BETA -Dversion.buildmeta=$GITHUB_REF_NAME
               sed -i -e 1,2d version.properties
               cat version.properties
           - name: extract branch
@@ -42,7 +42,7 @@ jobs:
             uses: ad-m/github-push-action@master
             with:
               github_token: ${{ secrets.TOKEN_GITHUB}}
-              branch: ${GITHUB_REF##*/}
+              branch: $GITHUB_REF_NAME
           - name: Extract version
             id: extract_version
             run: echo "v=$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
