@@ -48,7 +48,7 @@ jobs:
               branch: ${{ steps.extract_branch.outputs.branch }}
           - name: Extract version
             id: extract_version
-            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
+            run: echo "name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
           - name: List all releases
             uses: actions/github-script@0.3.0
             with:

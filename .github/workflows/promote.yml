@@ -11,11 +11,11 @@ jobs:
         steps:
           - name: extract variable
             id: extract_variable
-            run: echo "::set-output name=pr_number::${{ github.event.pull_request.number }}";echo "::set-output name=repo::${{ github.event.pull_request.number }}"
+            run: echo "name=pr_number::${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT;echo "name=repo::${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
           - uses: actions/checkout@v1
           - name: extract current version
             id: extract_pr_version
-            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
+            run: echo "name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
           - name: Check if docker images exist
             run: |
               ./gradlew checkDockerImages
@@ -48,7 +48,7 @@ jobs:
               ./gradlew createZip
           - name: extract real version
             id: extract_version
-            run: echo "::set-output name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')"
+            run: echo "name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
           - name: Create Release
             id: create_release
             uses: actions/create-release@v1
