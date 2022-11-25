@@ -14,10 +14,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - uses: actions/checkout@v1
-          - name: extract branch
-            id: extract_branch
-            run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           - name: Check if docker images exist
             run: |
               ./gradlew checkDockerImages
@@ -26,7 +22,7 @@ jobs:
               ./gradlew createZip
           - name: Change version to BETA
             run: |
-              ./gradlew -Dversion.prerelease=BETA -Dversion.buildmeta=${{ steps.extract_branch.outputs.branch }}
+              ./gradlew -Dversion.prerelease=BETA -Dversion.buildmeta=${GITHUB_REF##*/}
               sed -i -e 1,2d version.properties
               cat version.properties
           - name: extract branch
@@ -45,7 +41,7 @@ jobs:
             uses: ad-m/github-push-action@master
             with:
               github_token: ${{ secrets.TOKEN_GITHUB}}
-              branch: ${{ steps.extract_branch.outputs.branch }}
+              branch: ${GITHUB_REF##*/}
           - name: Extract version
             id: extract_version
             run: echo "v=$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
