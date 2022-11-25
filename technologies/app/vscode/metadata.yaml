@@ -65,7 +65,7 @@ contexts:
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
       image: saagie/vscode-server
-      version: 4.8.3
+      version: "4.8"
   - id: vscode-python-4.8.3
     label: VS Code Python 4.8.3
     releaseNotes: ""
@@ -79,4 +79,4 @@ contexts:
     volumes: ["/config/workspace", "/config/data/User"]
     dockerInfo:
       image: saagie/vscode-server
-      version: python-4.8.3
+      version: python-4.8
