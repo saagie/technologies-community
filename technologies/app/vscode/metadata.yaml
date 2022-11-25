@@ -3,8 +3,9 @@ type: APP
 id: vscode
 label: VS Code
 baseline: "VS Code server"
-description: "VS Code server is an IDE that supports several languages. \nCreate an environment variable named 'PASSWORD' to set a password for the interface,
-  and SUDO_PASSWORD to get sudo access inside the container."
+description: "VS Code server is an IDE that supports several languages. \n
+  Create an environment variable named 'VSCODE_PASSWORD' to set a password for the interface,
+  and VSCODE_SUDO_PASSWORD to get sudo access inside the container."
 available: true
 icon: vscode
 backgroundColor: "#3EAAF2"

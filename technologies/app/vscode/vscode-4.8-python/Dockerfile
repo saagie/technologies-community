@@ -1,4 +1,4 @@
-FROM saagie/python:3.9-1.109.0 AS PYTHON310
+FROM saagie/python:3.9-1.109.0 AS PYTHON39
 FROM saagie/vscode-server:4.8
 
 RUN apt-get update \
@@ -76,7 +76,7 @@ RUN conda create -n py38 python=3.8.12 \
     && fix-permissions "${CONDA_DIR}"
 
 # Get requirements from Saagie Python image
-COPY --from=PYTHON310 /tmp/requirements.txt /tmp/requirements.txt
+COPY --from=PYTHON39 /tmp/requirements.txt /tmp/requirements.txt
 
 SHELL ["/bin/bash", "-c"]
 
