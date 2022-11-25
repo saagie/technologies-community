@@ -31,7 +31,7 @@ jobs:
               cat version.properties
           - name: extract branch
             id: git_info
-            run: echo "name=changes::$(git status -s | wc -l)" >> $GITHUB_OUTPUT
+            run: echo "changes=$(git status -s | wc -l)" >> $GITHUB_OUTPUT
           - name: Commit files
             if: steps.git_info.outputs.changes > 0
             run: |
@@ -48,7 +48,7 @@ jobs:
               branch: ${{ steps.extract_branch.outputs.branch }}
           - name: Extract version
             id: extract_version
-            run: echo "name=v::$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
+            run: echo "v=$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
           - name: List all releases
             uses: actions/github-script@0.3.0
             with:
