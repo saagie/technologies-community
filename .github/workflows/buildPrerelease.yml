@@ -56,7 +56,7 @@ jobs:
                   .filter(release => release.tag_name == "${{ steps.extract_version.outputs.v }}")
                   .forEach(function(release){
                     const releaseObj = {release_id:release.id, owner:context.repo.owner, repo:context.repo.repo}
-                    github.repos.deleteRelease(releaseObj)
+                    github.rest.repos.deleteRelease(releaseObj)
                   });
           - name: Create Release
             id: create_release
