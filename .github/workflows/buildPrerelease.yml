@@ -49,8 +49,9 @@ jobs:
           - name: List all releases
             uses: actions/github-script@v6.3.3
             with:
+              github-token: ${{secrets.TOKEN_GITHUB}}
               script: |
-                const result = await github.repos.listReleases(context.repo);
+                const result = await github.rest.repos.listReleases(context.repo);
                 result.data
                   .filter(release => release.tag_name == "${{ steps.extract_version.outputs.v }}")
                   .forEach(function(release){
