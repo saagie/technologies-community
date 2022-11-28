@@ -47,7 +47,7 @@ jobs:
             id: extract_version
             run: echo "v=$(cat version.properties | grep 'semver' | sed -e 's/^version.semver=//')" >> $GITHUB_OUTPUT
           - name: List all releases
-            uses: actions/github-script@6.3.3
+            uses: actions/github-script@v6.3.3
             with:
               github-token: ${{secrets.TOKEN_GITHUB}}
               script: |
