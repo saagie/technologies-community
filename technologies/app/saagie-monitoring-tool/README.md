@@ -3,7 +3,6 @@
 ## Description
 
 This directory contains Saagie Monitoring Tool based on Grafana dashboards.
-The version 1.0 works with Saagie >= 3.0.0
 
 ## How to launch it
 
