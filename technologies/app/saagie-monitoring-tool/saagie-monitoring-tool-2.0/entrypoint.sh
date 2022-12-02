@@ -1,25 +1,36 @@
 #!/bin/bash
 
-if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z ${SAAGIE_URL} || -z ${SAAGIE_REALM} || -z {$SAAGIE_PLATFORM_ID} || -z ${MONITORING_OPT} ]]; then
-  echo "ERROR : Missing environment variables. In order to work, this app needs the following environment variables set : "
+if [[ -z ${SAAGIE_SUPERVISION_LOGIN} || -z ${SAAGIE_SUPERVISION_PASSWORD} || -z ${SAAGIE_URL} ]]; then
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR]  Missing environment variables. In order to work, this app needs the following environment variables set : "
   echo "- SAAGIE_SUPERVISION_LOGIN"
   echo "- SAAGIE_SUPERVISION_PASSWORD"
   echo "- SAAGIE_URL"
-  echo "- SAAGIE_REALM"
-  echo "- SAAGIE_PLATFORM_ID"
-  echo "- MONITORING_OPT"
   exit 1
 fi
 
+if [[ -z ${MONITORING_OPT} ]]; then
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] MONITORING_OPT not set, Saagie Monitoring Tool will only monitor Saagie"
+  MONITORING_OPT="SAAGIE"
+fi
+
+if [[ -z ${SAAGIE_PLATFORM_ID} ]]; then
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] SAAGIE_PLATFORM_ID not set, using platform 1 by default"
+  SAAGIE_PLATFORM_ID="1"
+fi
+
+arrIN=(${SAAGIE_URL//\/\// })
+arrOUT=(${arrIN[1]//-/ })
+export SAAGIE_REALM="${arrOUT[0]}"
+
 echo \#!/bin/bash
 {
-  echo export SAAGIE_SUPERVISION_LOGIN=$SAAGIE_SUPERVISION_LOGIN
-  echo export SAAGIE_SUPERVISION_PASSWORD=$SAAGIE_SUPERVISION_PASSWORD
-  echo export SAAGIE_URL=$SAAGIE_URL
-  echo export SAAGIE_REALM=$SAAGIE_REALM
-  echo export SAAGIE_PLATFORM_ID=$SAAGIE_PLATFORM_ID
+  echo export SAAGIE_SUPERVISION_LOGIN="$SAAGIE_SUPERVISION_LOGIN"
+  echo export SAAGIE_SUPERVISION_PASSWORD="$SAAGIE_SUPERVISION_PASSWORD"
+  echo export SAAGIE_URL="$SAAGIE_URL"
+  echo export SAAGIE_REALM="$SAAGIE_REALM"
+  echo export SAAGIE_PLATFORM_ID="$SAAGIE_PLATFORM_ID"
   echo export MONITORING_OPT=$MONITORING_OPT
-  echo export IP_HDFS=$IP_HDFS
+  echo export IP_HDFS="$IP_HDFS"
   echo export HADOOP_HOME=/hadoop/hadoop-2.6.5
   echo python3 /app/__main__.py
 } >> /app/script.sh
@@ -28,10 +39,10 @@ chmod +x /app/script.sh
 PG_DATA_DIR=/var/lib/postgresql/data
 
 if [ "$(ls -A $PG_DATA_DIR)" ]; then
-  echo "PG Database already exists, skipping init"
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] PG Database already exists, skipping init"
   su postgres -c "export PATH=$PATH:/usr/lib/postgresql/12/bin && pg_ctl start -D ${PG_DATA_DIR}" > /dev/null
 else
-  echo "Initializing PG database"
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Initializing PG database"
   chown postgres:postgres $PG_DATA_DIR
   chmod 777 $PG_DATA_DIR
 

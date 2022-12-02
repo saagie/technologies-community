@@ -25,8 +25,7 @@ saagie_password = os.environ["SAAGIE_SUPERVISION_PASSWORD"]
 saagie_url = os.environ["SAAGIE_URL"] + "/" if not os.environ["SAAGIE_URL"].endswith("/") else os.environ["SAAGIE_URL"]
 saagie_realm = os.environ["SAAGIE_REALM"]
 saagie_platform = os.environ["SAAGIE_PLATFORM_ID"]
-s3_endpoint = os.environ['AWS_S3_ENDPOINT']
-s3_region = os.environ['AWS_REGION_NAME']
+
 
 # Workaround for platforms with too many instances
 MAX_INSTANCES_FETCHED = os.environ.get("SMT_MAX_INSTANCES_FETCHED", 1000)
@@ -209,6 +208,8 @@ class ApiUtils(object):
 class S3Utils(object):
 
     def __init__(self):
+        s3_endpoint = os.environ['AWS_S3_ENDPOINT']
+        s3_region = os.environ['AWS_REGION_NAME']
         self._s3_resource = boto3.resource("s3",
                                            endpoint_url=s3_endpoint,
                                            region_name=s3_region)
