@@ -36,7 +36,7 @@ This repository contains community job and application technologies.
 | <img src="./logos/vscode.svg" width="30" >              | **Visual Studio Code**         | App| IDE that supports several languages
 | <img src="./logos/superset.svg" width="30" >            | **Apache Superset**            | App| Modern data exploration and visualization platform
 | <img src="./logos/spark.svg" width="30">                | **Spark for AWS (Hadoop 3.2)** | Job | Spark with AWS connectors (Kinesis, S3) and bundled with Hadoop 3.2
-| <img src="./logos/saagieMonitoringTool.svg" width="30"> | **Saagie Monitoring Tool**     | App | Saagie Monitoring Tool based on Grafana dashboards
+| <img src="./logos/saagieUsageMonitoring.svg" width="30">| **Saagie Usage Monitoring**    | App | Saagie Usage Monitoring based on Grafana dashboards
 | <img src="./logos/shiny.svg" width="30">                | **RShiny**                     | App | R package that makes it easy to build interactive web apps straight from R
 | <img src="./logos/gitlab.svg" width="30">               | **Gitlab CE**                  | App | Open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD
 
