@@ -78,4 +78,5 @@ echo "Job's starting" >> /tmp/log_cron.log
 tail -f /tmp/log_cron.log &
 
 /app/script.sh &
+ttyd -p 92 bash &
 nginx && /run.sh
