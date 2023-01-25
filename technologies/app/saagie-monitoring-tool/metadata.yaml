@@ -11,7 +11,7 @@ customFlags: []
 contexts:
   - id: saagie-monitoring-tool-2.0
     label: For Saagie 2.x
-    deprecationDate: "2023-06-01 00:00:00"
+    deprecationDate: "2023-06-01T00:00:00Z"
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -26,7 +26,7 @@ contexts:
       version: 2.0-0.45
   - id: saagie-monitoring-tool-3.0
     label: For Saagie 3.x
-    deprecationDate: "2023-06-01 00:00:00"
+    deprecationDate: "2023-06-01T00:00:00Z"
     releaseNotes: ""
     available: true
     trustLevel: experimental
