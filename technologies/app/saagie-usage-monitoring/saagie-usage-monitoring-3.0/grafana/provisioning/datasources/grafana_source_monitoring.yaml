@@ -16,8 +16,8 @@ datasources:
     uid: my_unique_uid
     # <string> url
     url: 
-    # <string> Deprecated, use secureJsonData.password
-    password:
+    secureJsonData:
+      password: 
     # <string> database user, if used
     user: 
     # <string> database name, if used
