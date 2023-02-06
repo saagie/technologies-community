@@ -51,7 +51,12 @@ echo \#!/bin/bash
   echo export MONITORING_OPT=$MONITORING_OPT
   echo export IP_HDFS="$IP_HDFS"
   echo export HADOOP_HOME=/hadoop/hadoop-2.6.5
-  echo python3 /app/__main__.py
+  echo export SAAGIE_PG_HOST="$SAAGIE_PG_HOST"
+  echo export SAAGIE_PG_PORT="$SAAGIE_PG_PORT"
+  echo export SAAGIE_PG_USER="$SAAGIE_PG_USER"
+  echo export SAAGIE_PG_PASSWORD="$SAAGIE_PG_PASSWORD"
+  echo export SAAGIE_PG_DATABASE="$SAAGIE_PG_DATABASE"
+echo python3 /app/__main__.py
 } >> /app/script.sh
 
 chmod +x /app/script.sh
