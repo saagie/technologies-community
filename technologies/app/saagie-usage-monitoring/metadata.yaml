@@ -19,7 +19,10 @@ contexts:
         name: saagie-usgage-monitoring
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
+      - port: 92
+        name: ttyd
+        rewriteUrl: true
     volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
       image: "saagie/saagie-usage-monitoring"
-      version: "3.0-0.1"
+      version: "3.0-0.4"

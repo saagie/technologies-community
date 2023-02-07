@@ -1,4 +1,4 @@
-create TABLE supervision_saagie
+create TABLE IF NOT EXISTS supervision_saagie
   (
      supervision_timestamp TIMESTAMP,
      project_id            VARCHAR(60),
@@ -15,7 +15,7 @@ create TABLE supervision_saagie
      PRIMARY KEY (project_id,orchestration_id, instance_id)
   );
 
-create TABLE supervision_saagie_jobs
+create TABLE IF NOT EXISTS supervision_saagie_jobs
   (
      project_id             VARCHAR(60),
      project_name           VARCHAR(250),
@@ -29,7 +29,7 @@ create TABLE supervision_saagie_jobs
      PRIMARY KEY (project_id, orchestration_id)
   );
 
-create TABLE supervision_saagie_apps
+create TABLE IF NOT EXISTS supervision_saagie_apps
   (
      project_id             VARCHAR(60),
      project_name           VARCHAR(250),
@@ -44,7 +44,7 @@ create TABLE supervision_saagie_apps
      PRIMARY KEY (project_id, orchestration_id)
   );
 
-create TABLE supervision_saagie_jobs_snapshot
+create TABLE IF NOT EXISTS supervision_saagie_jobs_snapshot
   (
      project_id    VARCHAR(60),
      project_name  VARCHAR(250),
@@ -53,7 +53,7 @@ create TABLE supervision_saagie_jobs_snapshot
      PRIMARY KEY (snapshot_date, project_id)
   );
 
-create TABLE supervision_datalake
+create TABLE IF NOT EXISTS supervision_datalake
   (
      supervision_date  DATE,
      supervision_label VARCHAR(60),
@@ -61,7 +61,7 @@ create TABLE supervision_datalake
      PRIMARY KEY (supervision_date, supervision_label)
   );
 
- create TABLE supervision_s3
+ create TABLE IF NOT EXISTS supervision_s3
   (
      supervision_date  DATE,
      supervision_label VARCHAR(120),

@@ -3,7 +3,10 @@ FROM grafana/grafana:9.2.3-ubuntu
 USER root
 # Install Dependencies
 RUN apt-get update \
-  && apt-get install -y software-properties-common nginx cron wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java postgresql postgresql-contrib \
+  && apt-get install -y software-properties-common nginx cron \
+    wget libpq-dev python-dev openjdk-11-jdk ca-certificates-java \
+    postgresql postgresql-contrib postgresql-client \
+    build-essential cmake git libjson-c-dev libwebsockets-dev \
   && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get update \
   && apt-get install -y python3.9 pip \
@@ -43,7 +46,13 @@ ENV PATH "/hadoop/hadoop-2.6.5/bin:${PATH}"
 RUN chown postgres:postgres /run/postgresql/ \
   && chmod 777 /run/postgresql
 
-## Configure Grafana
+# Install ttyd
+RUN git clone https://github.com/tsl0922/ttyd.git \
+    && cd ttyd && mkdir build && cd build \
+    && cmake .. \
+    && make && make install
+
+# Configure Grafana
 RUN mkdir /opt/grafana && mkdir /opt/plugins && mkdir /app && mkdir /var/lib/grafana/dashboards
 
 ADD server.conf /etc/nginx/sites-enabled/grafana.conf
@@ -60,6 +69,6 @@ ADD infra.sql infra.sql
 
 RUN grafana-cli --pluginsDir "/opt/plugins" plugins install marcusolsson-treemap-panel
 
-EXPOSE 80
+EXPOSE 80 92
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["bash", "/entrypoint.sh"]

@@ -17,8 +17,11 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 logging.getLogger("boto3").setLevel(logging.WARNING)
 logging.getLogger("botocore").setLevel(logging.WARNING)
 
-postgresql_db = "supervision_pg_db"
-postgresql_user = "supervision_pg_user"
+postgresql_host = os.environ["SAAGIE_PG_HOST"]
+postgresql_port = os.environ["SAAGIE_PG_PORT"]
+postgresql_user = os.environ["SAAGIE_PG_USER"]
+postgresql_password = os.environ["SAAGIE_PG_PASSWORD"]
+postgresql_db = os.environ["SAAGIE_PG_DATABASE"]
 
 saagie_login = os.environ["SAAGIE_SUPERVISION_LOGIN"]
 saagie_password = os.environ["SAAGIE_SUPERVISION_PASSWORD"]
@@ -276,7 +279,12 @@ class S3Utils(object):
 class DatabaseUtils(object):
 
     def __init__(self):
-        self._db_connection = psycopg2.connect(f"dbname='{postgresql_db}' port='5432' user='{postgresql_user}'")
+        self._db_connection = psycopg2.connect(
+            f"""host='{postgresql_host}' 
+                port='{postgresql_port}' 
+                user='{postgresql_user}'
+                password='{postgresql_password}'
+                dbname='{postgresql_db}'""")
         self._db_connection.autocommit = True
         self._db_cur = self._db_connection.cursor()
 
