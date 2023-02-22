@@ -1,6 +1,6 @@
 # Airbyte
 
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/saagie-monitoring-tool/0.27?label=v0.27%20image%20size&style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/saagie/airbyte/1.0)
 
 ## Description
 
