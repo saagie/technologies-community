@@ -5,7 +5,7 @@ label: Airbyte
 baseline: "Airbyte is a cloud-native, open-source data integration platform"
 description: " Airbyte is a powerful data integration tool that can help organizations streamline their data workflows and ensure the accuracy and reliability of their data."
 available: true
-icon: airbyte
+iconPath: ./airbyte.svg
 backgroundColor: "#a094cc"
 customFlags: []
 contexts:
