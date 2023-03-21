@@ -10,6 +10,7 @@ This technology contains the `dbt-core` library as well as the adapters for :
 - Snowflake
 - PostgreSQL
 - Spark
+- Impala
 
 The default behavior of this technology is to unzip the archive containing the dbt project you uploaded in Saagie and to run this project with the following command
 ```
