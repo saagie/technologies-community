@@ -20,4 +20,4 @@ contexts:
         rewriteUrl: true
     dockerInfo:
       image: saagie/airbyte
-      version: 1.0
+      version: 1.1
