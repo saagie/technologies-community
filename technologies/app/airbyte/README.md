@@ -4,7 +4,7 @@
 
 ## Description
 
-This folder contains the image of the redirection to the VM containing the OSS version of Airbyte software allowing the creation of data flows.
+This folder contains the image of the redirection to the VM containing the OSS version of Airbyte allowing the creation of data flows.
 
 The OSS version of Airbyte allows only one single user but a project can create his own Airbyte connections without being seen by other projects.
 For more details about the limitation of OSS version of Airbyte, click [here](https://airbyte.com/airbyte-open-source)
@@ -19,8 +19,9 @@ docker push saagie/airbyte:<version>
 
 ## How to launch it
 
-To deploy Airbyte on your platform, first, you have to request a VM containing Airbyte to Saagie,
-then you need to create a user with editor rights on the project that you want to install 
+To deploy Airbyte on your platform, first, you have to request a VM containing Airbyte to Saagie, 
+[click here to create your request](https://saagie.zendesk.com/hc/en-us).
+Then you need to create a user with editor rights on the project that you want to install 
 airbyte, and then set the following environment variables in Saagie  :
 
 - AIRBYTE_URL : URL of the VM containing Airbyte
