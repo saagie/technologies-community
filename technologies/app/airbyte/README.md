@@ -6,7 +6,7 @@
 
 This folder contains the image of the redirection to the VM containing the OSS version of Airbyte allowing the creation of data flows.
 
-A project can create his own Airbyte connections without being seen by other projects while there are only one single user on the OSS version of Airbyte.
+A project can create his own Airbyte connections without being seen by other projects while there is only one single user on the OSS version of Airbyte.
 For more details about the limitation of OSS version of Airbyte, click [here](https://airbyte.com/airbyte-open-source)
 
 ## How to build in local
