@@ -1,7 +1,7 @@
 version: v1
 type: APP
 id: r-shiny
-label: r-shiny
+label: R Shiny
 baseline: "Shiny is an R package that makes it easy to build interactive web apps straight from R"
 description: "Shiny is an R package that makes it easy to build interactive web apps straight from R"
 available: true

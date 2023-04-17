@@ -9,8 +9,9 @@ icon: project-activity
 backgroundColor: "#253c5b"
 customFlags: []
 contexts:
-  - id: saagie-monitoring-tool
-    label: Saagie Monitoring Tool
+  - id: saagie-monitoring-tool-2.0
+    label: For Saagie 2.x
+    deprecationDate: "2023-06-01T00:00:00Z"
     releaseNotes: ""
     available: true
     trustLevel: experimental
@@ -22,4 +23,20 @@ contexts:
     volumes: ["/opt/grafana", "/var/lib/postgresql/data"]
     dockerInfo:
       image: saagie/saagie-monitoring-tool
-      version: 0.27
+      version: 2.0-0.45
+  - id: saagie-monitoring-tool-3.0
+    label: For Saagie 3.x
+    deprecationDate: "2023-06-01T00:00:00Z"
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 80
+        name: saagie-monitoring-tool
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    volumes: [ "/opt/grafana", "/var/lib/postgresql/data" ]
+    dockerInfo:
+      image: saagie/saagie-monitoring-tool
+      version: 3.0-1.10
+

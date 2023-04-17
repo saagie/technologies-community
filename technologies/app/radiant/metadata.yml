@@ -1,0 +1,24 @@
+version: v1
+type: APP
+id: radiant
+label: Radiant
+baseline: "Radiant is an open-source platform-independent browser-based interface for business analytics in R."
+description: "The application is based on the Shiny package and can be run locally or on a server"
+available: true
+icon: r
+backgroundColor: "#75aadb"
+customFlags: []
+contexts:
+  - id: radiant-1.9.1
+    label: Radiant 1.9.1
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 8181
+        name: Radiant
+        rewriteUrl: true
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/radiant
+      version: 1.9.1
