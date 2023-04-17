@@ -70,10 +70,10 @@ def main():
             with open(var_file, "a") as file:
                 file.write(airbyte_url_workspace)
 
-            saagie.env_vars.create_or_update_for_project(project_id=saagie_project_id,
-                                                         name=airbyte_workspace,
-                                                         value=airbyte_url_workspace,
-                                                         description="URL of Airbyte workspace")
+            saagie.env_vars.create_for_project(project_id=saagie_project_id,
+                                               name=airbyte_workspace,
+                                               value=airbyte_url_workspace,
+                                               description="URL of Airbyte workspace")
             logging.info(f"Environment variable Airbyte workspace created: [{airbyte_url_workspace}]")
 
 

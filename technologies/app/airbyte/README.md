@@ -16,13 +16,15 @@ docker push saagie/airbyte:<version>
 
 ## How to launch it
 
-To deploy Airbyte on your platform (already configured on the platform) :
+To deploy Airbyte on your platform, first, you have to request a VM containing Airbyte to Saagie,
+then you need to create a user with editor rights on the project that you want to install 
+airbyte, and then set the following environment variables in Saagie  :
 
 - AIRBYTE_URL : URL of the VM containing Airbyte
 - AIRBYTE_LOGIN : Login of the VM containing Airbyte
 - AIRBYTE_PASSWORD : Password of the VM containing Airbyte
-- SAAGIE_LOGIN: Login of Saagie platform (please make sure that this user have access on `SAAGIE_PROJECT_NAME`)
-- SAAGIE_PASSWORD: Password of Saagie platform
+- SAAGIE_LOGIN: Login of Saagie platform user (please make sure that this user have editor rights on `SAAGIE_PROJECT_NAME`)
+- SAAGIE_PASSWORD: Password of Saagie platform user
 - SAAGIE_URL: URL of the Saagie platform (i.e. : `https://saagie-workspace.prod.saagie.io`)
 - SAAGIE_PLATFORM_ID : ID of your plateform  (Default value : `1`)
 - SAAGIE_PROJECT_NAME: Project name of Saagie
