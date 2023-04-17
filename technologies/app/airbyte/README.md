@@ -4,7 +4,10 @@
 
 ## Description
 
-This folder contains the image of the redirection to the VM containing the Airbyte software allowing the creation of data flows.
+This folder contains the image of the redirection to the VM containing the OSS version of Airbyte software allowing the creation of data flows.
+
+The OSS version of Airbyte allows only one single user but a project can create his own Airbyte connections without being seen by other projects.
+For more details about the limitation of OSS version of Airbyte, click [here]("https://airbyte.com/airbyte-open-source")
 
 ## How to build in local
 
