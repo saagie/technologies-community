@@ -11,15 +11,14 @@ customFlags: []
 contexts:
   - id: saagie-hf-modelserver-textclf-0.1
     label: For Saagie V2
-    deprecationDate: "2023-08-01T00:00:00Z"
     releaseNotes: ""
     available: true
     trustLevel: experimental
     ports:
       - port: 8080
-        name: ClickOnMeToOpen
+        name: ClickToOpenGUI
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: leshanshui/automodel-text-clf
-      version: 0.09
+      image: saagie/saagie-huggingface-model-server
+      version: 0.1

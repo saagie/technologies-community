@@ -1,11 +1,12 @@
+#%% Dependencies
 import os
 import logging
 import numpy as np
 import pandas as pd
 import torch
 import ast
-
 from datetime import datetime
+
 from flask import Flask, jsonify, request
 from flask import current_app, abort, Response
 import dash
@@ -22,18 +23,14 @@ from transformers import TextClassificationPipeline, AutoModelForSequenceClassif
 
 
 
-## Model Test
-classes = ' anger 🤬 | disgust 🤢 | fear 😨 | joy 😀 | neutral 😐 | sadness 😭 | surprise 😲 '
-model = 'j-hartmann/emotion-english-distilroberta-base'
 
-
-#%%
-## Without Log Transform
+#%% App Layout
+# Dash with Responsive UI
 app = dash.Dash(__name__
-                , meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}] # Responsive UI
+                , meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}] 
                 , external_stylesheets=[dbc.themes.BOOTSTRAP]
                 , url_base_pathname=os.environ["SAAGIE_BASE_PATH"]+"/")
-## Flast Server
+## Flask Server
 server = app.server
 
 
@@ -48,13 +45,18 @@ text_color = '#263D5C'
 text_color2 = '#587193'
 banner_color = '#1F3046'
 padding_style = {'margin-left' : '30px', 'margin-top' : '30px', 'background-color': bg_color, 'color': text_color}
+text_area_style = {'height': '20%', 'width': '100%', 'border-color': border_color, 'margin-bottom' : '18px'}
+
 desc = "Custom Saagie app that deploys the deep learning text classification models from HuggingFace and makes predictions via the GUI.  \n\n\n\n"
+## Model For Testing
+classes = ' anger 🤬 | disgust 🤢 | fear 😨 | joy 😀 | neutral 😐 | sadness 😭 | surprise 😲 '
+model = 'j-hartmann/emotion-english-distilroberta-base'
 
 
 ## Layout
 app.layout = dbc.Container(fluid=True,children=[
+    ## Title
     dbc.Row([
-        # Title
         dbc.Col([
             html.H2("Saagie HuggingFace Model Server - Text CLF"),
             ], width = 10),
@@ -62,76 +64,80 @@ app.layout = dbc.Container(fluid=True,children=[
             html.H4("🛈", title=desc)
             ], width = 2)
         ]
-    , style={'background-color': banner_color, 'color': 'white', 'margin-bottom' : '80px'
-            , 'padding-top': '40px', 'padding-left': '60px', 'padding-bottom': '40px'}
-    ), #'margin-left' : '30px', 'margin-top' : '30px'
+    , style={'background-color': banner_color, 'color': 'white', 'margin-bottom' : '80px', 'padding-top': '40px', 'padding-left': '60px', 'padding-bottom': '40px'}
+    ),
     
     ## Main App
     dbc.Col([
-    dbc.Row([
-        ### Left Part For Deploiement
-        dbc.Col([
-            # Check Metrics
-            html.H6("Model Name"), 
-            # Show models and deploys
-            dcc.Textarea(id='modeldir', value= 'Enter the HuggingFace model repository, e.g. \n'+model
-                    , style={'height': '20%', 'width': '100%', 'border-color': border_color, 'margin-bottom' : '18px'}
+        dbc.Row([
+            ## Left part: deployment
+            dbc.Col([
+                ## Model and label for the deployment
+                html.H6("Model Name"), 
+                dcc.Textarea(id='modeldir'
+                    , value= 'Enter the HuggingFace model repository, e.g. \n'+model
+                    , style=text_area_style
                     ), 
-            html.H6("Label"), 
-            dcc.Textarea(id='modellabel', value= 'Enter the model class label, e.g. \n'+classes
-                    , style={'height': '20%', 'width': '100%', 'border-color': border_color, 'margin-bottom' : '18px'}
+                html.H6("Label"), 
+                dcc.Textarea(id='modellabel'
+                    , value= 'Enter the model class label, e.g. \n'+classes
+                    , style=text_area_style
                     ), 
-
-
-            dbc.Row(dbc.Button("Deploy", id="deploy", n_clicks=0, size='sm',
-                               style={"height": 40, "width": 100, "color": "#132d81", "background-color": "#cef0fd", 
-                                      'border-color': "White", "border-radius":border_radius, 'margin-bottom' : '27px'})
+                ## Deploy button
+                dbc.Row(dbc.Button("Deploy"
+                    , id="deploy"
+                    , n_clicks=0
+                    , size='sm'
+                    , style={"height": 40, "width": 100, "color": "#132d81", "background-color": "#cef0fd", 'border-color': "White", "border-radius":border_radius, 'margin-bottom' : '27px'})
                     , justify="center"
                     ),
-            dbc.Row(dcc.Loading(id="loading", type="circle", children='Loading Model', color="#132d81")
+                ## Deploy loading icon
+                dbc.Row(dcc.Loading(id="loading"
+                    , type="circle"
+                    , children='Loading Model'
+                    , color="#132d81")
                     , justify="center"
                     ),
-            html.P(id='placeholder', children=''), 
-        ]
-        , width=layout_col_width 
-        , style={'margin-left' : '60px', 'margin-top' : '30px', 'background-color': bg_color, 'color': text_color, "border-right": "1px solid #d9dbe3", "padding-right": "4%"}
-        ),
-
-        ### Right Part For Inference
-        dbc.Col([
-            # Text-Input
-            html.H6("Text Classification"), 
-            dcc.Textarea(id='pred_in', value='Enter the text to predict', 
-                         style={'height': '32%', 'width': '100%', 'border-color': border_color, 'margin-bottom' : '18px'}),
-            # Inference-Output
-            dbc.Row(dbc.Button("Predict", id="predict", n_clicks=0, size='sm', color=btn_color, style=btn_style)
-                    , justify="center", style={'margin-bottom' : '18px'}
-                    ),
-            # html.Hr(),
-            html.H6("Inference Results"), 
-
-            dcc.Textarea(id='pred_out', value='Predictions',
-                         style = {'height': '25%', 'display': 'block', 'border-color': border_color, 'width': '100%'
-                                  , 'background-color' : 'white', 'color' : "#587193"}),
-            html.H5("")
+                html.P(id='placeholder', children=''), 
             ]
             , width=layout_col_width 
-            , style=padding_style
+            , style={'margin-left' : '60px', 'margin-top' : '30px', 'background-color': bg_color, 'color': text_color, "border-right": "1px solid #d9dbe3", "padding-right": "4%"}
             ),
-        ]),
-        ## padding bottom space
-        dbc.Row([html.H6('.  ')], style = {'color': bg_color}), 
-    ])
+
+            ## Right part: Inference
+            dbc.Col([
+                ## Text-Input
+                html.H6("Text Classification"), 
+                dcc.Textarea(id='pred_in'
+                    , value='Enter the text to predict'
+                    , style={'height': '32%', 'width': '100%', 'border-color': border_color, 'margin-bottom' : '18px'}
+                    ),
+                ## Inference button
+                dbc.Row(dbc.Button("Predict", id="predict", n_clicks=0, size='sm', color=btn_color, style=btn_style), justify="center", style={'margin-bottom' : '18px'}
+                        ),
+                ## Predictions
+                html.H6("Inference Results"), 
+                dcc.Textarea(id='pred_out'
+                    , value='Predictions'
+                    , style = {'height': '25%', 'display': 'block', 'border-color': border_color, 'width': '100%', 'background-color' : 'white', 'color' : "#587193"}
+                    ),
+                html.H5("")
+                ]
+                , width=layout_col_width 
+                , style=padding_style
+                ),
+            ]),
+            ## padding bottom space
+            dbc.Row([html.H6('.  ')], style = {'color': bg_color}), 
+        ])
     ], style = {'background-color': bg_color, 'color': text_color}
     )
     
   
-  
-## init device
-device = torch.device('cpu')
-### Params
-device = "cpu"
 
+
+#%% App functions
+device = "cpu"
 
 def pipeline_predict(input_texts: list, pipeline):
     return pipeline(input_texts)
@@ -147,14 +153,15 @@ def model_to_pipeline(model_tag: str, modellabel: str):
     else:
         model_name = model_tag
         model_ver = "main"
+    ## split labels with "|"
     label_dict = {index: element for index, element in enumerate(modellabel.split('|'))}
-    config = AutoConfig.from_pretrained(model_name, id2label=label_dict, revision=model_ver)#ast.literal_eval(label_dict)) ## Config strongly depending on model
+    ## create related prediction pipeline
+    config = AutoConfig.from_pretrained(model_name, id2label=label_dict, revision=model_ver) #ast.literal_eval(label_dict)) ## Config strongly depending on model
     model = AutoModelForSequenceClassification.from_pretrained(model_name, config=config, revision=model_ver)
     tokenizer = AutoTokenizer.from_pretrained(model_name, revision=model_ver)
     return model, tokenizer, model_name, model_ver
 
 
-  
 ## Predict
 @app.callback(
     Output(component_id = 'pred_out', component_property = 'value'),
@@ -163,6 +170,7 @@ def model_to_pipeline(model_tag: str, modellabel: str):
 )
 def predict(click, input_texts):
     if click:
+        ## make predictions using deployed pipeline
         logger.info('-- PREDICT function called --')
         input_texts = input_texts.split('\n')
         global pipeline
@@ -172,7 +180,6 @@ def predict(click, input_texts):
         return ' '
 
 
-      
 ## Deploy a model
 @app.callback(
     Output(component_id = 'loading', component_property = 'children'),
@@ -186,6 +193,7 @@ def deploy(click, model_tag, modellabel):
         # logger.debug('-- DEPLOY function called --')
         logger.info('-- DEPLOY function called --')
         try:
+            ## create related pipeline
             model, tokenizer, model_name, model_ver = model_to_pipeline(model_tag, modellabel)
             global pipeline
             pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
@@ -204,7 +212,6 @@ def deploy_api():
     if 'model_dir' in request.json and 'label' in request.json:
         model_dir = request.json['model_dir']
         label = request.json['label']
-
         global classes 
         global model
         classes = label
@@ -213,6 +220,7 @@ def deploy_api():
         abort(Response('Json not understandable, make sure that you have "model_dir" and "label" key.'))
     logger.info('-- DEPLOY API called --')
     try:
+        ## make deployments via API
         model, tokenizer, model_name, model_ver = model_to_pipeline(model_dir, label)
         global pipeline
         pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
@@ -228,6 +236,7 @@ def predict_api():
     # Read inputs/classes or Return reason of abort
     logger.info('-- PREDICT API called --')
     if 'inputs' in request.json:
+        ## make predictions via API
         input_texts = request.json['inputs']
         pred = pipeline_predict(input_texts, pipeline)
     else:        
@@ -235,6 +244,5 @@ def predict_api():
     return jsonify(pred), 201
         
     
-
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', debug=False, port=8080, dev_tools_hot_reload=True)
