@@ -21,7 +21,7 @@ contexts:
         basePath: 
     dockerInfo:
       image: saagie/ttyd-saagie
-      version: 1.0
+      version: "1.0"
   - id: ttyd-aws
     label: For AWS
     releaseNotes: ""
@@ -34,4 +34,4 @@ contexts:
         basePath:
     dockerInfo:
       image: saagie/ttyd-saagie
-      version: aws-1.0
+      version: "aws-1.0"
