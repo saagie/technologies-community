@@ -8,8 +8,8 @@ icon: spark
 customFlags: [Spark]
 
 contexts:
-  - id: 3.2
-    label: 3.2
+  - id: "3.2"
+    label: "3.2"
     description: Spark 3.2 for AWS (S3 connector)
     available: true
     recommended: true
@@ -38,8 +38,8 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 11
-            label: 11
+          - id: "11"
+            label: "11"
             available: true
             trustLevel: stable
             dockerInfo:
@@ -65,16 +65,16 @@ contexts:
               label: Scheduled
               mandatory: true
         innerContexts:
-          - id: 3.8
-            label: 3.8
+          - id: "3.8"
+            label: "3.8"
             available: true
             trustLevel: stable
             dockerInfo:
               image: saagie/spark
               baseTag: 3.2-aws-py-3.8
               version: 3.2-aws-py-3.8-0.36
-          - id: 3.9
-            label: 3.9
+          - id: "3.9"
+            label: "3.9"
             available: true
             trustLevel: stable
             dockerInfo:
