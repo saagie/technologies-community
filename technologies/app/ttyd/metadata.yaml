@@ -37,7 +37,7 @@ contexts:
       version: aws-1.0
   - id: ttyd-1.7.3
     label: ttyd-1.7.3
-    releaseNotes: "TTYD 1.7.3"
+    releaseNotes: "TTYD-1.7.3"
     available: true
     trustLevel: stable
     ports:
