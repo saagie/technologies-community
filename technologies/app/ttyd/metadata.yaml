@@ -35,3 +35,16 @@ contexts:
     dockerInfo:
       image: saagie/ttyd-saagie
       version: aws-1.0
+  - id: ttyd-1.7.3
+    label: ttyd-1.7.3
+    releaseNotes: "TTYD-1.7.3"
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 7681
+        name: ttyd
+        rewriteUrl: true
+        basePath: 
+    dockerInfo:
+      image: saagie/ttyd-saagie
+      version: "1.7.3-1.0"
