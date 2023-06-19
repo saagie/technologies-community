@@ -46,5 +46,5 @@ contexts:
         rewriteUrl: true
         basePath: 
     dockerInfo:
-      image: saagie/ttyd-saagie-1.7.3
-      version: "1.0"
+      image: saagie/ttyd-saagie
+      version: "1.7.3-1.0"
