@@ -20,5 +20,5 @@ contexts:
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: saagie/saagie-huggingface-model-server
+      image: saagie/saagie-huggingface-model-server:0.1
       version: 0.1
