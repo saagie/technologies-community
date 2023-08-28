@@ -1,0 +1,31 @@
+version: v1
+type: APP
+id: matlab
+label: Matlab
+baseline: "MATLAB is a programming and numeric computing platform used by millions of engineers and scientists to analyze data, develop algorithms, and create models."
+description: "MATLAB (an abbreviation of 'MATrix LABoratory') is a proprietary multi-paradigm programming language and numeric computing environment developed by MathWorks. MATLAB allows matrix manipulations, plotting of functions and data, implementation of algorithms, creation of user interfaces, and interfacing with programs written in other languages. "
+available: true
+icon: matlab
+defaultResources: 
+  cpu: 
+    limit: 1
+  memory:
+    limit: 8 GiB
+backgroundColor: "#0076a8"
+customFlags: []
+contexts:
+  - id: matlab-r2023a
+    label: Matlab r2023a
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 8888
+        name: Matlab
+        rewriteUrl: false
+        basePath: MWI_BASE_URL
+    volumes: ["/home/matlab/Documents/MATLAB"]
+    dockerInfo:
+      image: nicolassaagie/matlab
+      version: r2023a-0.1
+      
