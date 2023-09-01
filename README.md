@@ -1,5 +1,3 @@
-#<p align="center"><img width=70% src="./logos/technologies.png"></p>
-
 # Saagie Community Technologies
 
 
