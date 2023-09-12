@@ -1,24 +1,25 @@
-version: v2
+version: v1
 type: APP
-id: saagie-hf-modelserver-textclf
-label: Saagie HF ModelServer TextCLF
-baseline: "Saagie HuggingFace Model Server for Text Classification"
-description: "Saagie-HF-ModelServer-TextCLF: Custom app based on Dash/Flask that deploys the deep learning models from HuggingFace and makes predictions for text classification via the GUI or API"
+id: saagie-code-search
+label: Saagie Code Search
+baseline: "Saagie Code Search"
+description: "Saagie-Code-Search: Custom app based on Flask that Saagie Code Search is a web application that enables the search for Python functions, either within a default codebase or GitHub repositories."
 available: true
 icon: datascience
 backgroundColor: "#253c5b"
 customFlags: []
 contexts:
-  - id: saagie-hf-modelserver-textclf-0.1
-    label: For Saagie V2
+  - id: saagie-code-search-0.1
+    label: For Saagie V1
     releaseNotes: ""
     available: true
     trustLevel: experimental
     ports:
-      - port: 8080
-        name: ClickToOpenGUI
+      - port: 5000
+        name: myapp
         rewriteUrl: false
         basePath: SAAGIE_BASE_PATH
+    volumes: [ "/data" ]
     dockerInfo:
-      image: saagie/saagie-huggingface-model-server
-      version: "0.1"
+      image: saagie/saagie-code-search
+      version: 0.1
