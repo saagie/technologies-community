@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/languages/python-repl.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" type="text/css" href="./static/styles_v2.css">
+</head>
+  <body>
+    <div id="title-banner">
+      <h1>Saagie - Code Search</h1>
+    </div>
+        <form method="post">
+            <div id="search-form">
+              <section>
+                  <input type="text" id="new-db" name="new-db" placeholder="www.url.myrepogithub.com" style="background-image: url('static/linkicon.png'); background-position: 1% center; display: inline-flex; width: inherit">
+                  <input type=submit hidden>
+                  <img src="static/arrow.png" alt="arrow" style="height: 25px; align-self: center"> 
+                  <select id="database" name="database" style="color: #253c5b; background-image: url('static/databaseicon.png'); display: inline-flex; width: inherit">
+                    {% for database in databases %}
+                      {% if database == selected_database %}
+                        <option name="database" value="{{ database }}" selected>{{ database }}</option>
+                      {% else %}
+                        <option name="database" value="{{ database }}">{{ database }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+              </section>
+                <hr >
+                <input type="text" id="query" name="query" placeholder="Search a query" value="{{ query}}" style="border-radius: 9999px; background-image: url('static/searchicon.png'); background-position: 0.4% center; width: 100%; box-sizing: border-box;">
+                <br>
+            <div style="margin: 5px 0 0 15px;">Examples: sort numpy array, read csv file, crop image   </div>                    
+            </div>
+        </form>
+      {% if results %}
+      <!-- Content to display when there are results -->
+        <h2>Search Results for "{{ query }}"</h2>
+        <ul>
+          {% for result in results %}
+            <span id="relevance-score">
+              <span class="dot" style="background-color: {{ colors[loop.index - 1] }};"></span>
+              <!-- Next line will remove the line number of the path result for the display in the app, but still use it for the link when clicking on it -->
+              {% set split_index = path_results[loop.index - 1].rsplit("#L", 1) %}
+              RELEVANCE SCORE: {{ similarities[loop.index - 1] }}%</span> {% if path_results[loop.index - 1] != ' ' %}
+              <span class="source">
+                <strong>Source:</strong>  <a href="{{ selected_database + '/blob' + path_results[loop.index - 1] }}" target="_blank">{{ split_index[0] }} {% endif %}</a>
+              </span>
+              {% set result_text = result.replace('<br>', '\n') %}
+              <li><pre><code class="python">{{ result_text }}</code></pre></li>
+            {% endfor %}
+        </ul> 
+      {% else %}
+        <!-- Content to display when there are no results -->
+        <h2 style="color:#253c5b; text-align: center">Find the most relevant code !</h2>
+        <img src="static/target_image.svg" alt="Man aiming at a target" class="center" style="width: 30%;height: auto;margin-top: 3%;"> 
+      {% endif %}        
+</body>
+</html>
