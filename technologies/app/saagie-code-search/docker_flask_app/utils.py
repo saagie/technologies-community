@@ -10,7 +10,7 @@ import base64
 
 GITHUB_ACCESS_TOKEN = os.environ['COPILOT_GITHUB_API_KEY']
 # HF_ACCESS_TOKEN = os.environ['COPILOT_HF_API_KEY']
-HF_ACCESS_TOKEN = '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'
+HF_ACCESS_TOKEN = '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'
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

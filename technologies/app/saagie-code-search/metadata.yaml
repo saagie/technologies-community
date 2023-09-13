@@ -17,9 +17,9 @@ contexts:
     ports:
       - port: 5000
         name: myapp
-        rewriteUrl: false
+        rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
     volumes: [ "/data" ]
     dockerInfo:
       image: saagie/saagie-code-search
-      version: 0.1
+      version: "0.1"
