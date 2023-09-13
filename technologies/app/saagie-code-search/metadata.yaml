@@ -10,7 +10,7 @@ backgroundColor: "#253c5b"
 customFlags: []
 contexts:
   - id: saagie-code-search-0.1
-    label: For Saagie V1
+    label: For Saagie V2
     releaseNotes: ""
     available: true
     trustLevel: experimental
