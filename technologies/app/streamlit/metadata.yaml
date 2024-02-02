@@ -1,0 +1,26 @@
+version: v1
+type: APP
+id: streamlit
+label: Streamlit
+baseline: Streamlit
+description: Streamlit
+available: true
+icon: streamlit
+backgroundColor: "#3F4F75"
+customFlags: []
+contexts:
+  - id: streamlit-1.31.0
+    label: 1.31.0
+    releaseNotes: First version of Streamlit 1.31.0 into Saagie.
+    available: true
+    trustLevel: stable
+    recommended: true
+    ports:
+      - port: 8050
+        name: Streamlit
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: "saagie/streamlit"
+      baseTag: "1.31.0"
+      version: "1.31.0"
