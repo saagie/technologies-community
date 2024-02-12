@@ -13,4 +13,4 @@ pip install -r ./requirements.txt
 
 export STREAMLIT_URL_BASE_PATHNAME=${SAAGIE_BASE_PATH}"/"
 
-python -u ./app.py
+streamlit run ./app.py

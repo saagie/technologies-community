@@ -12,6 +12,6 @@ RUN pip install streamlit==1.31.0 \
 
 COPY resources/entrypoint.sh entrypoint.sh
 
-EXPOSE 8050
+EXPOSE 8501
 
 ENTRYPOINT [ "./entrypoint.sh" ]
