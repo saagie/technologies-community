@@ -77,6 +77,8 @@ tasks.register("createZip", Zip::class) {
     from("./technologies") {
         include("**/metadata.yml")
         include("**/metadata.yaml")
+        include("**/*.jpg", "**/*.JPG", "**/*.jpeg", "**/*.JPEG")
+        include("**/*.png", "**/*.PNG")
     }
 }
 data class SaagieDockerInfo(val image: String, val version: String)
