@@ -21,6 +21,6 @@ contexts:
         rewriteUrl: true
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
-      image: "glay/streamlit"
+      image: "saagie/streamlit"
       baseTag: "1.31.0"
       version: "1.31.0"
