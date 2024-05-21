@@ -56,7 +56,7 @@ banner_color = '#1F3046'
 padding_style = {'margin-left' : '30px', 'margin-top' : '30px', 'background-color': bg_color, 'color': text_color}
 text_area_style = {'height': '20%', 'width': '100%', 'border-color': border_color, 'margin-bottom' : '18px'}
 
-desc = "Custom Saagie app that deploys the deep learning image classification models from HuggingFace avnd makes predictions via the GUI.  \n\n\n\n"
+desc = "Custom Saagie app that deploys the deep learning image classification models from HuggingFace and makes predictions via the GUI.  \n\n\n\n"
 ## Model For Testing
 model = "google/vit-base-patch16-224"
 

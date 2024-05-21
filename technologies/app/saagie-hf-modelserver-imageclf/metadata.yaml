@@ -21,4 +21,4 @@ contexts:
         basePath: SAAGIE_BASE_PATH
     dockerInfo:
       image: saagie/saagie-huggingface-model-server-imageclf
-      version: 0.1
+      version: "0.1"
