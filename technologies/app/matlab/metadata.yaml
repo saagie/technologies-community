@@ -28,4 +28,18 @@ contexts:
     dockerInfo:
       image: nicolassaagie/matlab
       version: r2023a-0.1
-      
+  - id: matlab-r2024a
+    label: Matlab r2024a
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 8888
+        name: Matlab
+        rewriteUrl: false
+        basePath: MWI_BASE_URL
+    volumes: [ "/home/matlab/Documents/MATLAB" ]
+    dockerInfo:
+      image: qiwei1000/matlab
+      version: r2024a-0.1
+
