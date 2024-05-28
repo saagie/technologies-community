@@ -26,7 +26,7 @@ contexts:
         basePath: MWI_BASE_URL
     volumes: ["/home/matlab/Documents/MATLAB"]
     dockerInfo:
-      image: nicolassaagie/matlab
+      image: saagie/matlab
       version: r2023a-0.1
   - id: matlab-r2024a
     label: Matlab r2024a
@@ -40,6 +40,6 @@ contexts:
         basePath: MWI_BASE_URL
     volumes: [ "/home/matlab/Documents/MATLAB" ]
     dockerInfo:
-      image: qiwei1000/matlab
+      image: saagie/matlab
       version: r2024a-0.1
 
