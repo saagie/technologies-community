@@ -1,4 +1,4 @@
-FROM mathworks/matlab:r2023a
+FROM mathworks/matlab:r2024a
 
 USER root
 
