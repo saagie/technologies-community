@@ -1,0 +1,24 @@
+version: v2
+type: APP
+id: saagie-hf-modelserver-imageclf
+label: Saagie HF ModelServer ImageCLF
+baseline: "Saagie HuggingFace Model Server for Image Classification"
+description: "Saagie-HF-ModelServer-ImageCLF: Custom app based on Dash/Flask that deploys the deep learning models from HuggingFace and makes predictions for Image classification via the GUI or API"
+available: true
+icon: datascience
+backgroundColor: "#253c5b"
+customFlags: []
+contexts:
+  - id: saagie-hf-modelserver-imageclf-0.1
+    label: For Saagie V2
+    releaseNotes: ""
+    available: true
+    trustLevel: experimental
+    ports:
+      - port: 8080
+        name: ClickToOpenGUI
+        rewriteUrl: false
+        basePath: SAAGIE_BASE_PATH
+    dockerInfo:
+      image: saagie/saagie-huggingface-model-server-imageclf
+      version: "0.1"
