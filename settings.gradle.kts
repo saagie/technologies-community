@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2019 Pierre Leresteux.
+ * Copyright 2019-2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,17 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.gradle.enterprise") version "3.0"
-    id("org.kordamp.gradle.settings") version "0.38.0"
+    id("com.gradle.develocity") version "3.18"
+    id("org.kordamp.gradle.settings") version "0.54.0"
 }
 
-gradleEnterprise {
+apply<org.kordamp.gradle.plugin.settings.SettingsPlugin>()
+
+develocity {
     buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
+        termsOfUseUrl = "https://gradle.com/terms-of-service"
+        termsOfUseAgree = "yes"
+        publishing.onlyIf { false }
     }
 }
 rootProject.name = "technologies"
@@ -45,7 +48,7 @@ File(rootDir.path + "/technologies").walkTopDown().forEach {
     }
 }
 configure<org.kordamp.gradle.plugin.settings.ProjectsExtension> {
-    layout.set("multi-level")
+    setLayout("multi-level")
     enforceNamingConvention.set(false)
     directories.set(allProjects)
 }
