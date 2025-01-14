@@ -5,8 +5,10 @@ label: Minio
 baseline: "MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0.
   It is API compatible with Amazon S3 cloud storage service.
   Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads."
+description: "Important : Set the variable MINIO_BROWSER_REDIRECT_URL to the Console UI external URL for Minio to
+  work properly. More details in the README."
 available: true
-icon: minio
+iconPath: minio.png
 backgroundColor: "#75aadb"
 customFlags: []
 contexts:
