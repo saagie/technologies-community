@@ -1,0 +1,32 @@
+version: v1
+type: APP
+id: minio
+label: Minio
+baseline: "Important : Set the variable MINIO_BROWSER_REDIRECT_URL to the Console UI external URL for Minio to
+  work properly. More details in the README. MinIO is a High Performance Object Storage released under
+  GNU Affero General Public License v3.0.
+  It is API compatible with Amazon S3 cloud storage service.
+  Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads."
+description: "Important : Set the variable MINIO_BROWSER_REDIRECT_URL to the Console UI external URL for Minio to
+  work properly. More details in the README."
+available: true
+iconPath: minio.png
+backgroundColor: "#75aadb"
+customFlags: []
+contexts:
+  - id: minio-2024-12-18
+    label: minio 2024-12-18
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 9001
+        name: Console UI
+        rewriteUrl: true
+      - port: 9000
+        name: API
+        rewriteUrl: true
+    dockerInfo:
+      image: saagie/minio
+      version: RELEASE.2024-12-18T13-15-44Z
+    volumes: ["/data"]
