@@ -1,0 +1,30 @@
+version: "v1"
+type: JOB
+id: powershell
+label: Powershell
+description: Powershell description
+available: true
+iconPath: powershell.png
+contexts:
+  - id: powershell
+    label: powershell
+    available: true
+    recommended: true
+    trustLevel: experimental
+    job:
+      features:
+        - type: COMMAND_LINE
+          label: Command line
+          mandatory: true
+          comment: powershell
+          defaultValue: pwsh {file}
+        - type: ARTIFACT
+          label: Powershell script to execute
+          mandatory: false
+          comment: "Compatible upload file : powershell executable file or zip folder"
+        - type: SCHEDULER
+          label: Scheduled
+          mandatory: true
+    dockerInfo:
+      image: saagie/powershell
+      version: ubuntu-22.04
