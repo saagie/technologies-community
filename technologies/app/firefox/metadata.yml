@@ -1,0 +1,27 @@
+version: v1
+type: APP
+id: firefox
+label: Firefox
+baseline: "Firefox is a free and open source web browser developed by the Mozilla Foundation.
+  It can be used on Saagie to explore the internal network of the platform,
+  for example apps not handling correctly the Saagie subdomain."
+description: "Firefox is a free and open source web browser developed by the Mozilla Foundation.
+  It can be used on Saagie to explore the internal network of the platform,
+  for example apps not handling correctly the Saagie subdomain."
+available: true
+iconPath: firefox.png
+customFlags: []
+contexts:
+  - id: firefox-0.24.04
+    label: Firefox 0.24.04
+    releaseNotes: ""
+    available: true
+    trustLevel: stable
+    ports:
+      - port: 3000
+        name: Browser
+        basePath: SUBFOLDER
+        rewriteUrl: false
+    dockerInfo:
+      image: linuxserver/firefox
+      version: "0.24.04"
